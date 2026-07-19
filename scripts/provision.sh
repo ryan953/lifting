@@ -45,6 +45,7 @@ REQUIRED_APIS=(
   identitytoolkit.googleapis.com
   iamcredentials.googleapis.com
   firebasehosting.googleapis.com
+  firebaseextensions.googleapis.com
 )
 
 DEPLOYER_ROLES=(
