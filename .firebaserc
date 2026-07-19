@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "lifting-staging",
-    "staging": "lifting-staging",
+    "default": "ryan953-lifting-staging",
+    "staging": "ryan953-lifting-staging",
     "prod": "lifting-prod"
   }
 }

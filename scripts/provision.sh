@@ -17,10 +17,17 @@ CHECK_ONLY=false
 if [[ "$ENV_NAME" == "--check-only" ]]; then ENV_NAME="${2:-}"; fi
 
 case "$ENV_NAME" in
-  staging) PROJECT_ID="lifting-staging" ;;
+  staging) PROJECT_ID="ryan953-lifting-staging" ;;
   prod)    PROJECT_ID="lifting-prod" ;;
   *) echo "usage: provision.sh <staging|prod> [--check-only]" >&2; exit 2 ;;
 esac
+
+# Personal project — always the personal account, never the work default.
+# CI authenticates via WIF instead; the override is skipped when the account
+# isn't available on the machine (e.g. GitHub runners).
+if gcloud auth list --format='value(account)' 2>/dev/null | grep -q '^ryan@ryanalbrecht.ca$'; then
+  export CLOUDSDK_CORE_ACCOUNT="ryan@ryanalbrecht.ca"
+fi
 
 REGION="${FIRESTORE_REGION:-us-west1}"
 DEPLOYER_SA="github-deployer@${PROJECT_ID}.iam.gserviceaccount.com"
