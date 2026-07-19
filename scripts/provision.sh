@@ -154,18 +154,21 @@ for role in "${DEPLOYER_ROLES[@]}"; do
   fi
 done
 
-# actAs the default compute SA (functions runtime) for deploys
+# actAs the runtime SAs for functions deploys: the compute default SA (v2
+# runtime) and the App Engine default SA (firebase-tools checks it).
 PROJECT_NUMBER=$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)' 2>/dev/null)
+for RUNTIME_SA in "${PROJECT_NUMBER}-compute@developer.gserviceaccount.com" "${PROJECT_ID}@appspot.gserviceaccount.com"; do
+  if gcloud iam service-accounts get-iam-policy "$RUNTIME_SA" --project "$PROJECT_ID" \
+       --flatten='bindings[].members' --filter="bindings.members:serviceAccount:${DEPLOYER_SA}" \
+       --format='value(bindings.role)' 2>/dev/null | grep -q 'roles/iam.serviceAccountUser'; then
+    ok "deployer can actAs ${RUNTIME_SA}"
+  else
+    run "grant iam.serviceAccountUser on ${RUNTIME_SA}" \
+      gcloud iam service-accounts add-iam-policy-binding "$RUNTIME_SA" \
+        --member="serviceAccount:${DEPLOYER_SA}" --role='roles/iam.serviceAccountUser' --project "$PROJECT_ID"
+  fi
+done
 RUNTIME_SA="${PROJECT_NUMBER}-compute@developer.gserviceaccount.com"
-if gcloud iam service-accounts get-iam-policy "$RUNTIME_SA" --project "$PROJECT_ID" \
-     --flatten='bindings[].members' --filter="bindings.members:serviceAccount:${DEPLOYER_SA}" \
-     --format='value(bindings.role)' 2>/dev/null | grep -q 'roles/iam.serviceAccountUser'; then
-  ok "deployer can actAs runtime SA"
-else
-  run "grant iam.serviceAccountUser on ${RUNTIME_SA}" \
-    gcloud iam service-accounts add-iam-policy-binding "$RUNTIME_SA" \
-      --member="serviceAccount:${DEPLOYER_SA}" --role='roles/iam.serviceAccountUser' --project "$PROJECT_ID"
-fi
 
 # --- 6. Functions runtime SA: Eventarc/Run trigger delivery -------------------
 echo "-- functions runtime (Eventarc/Run)"
