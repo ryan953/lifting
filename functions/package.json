@@ -7,7 +7,7 @@
     "node": "22"
   },
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --target=node22 --format=cjs --outfile=lib/index.js --external:firebase-functions --external:firebase-admin",
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node22 --format=cjs --outfile=lib/index.js --alias:@lifting/shared=../shared/src/index.ts --external:firebase-functions --external:firebase-admin",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests"
   },
@@ -16,7 +16,6 @@
     "firebase-functions": "^6.4.0"
   },
   "devDependencies": {
-    "@lifting/shared": "workspace:*",
     "@types/node": "^24.0.10",
     "esbuild": "^0.25.5",
     "typescript": "^5.8.3",

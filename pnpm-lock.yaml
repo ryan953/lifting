@@ -33,9 +33,6 @@ importers:
         specifier: ^6.4.0
         version: 6.6.0(firebase-admin@13.10.0)
     devDependencies:
-      '@lifting/shared':
-        specifier: workspace:*
-        version: link:../shared
       '@types/node':
         specifier: ^24.0.10
         version: 24.13.3

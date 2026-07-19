@@ -7,7 +7,10 @@
     "verbatimModuleSyntax": false,
     "types": ["node"],
     "resolveJsonModule": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "@lifting/shared": ["../shared/src/index.ts"]
+    }
   },
   "include": ["src"]
 }
