@@ -2,6 +2,7 @@ packages:
   - web
   - functions
   - shared
+  - tests/rules
 allowBuilds:
   '@firebase/util': true
   esbuild: true

@@ -1,0 +1,17 @@
+{
+  "name": "@lifting/rules-tests",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "firebase emulators:exec --only firestore --project demo-lifting 'vitest run'",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.0",
+    "@types/node": "^24.0.10",
+    "firebase": "^11.10.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}
