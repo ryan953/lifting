@@ -58,6 +58,7 @@ DEPLOYER_ROLES=(
   roles/datastore.indexAdmin
   roles/serviceusage.serviceUsageConsumer
   roles/firebaseextensions.viewer
+  roles/run.admin
 )
 
 PASS=() ; FAIL=() ; MANUAL=()
