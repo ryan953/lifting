@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-background: oklch(0.145 0 0);
+  --color-surface: oklch(0.205 0 0);
+  --color-accent: oklch(0.72 0.19 145);
+}
+
+html {
+  background: var(--color-background);
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-background text-neutral-100 antialiased;
+  /* iOS standalone-PWA safe areas */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}

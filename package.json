@@ -1,0 +1,23 @@
+{
+  "name": "lifting",
+  "private": true,
+  "packageManager": "pnpm@11.1.2",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "concurrently -n emulators,web -c yellow,cyan \"firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-data\" \"pnpm --filter web dev\"",
+    "dev:fresh": "concurrently -n emulators,web -c yellow,cyan \"firebase emulators:start\" \"pnpm --filter web dev\"",
+    "build": "pnpm --filter shared build && pnpm --filter web build && pnpm --filter functions build",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "provision": "scripts/provision.sh",
+    "deploy:staging": "pnpm build && firebase deploy --project staging --only hosting,functions,firestore",
+    "deploy:prod": "pnpm build && firebase deploy --project prod --only hosting,functions,firestore"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "firebase-tools": "^14.9.0"
+  }
+}

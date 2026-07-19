@@ -1,0 +1,19 @@
+node_modules/
+dist/
+lib/
+coverage/
+*.log
+.DS_Store
+.env
+.env.local
+
+# Firebase
+.firebase/
+emulator-data/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+pubsub-debug.log
+
+# Catalog build output (generated from free-exercise-db)
+web/public/catalog/

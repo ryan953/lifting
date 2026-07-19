@@ -1,0 +1,22 @@
+{
+  "name": "@lifting/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./units": "./src/units.ts",
+    "./progression": "./src/progression/index.ts",
+    "./stats": "./src/stats/index.ts",
+    "./catalog": "./src/catalog/types.ts"
+  },
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}
