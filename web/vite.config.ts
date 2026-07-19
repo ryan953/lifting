@@ -29,6 +29,9 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2}', 'catalog/catalog.json'],
+        // Never serve the SPA shell for Firebase's reserved paths — the auth
+        // popup/redirect handler lives at /__/auth/* on this origin.
+        navigateFallbackDenylist: [/^\/__\//],
         runtimeCaching: [
           {
             // Exercise demo images: cache-first, they never change for a given path.
