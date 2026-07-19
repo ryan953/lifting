@@ -40,6 +40,10 @@ export function MuscleDiagram({ primary, secondary, className }: Props) {
   const backRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Idempotent under StrictMode double-invoke: clear before rendering.
+    for (const el of [frontRef.current, backRef.current]) {
+      if (el) el.innerHTML = '';
+    }
     const secondaryPolys = secondary.flatMap((m) => MUSCLE_TO_POLYGONS[m] ?? []);
     const primaryPolys = primary.flatMap((m) => MUSCLE_TO_POLYGONS[m] ?? []);
 

@@ -18,6 +18,8 @@ import { Route as AppTemplatesRouteImport } from './routes/_app/templates'
 import { Route as AppExercisesIndexRouteImport } from './routes/_app/exercises.index'
 import { Route as AppExercisesExerciseIdRouteImport } from './routes/_app/exercises.$exerciseId'
 import { Route as AppExercisesNewRouteImport } from './routes/_app/exercises.new'
+import { Route as AppHistoryIndexRouteImport } from './routes/_app/history.index'
+import { Route as AppHistorySessionIdRouteImport } from './routes/_app/history.$sessionId'
 import { Route as AppTemplatesIndexRouteImport } from './routes/_app/templates.index'
 import { Route as AppTemplatesTemplateIdRouteImport } from './routes/_app/templates.$templateId'
 
@@ -65,6 +67,16 @@ const AppExercisesNewRoute = AppExercisesNewRouteImport.update({
   path: '/new',
   getParentRoute: () => AppExercisesRoute,
 } as any)
+const AppHistoryIndexRoute = AppHistoryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppHistoryRoute,
+} as any)
+const AppHistorySessionIdRoute = AppHistorySessionIdRouteImport.update({
+  id: '/$sessionId',
+  path: '/$sessionId',
+  getParentRoute: () => AppHistoryRoute,
+} as any)
 const AppTemplatesIndexRoute = AppTemplatesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -80,22 +92,25 @@ export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
   '/exercises': typeof AppExercisesRouteWithChildren
-  '/history': typeof AppHistoryRoute
+  '/history': typeof AppHistoryRouteWithChildren
   '/templates': typeof AppTemplatesRouteWithChildren
   '/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
   '/exercises/new': typeof AppExercisesNewRoute
+  '/history/$sessionId': typeof AppHistorySessionIdRoute
   '/templates/$templateId': typeof AppTemplatesTemplateIdRoute
   '/exercises/': typeof AppExercisesIndexRoute
+  '/history/': typeof AppHistoryIndexRoute
   '/templates/': typeof AppTemplatesIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
-  '/history': typeof AppHistoryRoute
   '/': typeof AppIndexRoute
   '/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
   '/exercises/new': typeof AppExercisesNewRoute
+  '/history/$sessionId': typeof AppHistorySessionIdRoute
   '/templates/$templateId': typeof AppTemplatesTemplateIdRoute
   '/exercises': typeof AppExercisesIndexRoute
+  '/history': typeof AppHistoryIndexRoute
   '/templates': typeof AppTemplatesIndexRoute
 }
 export interface FileRoutesById {
@@ -103,13 +118,15 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/_app/exercises': typeof AppExercisesRouteWithChildren
-  '/_app/history': typeof AppHistoryRoute
+  '/_app/history': typeof AppHistoryRouteWithChildren
   '/_app/templates': typeof AppTemplatesRouteWithChildren
   '/_app/': typeof AppIndexRoute
   '/_app/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
   '/_app/exercises/new': typeof AppExercisesNewRoute
+  '/_app/history/$sessionId': typeof AppHistorySessionIdRoute
   '/_app/templates/$templateId': typeof AppTemplatesTemplateIdRoute
   '/_app/exercises/': typeof AppExercisesIndexRoute
+  '/_app/history/': typeof AppHistoryIndexRoute
   '/_app/templates/': typeof AppTemplatesIndexRoute
 }
 export interface FileRouteTypes {
@@ -122,18 +139,21 @@ export interface FileRouteTypes {
     | '/templates'
     | '/exercises/$exerciseId'
     | '/exercises/new'
+    | '/history/$sessionId'
     | '/templates/$templateId'
     | '/exercises/'
+    | '/history/'
     | '/templates/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
-    | '/history'
     | '/'
     | '/exercises/$exerciseId'
     | '/exercises/new'
+    | '/history/$sessionId'
     | '/templates/$templateId'
     | '/exercises'
+    | '/history'
     | '/templates'
   id:
     | '__root__'
@@ -145,8 +165,10 @@ export interface FileRouteTypes {
     | '/_app/'
     | '/_app/exercises/$exerciseId'
     | '/_app/exercises/new'
+    | '/_app/history/$sessionId'
     | '/_app/templates/$templateId'
     | '/_app/exercises/'
+    | '/_app/history/'
     | '/_app/templates/'
   fileRoutesById: FileRoutesById
 }
@@ -220,6 +242,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppExercisesNewRouteImport
       parentRoute: typeof AppExercisesRoute
     }
+    '/_app/history/': {
+      id: '/_app/history/'
+      path: '/'
+      fullPath: '/history/'
+      preLoaderRoute: typeof AppHistoryIndexRouteImport
+      parentRoute: typeof AppHistoryRoute
+    }
+    '/_app/history/$sessionId': {
+      id: '/_app/history/$sessionId'
+      path: '/$sessionId'
+      fullPath: '/history/$sessionId'
+      preLoaderRoute: typeof AppHistorySessionIdRouteImport
+      parentRoute: typeof AppHistoryRoute
+    }
     '/_app/templates/': {
       id: '/_app/templates/'
       path: '/'
@@ -253,6 +289,20 @@ const AppExercisesRouteWithChildren = AppExercisesRoute._addFileChildren(
   AppExercisesRouteChildren,
 )
 
+interface AppHistoryRouteChildren {
+  AppHistorySessionIdRoute: typeof AppHistorySessionIdRoute
+  AppHistoryIndexRoute: typeof AppHistoryIndexRoute
+}
+
+const AppHistoryRouteChildren: AppHistoryRouteChildren = {
+  AppHistorySessionIdRoute: AppHistorySessionIdRoute,
+  AppHistoryIndexRoute: AppHistoryIndexRoute,
+}
+
+const AppHistoryRouteWithChildren = AppHistoryRoute._addFileChildren(
+  AppHistoryRouteChildren,
+)
+
 interface AppTemplatesRouteChildren {
   AppTemplatesTemplateIdRoute: typeof AppTemplatesTemplateIdRoute
   AppTemplatesIndexRoute: typeof AppTemplatesIndexRoute
@@ -269,14 +319,14 @@ const AppTemplatesRouteWithChildren = AppTemplatesRoute._addFileChildren(
 
 interface AppRouteChildren {
   AppExercisesRoute: typeof AppExercisesRouteWithChildren
-  AppHistoryRoute: typeof AppHistoryRoute
+  AppHistoryRoute: typeof AppHistoryRouteWithChildren
   AppTemplatesRoute: typeof AppTemplatesRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppExercisesRoute: AppExercisesRouteWithChildren,
-  AppHistoryRoute: AppHistoryRoute,
+  AppHistoryRoute: AppHistoryRouteWithChildren,
   AppTemplatesRoute: AppTemplatesRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
 }
