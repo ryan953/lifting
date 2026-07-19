@@ -24,6 +24,13 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
+      - name: Cache exercise dataset
+        uses: actions/cache@v4
+        with:
+          path: .cache/free-exercise-db
+          key: free-exercise-db-v1
+      - run: pnpm catalog:build
+
       - run: pnpm -r typecheck
       - run: pnpm --filter @lifting/shared --filter @lifting/web test
       - name: Rules tests
@@ -34,15 +41,6 @@ jobs:
         with:
           workload_identity_provider: ${{ vars.WIF_PROVIDER_PROD }}
           service_account: ${{ vars.DEPLOYER_SA_PROD }}
-
-      - name: Provision preflight
-        run: GITHUB_REPO="${{ github.repository }}" ./scripts/provision.sh prod --check-only
-
-      - name: Cache exercise dataset
-        uses: actions/cache@v4
-        with:
-          path: .cache/free-exercise-db
-          key: free-exercise-db-v1
 
       - name: Build
         run: pnpm build

@@ -16,13 +16,13 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm -r typecheck
-      - run: pnpm -r --filter '!@lifting/rules-tests' test
       - name: Cache exercise dataset
         uses: actions/cache@v4
         with:
           path: .cache/free-exercise-db
           key: free-exercise-db-v1
       - run: pnpm catalog:build
+      - run: pnpm -r typecheck
+      - run: pnpm -r --filter '!@lifting/rules-tests' test
       - run: pnpm --filter @lifting/web build
       - run: pnpm --filter @lifting/functions build
