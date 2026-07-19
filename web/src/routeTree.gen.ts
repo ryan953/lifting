@@ -18,6 +18,8 @@ import { Route as AppTemplatesRouteImport } from './routes/_app/templates'
 import { Route as AppExercisesIndexRouteImport } from './routes/_app/exercises.index'
 import { Route as AppExercisesExerciseIdRouteImport } from './routes/_app/exercises.$exerciseId'
 import { Route as AppExercisesNewRouteImport } from './routes/_app/exercises.new'
+import { Route as AppTemplatesIndexRouteImport } from './routes/_app/templates.index'
+import { Route as AppTemplatesTemplateIdRouteImport } from './routes/_app/templates.$templateId'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -63,25 +65,38 @@ const AppExercisesNewRoute = AppExercisesNewRouteImport.update({
   path: '/new',
   getParentRoute: () => AppExercisesRoute,
 } as any)
+const AppTemplatesIndexRoute = AppTemplatesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppTemplatesRoute,
+} as any)
+const AppTemplatesTemplateIdRoute = AppTemplatesTemplateIdRouteImport.update({
+  id: '/$templateId',
+  path: '/$templateId',
+  getParentRoute: () => AppTemplatesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
   '/exercises': typeof AppExercisesRouteWithChildren
   '/history': typeof AppHistoryRoute
-  '/templates': typeof AppTemplatesRoute
+  '/templates': typeof AppTemplatesRouteWithChildren
   '/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
   '/exercises/new': typeof AppExercisesNewRoute
+  '/templates/$templateId': typeof AppTemplatesTemplateIdRoute
   '/exercises/': typeof AppExercisesIndexRoute
+  '/templates/': typeof AppTemplatesIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/history': typeof AppHistoryRoute
-  '/templates': typeof AppTemplatesRoute
   '/': typeof AppIndexRoute
   '/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
   '/exercises/new': typeof AppExercisesNewRoute
+  '/templates/$templateId': typeof AppTemplatesTemplateIdRoute
   '/exercises': typeof AppExercisesIndexRoute
+  '/templates': typeof AppTemplatesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,11 +104,13 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_app/exercises': typeof AppExercisesRouteWithChildren
   '/_app/history': typeof AppHistoryRoute
-  '/_app/templates': typeof AppTemplatesRoute
+  '/_app/templates': typeof AppTemplatesRouteWithChildren
   '/_app/': typeof AppIndexRoute
   '/_app/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
   '/_app/exercises/new': typeof AppExercisesNewRoute
+  '/_app/templates/$templateId': typeof AppTemplatesTemplateIdRoute
   '/_app/exercises/': typeof AppExercisesIndexRoute
+  '/_app/templates/': typeof AppTemplatesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,16 +122,19 @@ export interface FileRouteTypes {
     | '/templates'
     | '/exercises/$exerciseId'
     | '/exercises/new'
+    | '/templates/$templateId'
     | '/exercises/'
+    | '/templates/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/login'
     | '/history'
-    | '/templates'
     | '/'
     | '/exercises/$exerciseId'
     | '/exercises/new'
+    | '/templates/$templateId'
     | '/exercises'
+    | '/templates'
   id:
     | '__root__'
     | '/_app'
@@ -125,7 +145,9 @@ export interface FileRouteTypes {
     | '/_app/'
     | '/_app/exercises/$exerciseId'
     | '/_app/exercises/new'
+    | '/_app/templates/$templateId'
     | '/_app/exercises/'
+    | '/_app/templates/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -198,6 +220,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppExercisesNewRouteImport
       parentRoute: typeof AppExercisesRoute
     }
+    '/_app/templates/': {
+      id: '/_app/templates/'
+      path: '/'
+      fullPath: '/templates/'
+      preLoaderRoute: typeof AppTemplatesIndexRouteImport
+      parentRoute: typeof AppTemplatesRoute
+    }
+    '/_app/templates/$templateId': {
+      id: '/_app/templates/$templateId'
+      path: '/$templateId'
+      fullPath: '/templates/$templateId'
+      preLoaderRoute: typeof AppTemplatesTemplateIdRouteImport
+      parentRoute: typeof AppTemplatesRoute
+    }
   }
 }
 
@@ -217,17 +253,31 @@ const AppExercisesRouteWithChildren = AppExercisesRoute._addFileChildren(
   AppExercisesRouteChildren,
 )
 
+interface AppTemplatesRouteChildren {
+  AppTemplatesTemplateIdRoute: typeof AppTemplatesTemplateIdRoute
+  AppTemplatesIndexRoute: typeof AppTemplatesIndexRoute
+}
+
+const AppTemplatesRouteChildren: AppTemplatesRouteChildren = {
+  AppTemplatesTemplateIdRoute: AppTemplatesTemplateIdRoute,
+  AppTemplatesIndexRoute: AppTemplatesIndexRoute,
+}
+
+const AppTemplatesRouteWithChildren = AppTemplatesRoute._addFileChildren(
+  AppTemplatesRouteChildren,
+)
+
 interface AppRouteChildren {
   AppExercisesRoute: typeof AppExercisesRouteWithChildren
   AppHistoryRoute: typeof AppHistoryRoute
-  AppTemplatesRoute: typeof AppTemplatesRoute
+  AppTemplatesRoute: typeof AppTemplatesRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppExercisesRoute: AppExercisesRouteWithChildren,
   AppHistoryRoute: AppHistoryRoute,
-  AppTemplatesRoute: AppTemplatesRoute,
+  AppTemplatesRoute: AppTemplatesRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
 }
 
