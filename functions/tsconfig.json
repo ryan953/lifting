@@ -2,10 +2,11 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "lib": ["ES2023"],
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "verbatimModuleSyntax": false,
     "types": ["node"],
+    "resolveJsonModule": true,
     "noEmit": true
   },
   "include": ["src"]

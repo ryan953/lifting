@@ -3,6 +3,7 @@ import { deleteDoc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import type { VariantFlavor } from '@lifting/shared';
 import { catalogImageUrl, useCatalog, youtubeSearchUrl } from '@/features/exercises/catalog';
+import { ExerciseAnalytics } from '@/features/history/ExerciseAnalytics';
 import { MuscleDiagram } from '@/features/exercises/MuscleDiagram';
 import { VideoEmbed } from '@/features/exercises/VideoEmbed';
 import { overrideDoc, useLibraryExercise } from '@/features/exercises/useExerciseLibrary';
@@ -144,6 +145,11 @@ function ExerciseDetailPage() {
           </ul>
         </section>
       )}
+
+      <section aria-label="Performance" className="mt-6">
+        <h2 className="mb-3 text-lg font-semibold">Performance</h2>
+        <ExerciseAnalytics exerciseId={exercise.id} />
+      </section>
 
       {exercise.isCustom && (
         <button type="button" onClick={() => void deleteCustom()} className="mt-6 text-sm text-red-400">

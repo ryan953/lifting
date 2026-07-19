@@ -188,6 +188,12 @@ for (const task of imageTasks) {
   cpSync(task.from, task.to);
 }
 
+// Muscle map for server-side aggregation (functions can't fetch the catalog).
+const muscleMap = Object.fromEntries(
+  exercises.map((ex) => [ex.id, { primaryMuscles: ex.primaryMuscles, secondaryMuscles: ex.secondaryMuscles }]),
+);
+writeFileSync(path.join(repoRoot, 'functions/src/catalog-muscles.json'), JSON.stringify(muscleMap));
+
 const jsonKb = Math.round(Buffer.byteLength(JSON.stringify(catalog)) / 1024);
 console.log(
   `catalog.json: ${exercises.length} exercises (${jsonKb} KB), ${imageTasks.length} images. Skipped ${skipped.length} (cardio/stretching/etc).`,

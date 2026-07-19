@@ -14,12 +14,14 @@
     "lint": "pnpm -r lint",
     "provision": "scripts/provision.sh",
     "catalog:build": "node --experimental-strip-types catalog/build.ts",
+    "seed:fake": "node --experimental-strip-types scripts/seed-fake-history.ts",
     "deploy:staging": "pnpm build && firebase deploy --project staging --only hosting,functions,firestore",
     "deploy:prod": "pnpm build && firebase deploy --project prod --only hosting,functions,firestore"
   },
   "devDependencies": {
     "@types/node": "^24.0.10",
     "concurrently": "^9.1.2",
+    "firebase-admin": "^13.10.0",
     "firebase-tools": "^14.9.0",
     "typescript": "^5.8.3"
   }
