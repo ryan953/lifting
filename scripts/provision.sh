@@ -46,6 +46,9 @@ REQUIRED_APIS=(
   iamcredentials.googleapis.com
   firebasehosting.googleapis.com
   firebaseextensions.googleapis.com
+  cloudbilling.googleapis.com
+  pubsub.googleapis.com
+  storage.googleapis.com
 )
 
 DEPLOYER_ROLES=(
@@ -185,6 +188,40 @@ for role in roles/eventarc.eventReceiver roles/run.invoker; do
         --member="serviceAccount:${RUNTIME_SA}" --role="$role" --condition=None
   fi
 done
+
+# Eventarc service agent must exist and hold its role before the first
+# Firestore-trigger deploy (propagation can take minutes after creation).
+EVENTARC_SA="service-${PROJECT_NUMBER}@gcp-sa-eventarc.iam.gserviceaccount.com"
+if gcloud projects get-iam-policy "$PROJECT_ID" \
+     --flatten='bindings[].members' --filter="bindings.members:serviceAccount:${EVENTARC_SA}" \
+     --format='value(bindings.role)' 2>/dev/null | grep -q 'roles/eventarc.serviceAgent'; then
+  ok "eventarc service agent has its role"
+elif $CHECK_ONLY; then
+  bad "eventarc service agent missing roles/eventarc.serviceAgent"
+else
+  curl -s -X POST "https://serviceusage.googleapis.com/v1beta1/projects/${PROJECT_ID}/services/eventarc.googleapis.com:generateServiceIdentity" \
+    -H "Authorization: Bearer $(gcloud auth print-access-token 2>/dev/null)" >/dev/null 2>&1
+  run "bind eventarc.serviceAgent" \
+    gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+      --member="serviceAccount:${EVENTARC_SA}" --role='roles/eventarc.serviceAgent' --condition=None
+fi
+
+# Pub/Sub service agent needs token-creator for Eventarc push delivery.
+PUBSUB_SA="service-${PROJECT_NUMBER}@gcp-sa-pubsub.iam.gserviceaccount.com"
+if gcloud projects get-iam-policy "$PROJECT_ID" \
+     --flatten='bindings[].members' --filter="bindings.members:serviceAccount:${PUBSUB_SA}" \
+     --format='value(bindings.role)' 2>/dev/null | grep -q 'roles/iam.serviceAccountTokenCreator'; then
+  ok "pubsub service agent has tokenCreator"
+elif $CHECK_ONLY; then
+  bad "pubsub service agent missing tokenCreator"
+else
+  # The agent may not exist until first use; generate it, then bind.
+  curl -s -X POST "https://serviceusage.googleapis.com/v1beta1/projects/${PROJECT_ID}/services/pubsub.googleapis.com:generateServiceIdentity" \
+    -H "Authorization: Bearer $(gcloud auth print-access-token 2>/dev/null)" >/dev/null 2>&1
+  run "bind tokenCreator to pubsub service agent" \
+    gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+      --member="serviceAccount:${PUBSUB_SA}" --role='roles/iam.serviceAccountTokenCreator' --condition=None
+fi
 
 # --- 7. Workload Identity Federation for GitHub Actions ----------------------
 echo "-- GitHub Actions credential (WIF)"
