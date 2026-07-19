@@ -8,16 +8,19 @@
   "scripts": {
     "dev": "concurrently -n emulators,web -c yellow,cyan \"firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-data\" \"pnpm --filter web dev\"",
     "dev:fresh": "concurrently -n emulators,web -c yellow,cyan \"firebase emulators:start\" \"pnpm --filter web dev\"",
-    "build": "pnpm --filter shared build && pnpm --filter web build && pnpm --filter functions build",
+    "build": "pnpm catalog:build && pnpm --filter @lifting/shared build && pnpm --filter @lifting/web build && pnpm --filter @lifting/functions build",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
     "lint": "pnpm -r lint",
     "provision": "scripts/provision.sh",
+    "catalog:build": "node --experimental-strip-types catalog/build.ts",
     "deploy:staging": "pnpm build && firebase deploy --project staging --only hosting,functions,firestore",
     "deploy:prod": "pnpm build && firebase deploy --project prod --only hosting,functions,firestore"
   },
   "devDependencies": {
+    "@types/node": "^24.0.10",
     "concurrently": "^9.1.2",
-    "firebase-tools": "^14.9.0"
+    "firebase-tools": "^14.9.0",
+    "typescript": "^5.8.3"
   }
 }

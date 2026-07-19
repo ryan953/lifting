@@ -15,6 +15,9 @@ import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as AppExercisesRouteImport } from './routes/_app/exercises'
 import { Route as AppHistoryRouteImport } from './routes/_app/history'
 import { Route as AppTemplatesRouteImport } from './routes/_app/templates'
+import { Route as AppExercisesIndexRouteImport } from './routes/_app/exercises.index'
+import { Route as AppExercisesExerciseIdRouteImport } from './routes/_app/exercises.$exerciseId'
+import { Route as AppExercisesNewRouteImport } from './routes/_app/exercises.new'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -45,35 +48,73 @@ const AppTemplatesRoute = AppTemplatesRouteImport.update({
   path: '/templates',
   getParentRoute: () => AppRoute,
 } as any)
+const AppExercisesIndexRoute = AppExercisesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppExercisesRoute,
+} as any)
+const AppExercisesExerciseIdRoute = AppExercisesExerciseIdRouteImport.update({
+  id: '/$exerciseId',
+  path: '/$exerciseId',
+  getParentRoute: () => AppExercisesRoute,
+} as any)
+const AppExercisesNewRoute = AppExercisesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AppExercisesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/login': typeof LoginRoute
-  '/exercises': typeof AppExercisesRoute
+  '/exercises': typeof AppExercisesRouteWithChildren
   '/history': typeof AppHistoryRoute
   '/templates': typeof AppTemplatesRoute
+  '/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
+  '/exercises/new': typeof AppExercisesNewRoute
+  '/exercises/': typeof AppExercisesIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
-  '/exercises': typeof AppExercisesRoute
   '/history': typeof AppHistoryRoute
   '/templates': typeof AppTemplatesRoute
   '/': typeof AppIndexRoute
+  '/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
+  '/exercises/new': typeof AppExercisesNewRoute
+  '/exercises': typeof AppExercisesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
-  '/_app/exercises': typeof AppExercisesRoute
+  '/_app/exercises': typeof AppExercisesRouteWithChildren
   '/_app/history': typeof AppHistoryRoute
   '/_app/templates': typeof AppTemplatesRoute
   '/_app/': typeof AppIndexRoute
+  '/_app/exercises/$exerciseId': typeof AppExercisesExerciseIdRoute
+  '/_app/exercises/new': typeof AppExercisesNewRoute
+  '/_app/exercises/': typeof AppExercisesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/exercises' | '/history' | '/templates'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/exercises'
+    | '/history'
+    | '/templates'
+    | '/exercises/$exerciseId'
+    | '/exercises/new'
+    | '/exercises/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/exercises' | '/history' | '/templates' | '/'
+  to:
+    | '/login'
+    | '/history'
+    | '/templates'
+    | '/'
+    | '/exercises/$exerciseId'
+    | '/exercises/new'
+    | '/exercises'
   id:
     | '__root__'
     | '/_app'
@@ -82,6 +123,9 @@ export interface FileRouteTypes {
     | '/_app/history'
     | '/_app/templates'
     | '/_app/'
+    | '/_app/exercises/$exerciseId'
+    | '/_app/exercises/new'
+    | '/_app/exercises/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -133,18 +177,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTemplatesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/exercises/': {
+      id: '/_app/exercises/'
+      path: '/'
+      fullPath: '/exercises/'
+      preLoaderRoute: typeof AppExercisesIndexRouteImport
+      parentRoute: typeof AppExercisesRoute
+    }
+    '/_app/exercises/$exerciseId': {
+      id: '/_app/exercises/$exerciseId'
+      path: '/$exerciseId'
+      fullPath: '/exercises/$exerciseId'
+      preLoaderRoute: typeof AppExercisesExerciseIdRouteImport
+      parentRoute: typeof AppExercisesRoute
+    }
+    '/_app/exercises/new': {
+      id: '/_app/exercises/new'
+      path: '/new'
+      fullPath: '/exercises/new'
+      preLoaderRoute: typeof AppExercisesNewRouteImport
+      parentRoute: typeof AppExercisesRoute
+    }
   }
 }
 
+interface AppExercisesRouteChildren {
+  AppExercisesExerciseIdRoute: typeof AppExercisesExerciseIdRoute
+  AppExercisesNewRoute: typeof AppExercisesNewRoute
+  AppExercisesIndexRoute: typeof AppExercisesIndexRoute
+}
+
+const AppExercisesRouteChildren: AppExercisesRouteChildren = {
+  AppExercisesExerciseIdRoute: AppExercisesExerciseIdRoute,
+  AppExercisesNewRoute: AppExercisesNewRoute,
+  AppExercisesIndexRoute: AppExercisesIndexRoute,
+}
+
+const AppExercisesRouteWithChildren = AppExercisesRoute._addFileChildren(
+  AppExercisesRouteChildren,
+)
+
 interface AppRouteChildren {
-  AppExercisesRoute: typeof AppExercisesRoute
+  AppExercisesRoute: typeof AppExercisesRouteWithChildren
   AppHistoryRoute: typeof AppHistoryRoute
   AppTemplatesRoute: typeof AppTemplatesRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppExercisesRoute: AppExercisesRoute,
+  AppExercisesRoute: AppExercisesRouteWithChildren,
   AppHistoryRoute: AppHistoryRoute,
   AppTemplatesRoute: AppTemplatesRoute,
   AppIndexRoute: AppIndexRoute,

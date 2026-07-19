@@ -1,0 +1,128 @@
+[
+  {
+    "groupId": "horizontal-press",
+    "members": [
+      { "id": "Barbell_Bench_Press_-_Medium_Grip", "flavor": "free_weight" },
+      { "id": "Dumbbell_Bench_Press", "flavor": "free_weight" },
+      { "id": "Machine_Bench_Press", "flavor": "machine" },
+      { "id": "Leverage_Chest_Press", "flavor": "machine" },
+      { "id": "Cable_Chest_Press", "flavor": "cable" },
+      { "id": "Pushups", "flavor": "at_home" }
+    ]
+  },
+  {
+    "groupId": "chest-fly",
+    "members": [
+      { "id": "Dumbbell_Flyes", "flavor": "free_weight" },
+      { "id": "Cable_Crossover", "flavor": "cable" },
+      { "id": "Butterfly", "flavor": "machine" }
+    ]
+  },
+  {
+    "groupId": "squat",
+    "members": [
+      { "id": "Barbell_Squat", "flavor": "free_weight" },
+      { "id": "Barbell_Full_Squat", "flavor": "free_weight" },
+      { "id": "Front_Barbell_Squat", "flavor": "free_weight" },
+      { "id": "Goblet_Squat", "flavor": "free_weight" },
+      { "id": "Leg_Press", "flavor": "machine" },
+      { "id": "Bodyweight_Squat", "flavor": "at_home" },
+      { "id": "Freehand_Jump_Squat", "flavor": "at_home" }
+    ]
+  },
+  {
+    "groupId": "hip-hinge",
+    "members": [
+      { "id": "Barbell_Deadlift", "flavor": "free_weight" },
+      { "id": "Romanian_Deadlift", "flavor": "free_weight" },
+      { "id": "Stiff-Legged_Barbell_Deadlift", "flavor": "free_weight" }
+    ]
+  },
+  {
+    "groupId": "vertical-pull",
+    "members": [
+      { "id": "Pullups", "flavor": "bodyweight" },
+      { "id": "Chin-Up", "flavor": "bodyweight" },
+      { "id": "Wide-Grip_Lat_Pulldown", "flavor": "machine" }
+    ]
+  },
+  {
+    "groupId": "horizontal-pull",
+    "members": [
+      { "id": "Bent_Over_Barbell_Row", "flavor": "free_weight" },
+      { "id": "One-Arm_Dumbbell_Row", "flavor": "free_weight" },
+      { "id": "T-Bar_Row_with_Handle", "flavor": "free_weight" },
+      { "id": "Seated_Cable_Rows", "flavor": "cable" },
+      { "id": "Inverted_Row", "flavor": "at_home" }
+    ]
+  },
+  {
+    "groupId": "vertical-press",
+    "members": [
+      { "id": "Barbell_Shoulder_Press", "flavor": "free_weight" },
+      { "id": "Standing_Dumbbell_Press", "flavor": "free_weight" },
+      { "id": "Seated_Dumbbell_Press", "flavor": "free_weight" },
+      { "id": "Arnold_Dumbbell_Press", "flavor": "free_weight" },
+      { "id": "Machine_Shoulder_Military_Press", "flavor": "machine" },
+      { "id": "Handstand_Push-Ups", "flavor": "at_home" }
+    ]
+  },
+  {
+    "groupId": "biceps-curl",
+    "members": [
+      { "id": "Barbell_Curl", "flavor": "free_weight" },
+      { "id": "Dumbbell_Bicep_Curl", "flavor": "free_weight" },
+      { "id": "Hammer_Curls", "flavor": "free_weight" },
+      { "id": "Preacher_Curl", "flavor": "free_weight" },
+      { "id": "Concentration_Curls", "flavor": "free_weight" }
+    ]
+  },
+  {
+    "groupId": "triceps-extension",
+    "members": [
+      { "id": "Close-Grip_Barbell_Bench_Press", "flavor": "free_weight" },
+      { "id": "Lying_Triceps_Press", "flavor": "free_weight" },
+      { "id": "Triceps_Pushdown", "flavor": "cable" },
+      { "id": "Cable_Rope_Overhead_Triceps_Extension", "flavor": "cable" },
+      { "id": "Dips_-_Triceps_Version", "flavor": "bodyweight" },
+      { "id": "Bench_Dips", "flavor": "at_home" }
+    ]
+  },
+  {
+    "groupId": "lunge",
+    "members": [
+      { "id": "Barbell_Lunge", "flavor": "free_weight" },
+      { "id": "Dumbbell_Lunges", "flavor": "free_weight" },
+      { "id": "Bodyweight_Walking_Lunge", "flavor": "at_home" }
+    ]
+  },
+  {
+    "groupId": "leg-extension",
+    "members": [{ "id": "Leg_Extensions", "flavor": "machine" }]
+  },
+  {
+    "groupId": "leg-curl",
+    "members": [
+      { "id": "Lying_Leg_Curls", "flavor": "machine" },
+      { "id": "Seated_Leg_Curl", "flavor": "machine" }
+    ]
+  },
+  {
+    "groupId": "hip-thrust",
+    "members": [
+      { "id": "Barbell_Hip_Thrust", "flavor": "free_weight" },
+      { "id": "Barbell_Glute_Bridge", "flavor": "free_weight" },
+      { "id": "Butt_Lift_Bridge", "flavor": "at_home" }
+    ]
+  },
+  {
+    "groupId": "calf-raise",
+    "members": [
+      { "id": "Standing_Barbell_Calf_Raise", "flavor": "free_weight" },
+      { "id": "Standing_Calf_Raises", "flavor": "machine" },
+      { "id": "Seated_Calf_Raise", "flavor": "machine" },
+      { "id": "Calf_Press_On_The_Leg_Press_Machine", "flavor": "machine" },
+      { "id": "Donkey_Calf_Raises", "flavor": "at_home" }
+    ]
+  }
+]

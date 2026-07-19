@@ -17,3 +17,4 @@ pubsub-debug.log
 
 # Catalog build output (generated from free-exercise-db)
 web/public/catalog/
+.cache/
