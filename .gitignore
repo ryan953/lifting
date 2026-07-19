@@ -1,6 +1,7 @@
 node_modules/
 dist/
-lib/
+# Functions build output only — never source dirs like web/src/lib
+/functions/lib/
 coverage/
 *.log
 .DS_Store
