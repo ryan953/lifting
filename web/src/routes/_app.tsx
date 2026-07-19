@@ -2,6 +2,7 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import { useState } from 'react';
 import type { WeightUnit } from '@lifting/shared';
 import { BottomNav } from '@/components/BottomNav';
+import { OfflineBadge } from '@/components/OfflineBadge';
 import { useUser } from '@/lib/auth';
 import { ensureUserProfile } from '@/lib/bootstrap';
 import { refs, useLiveDoc } from '@/lib/db';
@@ -28,6 +29,7 @@ function AppLayout() {
 
   return (
     <div className="mx-auto flex min-h-dvh max-w-lg flex-col">
+      <OfflineBadge />
       <main className="flex-1 pb-20">
         <Outlet />
       </main>

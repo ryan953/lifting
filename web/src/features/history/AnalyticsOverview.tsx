@@ -49,6 +49,11 @@ export function AnalyticsOverview() {
 
   return (
     <div className="space-y-6">
+      {!navigator.onLine && (
+        <p className="rounded-xl bg-surface px-4 py-2 text-xs text-amber-300">
+          Offline: charts update once workouts sync.
+        </p>
+      )}
       <ChartCard title={`Weekly volume (${unit})`}>
         <ResponsiveContainer width="100%" height={180}>
           <BarChart data={volumeSeries} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
