@@ -86,7 +86,8 @@ function render() {
     else link.removeAttribute('aria-current');
   }
 
-  screen.scrollIntoView({ block: 'start' });
+  // scrollIntoView would tuck the heading under the sticky top bar.
+  window.scrollTo(0, 0);
 }
 
 // ------------------------------------------------------------------ top bar
