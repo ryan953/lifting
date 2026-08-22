@@ -11,6 +11,8 @@ import * as logView from './views/log.js';
 import * as dayView from './views/day.js';
 import * as exercisesView from './views/exercises.js';
 import * as exerciseView from './views/exercise.js';
+import * as authView from './views/auth.js';
+import * as profileView from './views/profile.js';
 
 const screen = document.getElementById('screen');
 const topbar = document.getElementById('topbar');
@@ -69,11 +71,30 @@ function render() {
       body = exerciseView.render(route.param, context);
       break;
 
+    case 'login':
+      tab = null;
+      topbar.append(backButton('#/'), crumb('lifting', 'log in'));
+      body = authView.renderLogin(context);
+      break;
+
+    case 'signup':
+      tab = null;
+      topbar.append(backButton('#/'), crumb('lifting', 'sign up'));
+      body = authView.renderSignup(context);
+      break;
+
+    case 'profile':
+      tab = null;
+      topbar.append(backButton('#/'), crumb('lifting', 'profile'));
+      body = profileView.render(context);
+      break;
+
     default:
       tab = 'today';
       topbar.append(
         crumb('lifting', history.todayISO()),
-        el('button', { 'aria-label': 'New session', onclick: () => openNewDaySheet() }, '+')
+        el('button', { 'aria-label': 'New session', onclick: () => openNewDaySheet() }, '+'),
+        profileButton()
       );
       body = todayView.render(context);
       break;
@@ -82,7 +103,7 @@ function render() {
   screen.append(body);
 
   for (const link of tabbar.querySelectorAll('a')) {
-    if (link.dataset.tab === tab) link.setAttribute('aria-current', 'page');
+    if (tab && link.dataset.tab === tab) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   }
 
@@ -103,6 +124,29 @@ function crumb(section, leaf) {
 
 function backButton(href) {
   return el('a', { class: 'iconbtn', href, 'aria-label': 'Back' }, '‹');
+}
+
+/** Signed in, this shows initials; signed out, a neutral mark. */
+function profileButton() {
+  const profile = store.getProfile();
+  const label = profile
+    ? profile.name
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((word) => word[0].toUpperCase())
+        .join('')
+    : '👤';
+
+  return el(
+    'a',
+    {
+      class: 'iconbtn avatar-btn',
+      href: '#/profile',
+      'aria-label': profile ? `Profile — ${profile.name}` : 'Profile',
+    },
+    label
+  );
 }
 
 function deleteDayButton(day) {

@@ -74,6 +74,14 @@ legible: primary muscles read normally, secondary ones recede, and a muscle you
 filtered on is called out in whichever role it plays — `cable · shoulders |
 **triceps**`.
 
+**Accounts (mockup).** Signup, login and profile screens exist to show the
+shape of an account — they are not wired to anything. There is no server and no
+session; submitting writes a local record so the profile has a name to show.
+The password fields are layout only: their values are never read, stored or
+sent. Everything in the app works signed out, and signing in or out never
+touches your training data. The profile's training figures are real, read
+straight from the log.
+
 ## Data
 
 | Path | What it is |
@@ -103,9 +111,10 @@ js/main.js        hash router
 js/store.js       IndexedDB + in-memory mirror
 js/catalog.js     exercise database, search, requirement matching
 js/history.js     "last time", performed-before, formatting
+js/stats.js       date index, streaks, lifetime totals
 js/day-model.js   building and mutating a day
 js/sheet.js       bottom sheets, exercise picker
-js/views/         today, log, day, exercises, exercise
+js/views/         today, log, day, heatmap, exercises, exercise, auth, profile
 ```
 
 ## Prototype limits

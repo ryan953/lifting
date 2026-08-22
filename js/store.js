@@ -16,6 +16,7 @@ const cache = {
   days: new Map(), // key -> day
   favorites: new Set(), // exercise id
   supersets: new Map(), // id -> saved superset
+  profile: null, // mocked account, see profile.js
 };
 
 const listeners = new Set();
@@ -86,6 +87,8 @@ export async function init() {
   for (const day of days) cache.days.set(day.key, day);
   for (const favorite of favorites) cache.favorites.add(favorite.id);
   for (const set of supersets) cache.supersets.set(set.id, set);
+
+  cache.profile = (await tx('meta', 'readonly', (s) => s.get('profile')))?.value ?? null;
 }
 
 /** First run: load the history exported from the Obsidian vault. */
@@ -126,6 +129,30 @@ export async function reset() {
 
   await seed();
   for (const day of await readAll('days')) cache.days.set(day.key, day);
+  notify();
+}
+
+// -------------------------------------------------------------------- profile
+
+/**
+ * The mocked account. There is no server and no auth: this is a local record
+ * so the signup/login/profile screens have something to show. Passwords are
+ * never part of it — the fields on those screens are for layout only.
+ */
+export function getProfile() {
+  return cache.profile;
+}
+
+export function saveProfile(profile) {
+  cache.profile = profile;
+  tx('meta', 'readwrite', (s) => s.put({ key: 'profile', value: profile }));
+  notify();
+  return profile;
+}
+
+export function signOut() {
+  cache.profile = null;
+  tx('meta', 'readwrite', (s) => s.delete('profile'));
   notify();
 }
 

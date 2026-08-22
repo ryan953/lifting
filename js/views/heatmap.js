@@ -6,55 +6,24 @@
  * whole point of the layout.
  */
 
-import { el, frag, clear } from '../dom.js';
-import * as store from '../store.js';
-import * as model from '../day-model.js';
+import { el, clear } from '../dom.js';
 import * as history from '../history.js';
+import { DAY_MS, iso, parseISO, indexByDate, streaks } from '../stats.js';
 
-const DAY_MS = 86400000;
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+/** Monday-based weekday index, so weeks read Mon→Sun like the program does. */
+const weekdayIndex = (date) => (date.getDay() + 6) % 7;
 
 const RANGES = [
   { id: '30', label: '30 days', days: 30 },
-  { id: '180', label: '6 months', days: 182 },
+  { id: '180', label: '6 months', days: 180 },
   { id: '365', label: '365 days', days: 365 },
 ];
 
 // Survives rerenders so toggling the range then starring something elsewhere
 // doesn't snap it back.
 const state = { range: '180' };
-
-const iso = (date) => {
-  const offset = date.getTimezoneOffset() * 60000;
-  return new Date(date.getTime() - offset).toISOString().slice(0, 10);
-};
-
-const parseISO = (value) => {
-  const [y, m, d] = value.split('-').map(Number);
-  return new Date(y, m - 1, d);
-};
-
-/** Monday-based weekday index, so weeks read Mon→Sun like the program does. */
-const weekdayIndex = (date) => (date.getDay() + 6) % 7;
-
-/**
- * date -> { sets, sessions, rest }. A rest day is deliberately distinct from a
- * day with no entry at all: one is a decision, the other is a gap.
- */
-function buildIndex() {
-  const byDate = new Map();
-
-  for (const day of store.allDays()) {
-    const record = byDate.get(day.date) ?? { sets: 0, sessions: 0, rest: false, keys: [] };
-    record.sessions++;
-    record.sets += model.loggedSetCount(day);
-    record.keys.push(day.key);
-    if (day.dayType === 'rest-day') record.rest = true;
-    byDate.set(day.date, record);
-  }
-
-  return byDate;
-}
 
 /** Four shades, split on set count. Any logged work earns at least level 1. */
 function level(record) {
@@ -66,39 +35,8 @@ function level(record) {
   return 1;
 }
 
-/** Consecutive days ending today (or at the most recent logged day) that have
- *  a session. Rest days neither extend nor break a streak — they're planned. */
-function streaks(byDate, days, end) {
-  let current = 0;
-  let longest = 0;
-  let run = 0;
-  let trained = 0;
-
-  for (let offset = days - 1; offset >= 0; offset--) {
-    const record = byDate.get(iso(new Date(end.getTime() - offset * DAY_MS)));
-    if (record && !record.rest) {
-      run++;
-      trained++;
-      longest = Math.max(longest, run);
-    } else if (!record?.rest) {
-      run = 0;
-    }
-  }
-
-  // Walk back from the end for the streak still standing. Today counts only if
-  // it holds something — an unlogged today is a day in progress, not a miss.
-  for (let offset = 0; offset < days; offset++) {
-    const record = byDate.get(iso(new Date(end.getTime() - offset * DAY_MS)));
-    if (record && !record.rest) current++;
-    else if (record?.rest || offset === 0) continue;
-    else break;
-  }
-
-  return { current, longest, trained };
-}
-
 export function render({ rerender }) {
-  const byDate = buildIndex();
+  const byDate = indexByDate();
   const gridNode = el('div', { class: 'heat-wrap' });
   const statsNode = el('div', { class: 'heat-stats' });
 
