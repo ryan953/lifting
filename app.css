@@ -664,6 +664,137 @@ select:focus {
   color: var(--text-faint);
 }
 
+/* ------------------------------------------------------------------ heatmap */
+
+.heatmap {
+  margin: 8px 0 20px;
+}
+
+.heat-wrap {
+  margin-top: 10px;
+}
+
+.heat-outer {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+/* A year of weeks won't fit a phone; scroll the grid, not the page. */
+.heat-scroll {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding-bottom: 4px;
+}
+
+.heat-body {
+  min-width: min-content;
+}
+
+.heat-days {
+  display: grid;
+  grid-template-rows: repeat(7, 13px);
+  gap: 3px;
+  flex: none;
+  /* Clears the month row inside the scroller so rows line up. */
+  padding-top: 15px;
+}
+
+.heat-day {
+  display: flex;
+  align-items: center;
+  height: 13px;
+  font-size: 9px;
+  line-height: 1;
+  color: var(--text-faint);
+}
+
+.heat-months {
+  display: grid;
+  gap: 3px;
+  margin: 0 0 3px;
+}
+
+.heat-month {
+  font-size: 9px;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.heat-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 13px);
+  gap: 3px;
+  flex: 1;
+}
+
+.heat-cell {
+  width: 13px;
+  height: 13px;
+  border-radius: 3px;
+  background: var(--bg-raised);
+  border: 1px solid transparent;
+  display: block;
+}
+
+a.heat-cell:hover {
+  border-color: var(--text-muted);
+}
+
+.heat-cell.out {
+  background: transparent;
+}
+
+.heat-cell.l0 { background: #262626; }
+.heat-cell.l1 { background: #1f3d2b; }
+.heat-cell.l2 { background: #2d6b40; }
+.heat-cell.l3 { background: #3f9a56; }
+.heat-cell.l4 { background: #57c96b; }
+
+/* Rest is a decision, not a gap — give it its own mark. */
+.heat-cell.lr {
+  background: transparent;
+  border-color: var(--border-strong);
+}
+
+.heat-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.heat-legend .legend-text {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin: 0 2px;
+}
+
+.heat-stats {
+  display: flex;
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.heat-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.heat-stat strong {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.heat-stat span {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
 /* --------------------------------------------------------- facet filtering */
 
 .filter-bar {

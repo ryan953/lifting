@@ -52,6 +52,13 @@ two or more makes a superset — bracketed, A/B labelled, 3 sets each per the
 program's framework. Pairings are remembered and offered back under
 *Supersets*, and can be starred.
 
+**Streaks.** The Log opens on a GitHub-style calendar over the past 30 days, 6
+months or 365 days. Shade tracks how much was logged that day; a rest day gets
+an outline rather than a fill, because a planned rest is a decision and an
+empty square is a gap — so rest days carry a streak rather than breaking it.
+Beneath it: current streak, longest streak, and sessions in range. An unlogged
+today is treated as a day in progress, not a miss.
+
 **Exercise database.** All 873 exercises, with instructions, illustrations and
 similar movements. Star any of them and filter to favorites. Each one lists
 every set you have logged against it.

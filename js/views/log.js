@@ -5,6 +5,7 @@ import * as catalog from '../catalog.js';
 import * as store from '../store.js';
 import * as history from '../history.js';
 import * as model from '../day-model.js';
+import * as heatmap from './heatmap.js';
 import { openNewDaySheet } from '../new-day.js';
 
 export function render(context) {
@@ -12,6 +13,7 @@ export function render(context) {
 
   return frag(
     el('h1', {}, 'Log'),
+    heatmap.render(context),
     el(
       'button',
       { class: 'btn primary wide', style: 'margin:8px 0 18px', onclick: () => openNewDaySheet() },
