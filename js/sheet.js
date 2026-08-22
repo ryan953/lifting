@@ -278,6 +278,19 @@ export function pickExercises({ title = 'Add exercise', requirementId = null } =
         listRow
       ),
       footer: frag(
+        el(
+          'button',
+          {
+            class: 'btn',
+            // Mid-workout you may be looking at something the database has
+            // never heard of; go make it without losing your place.
+            onclick: () => {
+              finish(null);
+              location.hash = '#/new-exercise';
+            },
+          },
+          '+ New'
+        ),
         el('button', { class: 'btn', onclick: () => finish(null) }, 'Cancel'),
         addButton
       ),

@@ -889,6 +889,52 @@ ol.steps li {
   margin-bottom: 8px;
 }
 
+/* ---------------------------------------------------------- custom exercise */
+
+.chips.wrap {
+  flex-wrap: wrap;
+  overflow-x: visible;
+}
+
+.mine {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--accent-dim);
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+
+.pattern {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+}
+
+.pattern-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pattern-row .field-input {
+  min-height: 38px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pattern-n {
+  width: 18px;
+  flex: none;
+  font-size: 12px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
 /* --------------------------------------------------------- auth + profile */
 
 .auth {

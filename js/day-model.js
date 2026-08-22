@@ -26,11 +26,28 @@ export function defaultSetCount(exerciseId, slot, isSuperset) {
   return slot === 'Main Lift' ? 5 : 4;
 }
 
+/**
+ * Sets for a new entry. A custom exercise may define an interval template —
+ * a list of rows repeated for N rounds — in which case the sets arrive
+ * pre-filled with the pattern instead of blank.
+ */
+function makeSets(exercise, exerciseId, slot, isSuperset) {
+  const template = exercise?.template;
+  if (Array.isArray(template) && template.length) {
+    const rounds = Math.max(1, exercise.rounds ?? 1);
+    return Array.from({ length: rounds }, () =>
+      template.map((row) => ({ reps: row[0] ?? '', weight: row[1] ?? '' }))
+    ).flat();
+  }
+  return Array.from({ length: defaultSetCount(exerciseId, slot, isSuperset) }, emptySet);
+}
+
 function makeEntry(exerciseId, slot, isSuperset) {
+  const exercise = catalog.get(exerciseId);
   return {
     exerciseId,
     label: labelFor(exerciseId),
-    sets: Array.from({ length: defaultSetCount(exerciseId, slot, isSuperset) }, emptySet),
+    sets: makeSets(exercise, exerciseId, slot, isSuperset),
     notes: '',
   };
 }

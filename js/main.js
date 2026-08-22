@@ -13,6 +13,7 @@ import * as exercisesView from './views/exercises.js';
 import * as exerciseView from './views/exercise.js';
 import * as authView from './views/auth.js';
 import * as profileView from './views/profile.js';
+import * as exerciseFormView from './views/exercise-form.js';
 
 const screen = document.getElementById('screen');
 const topbar = document.getElementById('topbar');
@@ -69,6 +70,21 @@ function render() {
         crumb('exercise-db', catalog.get(route.param)?.name ?? route.param)
       );
       body = exerciseView.render(route.param, context);
+      break;
+
+    case 'new-exercise':
+      tab = 'exercises';
+      topbar.append(backButton('#/exercises'), crumb('exercise-db', 'new'));
+      body = exerciseFormView.render(null, context);
+      break;
+
+    case 'edit-exercise':
+      tab = 'exercises';
+      topbar.append(
+        backButton(`#/exercise/${encodeURIComponent(route.param)}`),
+        crumb('exercise-db', 'edit')
+      );
+      body = exerciseFormView.render(route.param, context);
       break;
 
     case 'login':
@@ -170,6 +186,9 @@ async function boot() {
   try {
     await catalog.load();
     await store.init();
+    // The user's own exercises live in IndexedDB; fold them into the catalog
+    // so every search, filter and picker sees one list.
+    catalog.reindex(store.allCustom());
   } catch (error) {
     clear(screen).append(
       el('div', { class: 'empty' }, `Could not start: ${error.message}`)

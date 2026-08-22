@@ -34,12 +34,16 @@ export function render(exerciseId, { rerender }) {
     el('h1', {}, exercise.name),
     el(
       'div',
-      { class: 'row-actions', style: 'margin-bottom:14px' },
+      { class: 'row-actions', style: 'margin-bottom:14px;flex-wrap:wrap' },
       star,
-      el('button', { class: 'btn', onclick: () => addToToday(exercise) }, '+ Add to session')
+      el('button', { class: 'btn', onclick: () => addToToday(exercise) }, '+ Add to session'),
+      exercise.custom
+        ? el('a', { class: 'btn', href: `#/edit-exercise/${encodeURIComponent(exercise.id)}` }, 'Edit')
+        : null
     ),
 
     renderMeta(exercise),
+    renderPattern(exercise),
     renderImages(exercise),
 
     exercise.instructions.length
@@ -69,6 +73,40 @@ function renderMeta(exercise) {
     'dl',
     { class: 'meta-grid' },
     rows.flatMap(([label, value]) => [el('dt', {}, label), el('dd', {}, value)])
+  );
+}
+
+/** The interval template, if this exercise carries one. */
+function renderPattern(exercise) {
+  if (!exercise.template?.length) return null;
+  const [first, second] = catalog.columnsFor(exercise);
+  const rounds = Math.max(1, exercise.rounds ?? 1);
+
+  return frag(
+    el('h2', {}, 'Pattern'),
+    el(
+      'p',
+      { class: 'muted', style: 'margin-top:0' },
+      `${exercise.template.length} phase${exercise.template.length === 1 ? '' : 's'} × ${rounds} round${rounds === 1 ? '' : 's'} — ${exercise.template.length * rounds} sets`
+    ),
+    el(
+      'table',
+      { class: 'sets' },
+      el('thead', {}, el('tr', {}, el('th', {}, '#'), el('th', {}, first), el('th', {}, second))),
+      el(
+        'tbody',
+        {},
+        exercise.template.map((row, index) =>
+          el(
+            'tr',
+            {},
+            el('td', { class: 'n' }, String(index + 1)),
+            el('td', { style: 'padding:8px' }, row[0] ?? ''),
+            el('td', { style: 'padding:8px' }, row[1] ?? '')
+          )
+        )
+      )
+    )
   );
 }
 

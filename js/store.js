@@ -7,8 +7,8 @@
  */
 
 const DB_NAME = 'lifting-proto';
-const DB_VERSION = 1;
-const STORES = ['days', 'favorites', 'supersets', 'meta'];
+const DB_VERSION = 2;
+const STORES = ['days', 'favorites', 'supersets', 'meta', 'custom'];
 
 let db = null;
 
@@ -16,6 +16,7 @@ const cache = {
   days: new Map(), // key -> day
   favorites: new Set(), // exercise id
   supersets: new Map(), // id -> saved superset
+  custom: new Map(), // id -> user-defined exercise
   profile: null, // mocked account, see profile.js
 };
 
@@ -45,6 +46,8 @@ function open() {
         database.createObjectStore('supersets', { keyPath: 'id' });
       if (!database.objectStoreNames.contains('meta'))
         database.createObjectStore('meta', { keyPath: 'key' });
+      if (!database.objectStoreNames.contains('custom'))
+        database.createObjectStore('custom', { keyPath: 'id' });
     };
     request.onsuccess = () => resolve(request.result);
     request.onerror = () => reject(request.error);
@@ -81,14 +84,53 @@ export async function init() {
   const seeded = await tx('meta', 'readonly', (s) => s.get('seeded'));
   if (!seeded) await seed();
 
-  const [days, favorites, supersets] = await Promise.all(
-    ['days', 'favorites', 'supersets'].map(readAll)
+  const [days, favorites, supersets, custom] = await Promise.all(
+    ['days', 'favorites', 'supersets', 'custom'].map(readAll)
   );
   for (const day of days) cache.days.set(day.key, day);
   for (const favorite of favorites) cache.favorites.add(favorite.id);
   for (const set of supersets) cache.supersets.set(set.id, set);
+  for (const exercise of custom) cache.custom.set(exercise.id, exercise);
 
   cache.profile = (await tx('meta', 'readonly', (s) => s.get('profile')))?.value ?? null;
+
+  await seedCustomExercises();
+}
+
+/**
+ * Ship a few ready-made custom exercises (the interval machines) without
+ * clobbering the user's own edits.
+ *
+ * Guarded by a version rather than the first-run flag so a later release can
+ * add more, and gated so that deleting a starter doesn't resurrect it on the
+ * next load — only a bumped version brings new ones in.
+ */
+async function seedCustomExercises() {
+  let seed;
+  try {
+    const response = await fetch('./data/custom-seed.json');
+    if (!response.ok) return;
+    seed = await response.json();
+  } catch {
+    return; // offline or missing — nothing to add
+  }
+
+  const seen = (await tx('meta', 'readonly', (s) => s.get('customSeedVersion')))?.value ?? 0;
+  if (seen >= seed.version) return;
+
+  const transaction = db.transaction(['custom', 'meta'], 'readwrite');
+  const store = transaction.objectStore('custom');
+  for (const exercise of seed.exercises) {
+    if (cache.custom.has(exercise.id)) continue;
+    cache.custom.set(exercise.id, exercise);
+    store.put(exercise);
+  }
+  transaction.objectStore('meta').put({ key: 'customSeedVersion', value: seed.version });
+
+  await new Promise((resolve, reject) => {
+    transaction.oncomplete = resolve;
+    transaction.onerror = () => reject(transaction.error);
+  });
 }
 
 /** First run: load the history exported from the Obsidian vault. */
@@ -129,6 +171,35 @@ export async function reset() {
 
   await seed();
   for (const day of await readAll('days')) cache.days.set(day.key, day);
+  notify();
+}
+
+// ----------------------------------------------------------- custom exercises
+
+/** Ids are namespaced so a custom entry can never collide with a dataset id. */
+export const CUSTOM_PREFIX = 'custom:';
+
+export const isCustomId = (id) => String(id).startsWith(CUSTOM_PREFIX);
+
+export function allCustom() {
+  return [...cache.custom.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function saveCustom(exercise) {
+  const record = {
+    ...exercise,
+    id: exercise.id ?? `${CUSTOM_PREFIX}${crypto.randomUUID()}`,
+    custom: true,
+  };
+  cache.custom.set(record.id, record);
+  tx('custom', 'readwrite', (s) => s.put(record));
+  notify();
+  return record;
+}
+
+export function deleteCustom(id) {
+  cache.custom.delete(id);
+  tx('custom', 'readwrite', (s) => s.delete(id));
   notify();
 }
 

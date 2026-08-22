@@ -300,19 +300,20 @@ function renderEntry(day, block, entry, index, isSuperset, saveQuietly) {
         : 'Last time: none'
     ),
     exercise ? null : el('p', { class: 'faint' }, 'Not in the exercise database.'),
-    renderSetTable(entry, saveQuietly)
+    renderSetTable(entry, exercise, saveQuietly)
   );
 }
 
-function renderSetTable(entry, saveQuietly) {
-  const cell = (setIndex, field, placeholder) =>
+function renderSetTable(entry, exercise, saveQuietly) {
+  const [firstColumn, secondColumn] = catalog.columnsFor(exercise);
+  const cell = (setIndex, field, columnName, placeholder) =>
     el('td', {}, [
       el('input', {
         // Free text, not numeric: real entries include "10/limb", "Blue box 18\"".
         type: 'text',
         value: entry.sets[setIndex][field] ?? '',
         placeholder,
-        'aria-label': `Set ${setIndex + 1} ${field}`,
+        'aria-label': `Set ${setIndex + 1} ${columnName}`,
         oninput: (event) => {
           entry.sets[setIndex][field] = event.target.value;
           saveQuietly();
@@ -326,7 +327,7 @@ function renderSetTable(entry, saveQuietly) {
     el(
       'thead',
       {},
-      el('tr', {}, el('th', {}, 'Set'), el('th', {}, 'Reps'), el('th', {}, 'Weight'))
+      el('tr', {}, el('th', {}, 'Set'), el('th', {}, firstColumn), el('th', {}, secondColumn))
     ),
     el(
       'tbody',
@@ -336,8 +337,8 @@ function renderSetTable(entry, saveQuietly) {
           'tr',
           {},
           el('td', { class: 'n' }, String(index + 1)),
-          cell(index, 'reps', '—'),
-          cell(index, 'weight', '—')
+          cell(index, 'reps', firstColumn, '—'),
+          cell(index, 'weight', secondColumn, '—')
         )
       )
     )

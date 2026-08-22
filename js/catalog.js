@@ -5,26 +5,55 @@
 export const IMAGE_BASE =
   'https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/';
 
-let exercises = [];
+let dataset = []; // the shipped free-exercise-db entries
+let exercises = []; // dataset + the user's own, name-sorted
 let byId = new Map();
 let program = null;
+
+/** Fields every exercise carries, so custom entries behave like dataset ones. */
+export function withDefaults(exercise) {
+  return {
+    force: null,
+    level: null,
+    mechanic: null,
+    equipment: null,
+    category: null,
+    primary: [],
+    secondary: [],
+    instructions: [],
+    images: [],
+    ...exercise,
+  };
+}
 
 export async function load() {
   const [catalogResponse, programResponse] = await Promise.all([
     fetch('./data/exercises.json'),
     fetch('./data/program.json'),
   ]);
-  exercises = await catalogResponse.json();
+  dataset = await catalogResponse.json();
   program = await programResponse.json();
 
-  byId = new Map(exercises.map((e) => [e.id, e]));
+  program.movementsByName = new Map(program.movements.map((m) => [m.name, m]));
+  program.dayTypesById = new Map(program.dayTypes.map((d) => [d.id, d]));
 
-  // The program refers to exercises by name; give each alias a resolved handle.
+  reindex([]); // resolves each movement alias against the merged index
+}
+
+/**
+ * Fold the user's own exercises in beside the dataset. Called at boot and
+ * whenever they change, so search, filters and pickers see one merged list.
+ */
+export function reindex(custom) {
+  exercises = [...dataset, ...custom.map(withDefaults)].sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+  byId = new Map(exercises.map((exercise) => [exercise.id, exercise]));
+
+  // The program refers to exercises by name; re-resolve against the merged map.
   for (const movement of program.movements) {
     movement.exercise = byId.get(movement.exerciseId) ?? null;
   }
-  program.movementsByName = new Map(program.movements.map((m) => [m.name, m]));
-  program.dayTypesById = new Map(program.dayTypes.map((d) => [d.id, d]));
 }
 
 export const all = () => exercises;
@@ -43,6 +72,32 @@ export function imageUrl(exercise, index = 0) {
 /** A one-line summary used under exercise names in lists. */
 export function subtitle(exercise) {
   return [exercise.equipment, exercise.primary.join(', ')].filter(Boolean).join(' · ');
+}
+
+/** Column headers for an exercise's set table. Custom entries may rename them —
+ *  a SkiErg interval is tracked as Time and Phase, not Reps and Weight. */
+export const DEFAULT_COLUMNS = ['Reps', 'Weight'];
+
+export function columnsFor(exercise) {
+  const columns = exercise?.columns;
+  return Array.isArray(columns) && columns.length === 2 ? columns : DEFAULT_COLUMNS;
+}
+
+/**
+ * Distinct values for a property across the merged catalog. `muscle` spans
+ * both primary and secondary. Used by the filter panel and the exercise form,
+ * so neither can drift from the data.
+ */
+export function values(key) {
+  const seen = new Set();
+  for (const exercise of exercises) {
+    if (key === 'muscle') {
+      for (const muscle of [...exercise.primary, ...exercise.secondary]) seen.add(muscle);
+    } else if (exercise[key]) {
+      seen.add(exercise[key]);
+    }
+  }
+  return [...seen].sort();
 }
 
 /** "chest | shoulders, triceps" — primary muscles, then secondary. */

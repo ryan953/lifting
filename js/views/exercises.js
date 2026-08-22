@@ -22,18 +22,6 @@ const FACETS = [
   { key: 'muscle', label: 'Muscles' },
 ];
 
-function facetValues(key) {
-  const seen = new Set();
-  for (const exercise of catalog.all()) {
-    if (key === 'muscle') {
-      for (const muscle of [...exercise.primary, ...exercise.secondary]) seen.add(muscle);
-    } else if (exercise[key]) {
-      seen.add(exercise[key]);
-    }
-  }
-  return [...seen].sort();
-}
-
 // Kept across rerenders so starring an exercise never drops your search.
 const state = {
   query: '',
@@ -131,7 +119,7 @@ export function render() {
           el(
             'div',
             { class: 'chips' },
-            facetValues(facet.key).map((value) =>
+            catalog.values(facet.key).map((value) =>
               el(
                 'button',
                 {
@@ -276,6 +264,7 @@ export function render() {
 
   return frag(
     el('h1', {}, 'Exercises'),
+    el('a', { class: 'btn wide', href: '#/new-exercise' }, '+ New exercise'),
     el(
       'div',
       { class: 'searchbar' },
@@ -343,7 +332,12 @@ function exerciseRow(exercise, highlight) {
         href: `#/exercise/${encodeURIComponent(exercise.id)}`,
         style: 'color:inherit;text-decoration:none',
       },
-      el('div', { class: 'title' }, exercise.name),
+      el(
+        'div',
+        { class: 'title' },
+        exercise.name,
+        exercise.custom ? el('span', { class: 'mine' }, 'mine') : null
+      ),
       el(
         'div',
         { class: 'sub' },

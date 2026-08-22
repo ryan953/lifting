@@ -74,6 +74,24 @@ legible: primary muscles read normally, secondary ones recede, and a muscle you
 filtered on is called out in whichever role it plays — `cable · shoulders |
 **triceps**`.
 
+**Your own exercises.** Anything the database doesn't cover — a machine at your
+gym, a named circuit — can be created from the Exercises tab or from the add
+sheet mid-workout. Custom entries merge into the one catalog: they search,
+filter, favorite, satisfy day requirements and keep history exactly like the
+shipped 873.
+
+A custom exercise can also rename the two set columns and carry an **interval
+pattern** — a list of phases and how many rounds they repeat. Logging it then
+starts pre-filled instead of blank:
+
+```
+SkiErg Intervals · Time | Phase · 4 phases × 3 rounds
+30s Slow hinge / 30s Power hinge / 30s Slow squat / 30s Hard squat  → 12 sets
+```
+
+Two such machines ship as starters (SkiErg and resistance treadmill); they are
+seeded once, by version, so deleting one doesn't bring it back.
+
 **Accounts (mockup).** Signup, login and profile screens exist to show the
 shape of an account — they are not wired to anything. There is no server and no
 session; submitting writes a local record so the profile has a name to show.
@@ -89,6 +107,7 @@ straight from the log.
 | `data/exercises.json` | The exercise database, from [free-exercise-db][db] |
 | `data/program.json` | Day templates, checklist requirements, my movement aliases |
 | `data/seed-log.json` | Workout history exported from the Obsidian vault |
+| `data/custom-seed.json` | Starter custom exercises (the interval machines) |
 
 Everything you do is stored in IndexedDB under `lifting-proto`, private to your
 browser. On first load the vault history is seeded in so "last time" has real
@@ -114,7 +133,8 @@ js/history.js     "last time", performed-before, formatting
 js/stats.js       date index, streaks, lifetime totals
 js/day-model.js   building and mutating a day
 js/sheet.js       bottom sheets, exercise picker
-js/views/         today, log, day, heatmap, exercises, exercise, auth, profile
+js/views/         today, log, day, heatmap, exercises, exercise,
+                  exercise-form, auth, profile
 ```
 
 ## Prototype limits

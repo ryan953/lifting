@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "exercises": [
+    {
+      "id": "custom:skierg-intervals",
+      "custom": true,
+      "name": "SkiErg Intervals",
+      "equipment": "machine",
+      "category": "cardio",
+      "mechanic": "compound",
+      "force": "pull",
+      "level": "intermediate",
+      "primary": ["lats", "abdominals"],
+      "secondary": ["hamstrings", "glutes", "quadriceps", "shoulders", "triceps"],
+      "instructions": [
+        "Concept2 SkiErg, or any upright ski ergometer.",
+        "Four 30-second phases run back to back, repeated three times.",
+        "Hinge phases drive from the hips with a near-straight back; squat phases add knee bend and finish taller."
+      ],
+      "columns": ["Time", "Phase"],
+      "rounds": 3,
+      "template": [
+        ["30s", "Slow hinge"],
+        ["30s", "Power hinge"],
+        ["30s", "Slow squat"],
+        ["30s", "Hard squat"]
+      ]
+    },
+    {
+      "id": "custom:resistance-treadmill",
+      "custom": true,
+      "name": "Resistance Treadmill Intervals",
+      "equipment": "machine",
+      "category": "cardio",
+      "mechanic": "compound",
+      "force": "push",
+      "level": "intermediate",
+      "primary": ["quadriceps", "glutes"],
+      "secondary": ["hamstrings", "calves", "abdominals", "adductors"],
+      "instructions": [
+        "Curved or friction-loaded treadmill, driven by you rather than a motor.",
+        "Four 30-second phases run back to back, repeated three times.",
+        "Backwards phases stay light on the toes with the chest up."
+      ],
+      "columns": ["Time", "Phase"],
+      "rounds": 3,
+      "template": [
+        ["30s", "Walking"],
+        ["30s", "High-friction push"],
+        ["30s", "Walking backwards"],
+        ["30s", "High-friction backwards"]
+      ]
+    }
+  ]
+}
