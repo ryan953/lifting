@@ -8,7 +8,7 @@
 
 import { el, clear } from '../dom.js';
 import * as history from '../history.js';
-import { DAY_MS, iso, parseISO, indexByDate, streaks } from '../stats.js';
+import { iso, parseISO, addDays, daysBetween, indexByDate, streaks } from '../stats.js';
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -67,10 +67,10 @@ export function render({ rerender }) {
     const end = parseISO(history.todayISO());
 
     // Start on the Monday of the week containing the first day in range, so
-    // every column is a whole week.
-    const rawStart = new Date(end.getTime() - (range.days - 1) * DAY_MS);
-    const start = new Date(rawStart.getTime() - weekdayIndex(rawStart) * DAY_MS);
-    const weeks = Math.ceil((end.getTime() - start.getTime()) / DAY_MS / 7) + 1;
+    // every column is a whole week and row index === weekday.
+    const rawStart = addDays(end, -(range.days - 1));
+    const start = addDays(rawStart, -weekdayIndex(rawStart));
+    const weeks = Math.ceil((daysBetween(start, end) + 1) / 7);
 
     const grid = el('div', {
       class: 'heat-grid',
@@ -86,7 +86,7 @@ export function render({ rerender }) {
 
     let lastMonth = null;
     for (let week = 0; week < weeks; week++) {
-      const monday = new Date(start.getTime() + week * 7 * DAY_MS);
+      const monday = addDays(start, week * 7);
       const month = monday.getMonth();
       const isNew = month !== lastMonth && monday <= end;
       months.append(
@@ -102,7 +102,7 @@ export function render({ rerender }) {
     // Column-major: fill each week top to bottom before moving right.
     for (let week = 0; week < weeks; week++) {
       for (let row = 0; row < 7; row++) {
-        const date = new Date(start.getTime() + (week * 7 + row) * DAY_MS);
+        const date = addDays(start, week * 7 + row);
         if (date > end || date < rawStart) {
           grid.append(el('span', { class: 'heat-cell out' }));
           continue;

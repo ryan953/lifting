@@ -17,6 +17,21 @@ export const parseISO = (value) => {
 };
 
 /**
+ * Step by calendar days, never by milliseconds.
+ *
+ * A day is not reliably 86_400_000ms: across a daylight-saving change it is 23
+ * or 25 hours. Walking a range by DAY_MS therefore drifts an hour at every
+ * transition, and once it does, local midnight lands on the neighbouring date —
+ * which silently shifts every later day onto the wrong weekday. Rebuilding the
+ * date from its components lets the platform apply the offset itself.
+ */
+export const addDays = (date, count) =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate() + count);
+
+/** Whole calendar days from `from` to `to`, DST included. */
+export const daysBetween = (from, to) => Math.round((to.getTime() - from.getTime()) / DAY_MS);
+
+/**
  * date -> { sets, sessions, rest, keys }. A rest day is deliberately distinct
  * from a day with no entry at all: one is a decision, the other is a gap.
  */
@@ -48,7 +63,7 @@ export function streaks(byDate, days, end = parseISO(history.todayISO())) {
   let sets = 0;
 
   for (let offset = days - 1; offset >= 0; offset--) {
-    const record = byDate.get(iso(new Date(end.getTime() - offset * DAY_MS)));
+    const record = byDate.get(iso(addDays(end, -offset)));
     if (record && !record.rest) {
       run++;
       trained++;
@@ -60,7 +75,7 @@ export function streaks(byDate, days, end = parseISO(history.todayISO())) {
   }
 
   for (let offset = 0; offset < days; offset++) {
-    const record = byDate.get(iso(new Date(end.getTime() - offset * DAY_MS)));
+    const record = byDate.get(iso(addDays(end, -offset)));
     if (record && !record.rest) current++;
     else if (record?.rest || offset === 0) continue;
     else break;
