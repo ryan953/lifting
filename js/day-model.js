@@ -66,6 +66,40 @@ export function createDay(date, dayTypeId) {
   };
 }
 
+// ------------------------------------------------------------------ summary
+
+const label = (block) => block.exercises.map((entry) => entry.label).join(' + ');
+
+/**
+ * What a logged day actually contains — "Deadlifts + 4 accessory".
+ *
+ * Preferred over the template's name in listings: once movements get swapped
+ * around, "Primary Pull" no longer says what was trained, but the main lift
+ * and the accessory count still do. Falls back to the template name only when
+ * the day is empty and there is nothing else to report.
+ */
+export function summarize(day) {
+  const main = day.blocks.find((block) => block.slot === 'Main Lift');
+  const accessories = day.blocks.filter((block) => block.slot !== 'Main Lift');
+
+  if (main && accessories.length) return `${label(main)} + ${accessories.length} accessory`;
+  if (main) return label(main);
+  if (accessories.length) return `${accessories.length} accessory`;
+  return catalog.dayType(day.dayType)?.title ?? day.dayType;
+}
+
+/** Accessory movement names, for the second line of a listing row. */
+export function accessoryLabels(day) {
+  return day.blocks.filter((block) => block.slot !== 'Main Lift').map(label);
+}
+
+export function loggedSetCount(day) {
+  return day.blocks
+    .flatMap((block) => block.exercises)
+    .flatMap((entry) => entry.sets)
+    .filter((set) => (set.reps ?? '') !== '' || (set.weight ?? '') !== '').length;
+}
+
 // ----------------------------------------------------------------- mutations
 
 export function blocksInSlot(day, slot) {

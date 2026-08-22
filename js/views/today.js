@@ -4,6 +4,7 @@ import { el, frag } from '../dom.js';
 import * as catalog from '../catalog.js';
 import * as store from '../store.js';
 import * as history from '../history.js';
+import * as model from '../day-model.js';
 import { openNewDaySheet } from '../new-day.js';
 import * as dayView from './day.js';
 
@@ -54,7 +55,7 @@ function sessionRow(day) {
     el(
       'div',
       { class: 'body' },
-      el('div', { class: 'title' }, template?.title ?? day.dayType),
+      el('div', { class: 'title' }, model.summarize(day)),
       el('div', { class: 'sub' }, history.prettyDate(day.date))
     ),
     el('span', { class: `pill ${template?.group ?? 'rest'}` }, template?.group ?? '—')

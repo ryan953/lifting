@@ -4,6 +4,7 @@ import { el, frag } from '../dom.js';
 import * as catalog from '../catalog.js';
 import * as store from '../store.js';
 import * as history from '../history.js';
+import * as model from '../day-model.js';
 import { openNewDaySheet } from '../new-day.js';
 
 export function render(context) {
@@ -42,11 +43,16 @@ function renderReset({ rerender }) {
 
 function row(day) {
   const template = catalog.dayType(day.dayType);
-  const names = day.blocks.flatMap((block) => block.exercises.map((entry) => entry.label));
-  const setCount = day.blocks
-    .flatMap((block) => block.exercises)
-    .flatMap((entry) => entry.sets)
-    .filter((set) => set.reps !== '' || set.weight !== '').length;
+  const setCount = model.loggedSetCount(day);
+  const accessories = model.accessoryLabels(day);
+
+  // Date, then how much was logged, then the accessories by name — the title
+  // already names the main lift and counts them.
+  const detail = [
+    history.prettyDate(day.date),
+    setCount ? `${setCount} sets` : null,
+    accessories.length ? accessories.join(', ') : null,
+  ].filter(Boolean);
 
   return el(
     'a',
@@ -54,16 +60,8 @@ function row(day) {
     el(
       'div',
       { class: 'body' },
-      el(
-        'div',
-        { class: 'title' },
-        `${day.date} · ${template?.title ?? day.dayType}`
-      ),
-      el(
-        'div',
-        { class: 'sub' },
-        names.length ? `${setCount} sets · ${names.join(', ')}` : history.prettyDate(day.date)
-      )
+      el('div', { class: 'title' }, model.summarize(day)),
+      el('div', { class: 'sub' }, detail.join(' · '))
     ),
     el('span', { class: `pill ${template?.group ?? 'rest'}` }, template?.group ?? '—')
   );
