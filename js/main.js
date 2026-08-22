@@ -5,6 +5,7 @@ import { el, clear, frag } from './dom.js';
 import * as catalog from './catalog.js';
 import * as store from './store.js';
 import * as history from './history.js';
+import { closeSheet } from './sheet.js';
 import { openNewDaySheet } from './new-day.js';
 import * as todayView from './views/today.js';
 import * as logView from './views/log.js';
@@ -26,6 +27,10 @@ function parseRoute() {
 }
 
 function render() {
+  // A sheet left open would cover the incoming screen and keep the body
+  // scroll-locked behind it.
+  closeSheet();
+
   const route = parseRoute();
   const context = { rerender: render };
 
@@ -109,11 +114,19 @@ function render() {
       tab = 'today';
       topbar.append(
         crumb('lifting', history.todayISO()),
-        el('button', { 'aria-label': 'New session', onclick: () => openNewDaySheet() }, '+'),
-        profileButton()
+        el('button', { 'aria-label': 'New session', onclick: () => openNewDaySheet() }, '+')
       );
       body = todayView.render(context);
       break;
+  }
+
+  // The profile stays reachable from every screen once you are signed in.
+  // Signed out it appears only on Today, as the way in — the account screens
+  // themselves don't need a button back to where you already are.
+  const isAccountScreen = ['profile', 'login', 'signup'].includes(route.path);
+  const isToday = tab === 'today';
+  if (!isAccountScreen && (store.getProfile() || isToday)) {
+    topbar.append(profileButton());
   }
 
   screen.append(body);

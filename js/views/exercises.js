@@ -67,6 +67,7 @@ export function render() {
 
   const scopes = [
     ['all', 'All'],
+    ['mine', 'Mine'],
     ['favorites', '★ Favorites'],
     ['recent', 'Done before'],
     ['supersets', 'Supersets'],
@@ -170,6 +171,8 @@ export function render() {
       pool = store.favoriteIds().map(catalog.get).filter(Boolean);
     } else if (state.scope === 'recent') {
       pool = history.performedIds().map((record) => catalog.get(record.id)).filter(Boolean);
+    } else if (state.scope === 'mine') {
+      pool = pool.filter((exercise) => exercise.custom);
     }
 
     pool = pool.filter(matchesFilters);
@@ -191,7 +194,9 @@ export function render() {
             { class: 'empty' },
             state.scope === 'favorites'
               ? 'No favorites yet — tap a ☆ to add one.'
-              : 'Nothing matches.'
+              : state.scope === 'mine'
+                ? 'No exercises of your own yet — use + New exercise above.'
+                : 'Nothing matches.'
           )
     );
   }

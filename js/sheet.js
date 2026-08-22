@@ -9,8 +9,18 @@ import * as history from './history.js';
 
 const host = document.getElementById('sheet-host');
 
+let activeClose = null;
+
+/** Dismiss whatever sheet is open. The router calls this on every navigation:
+ *  a sheet left standing would cover the new screen and keep body scrolling
+ *  locked. */
+export function closeSheet() {
+  activeClose?.();
+}
+
 export function openSheet({ title, body, footer, onClose }) {
   const close = () => {
+    activeClose = null;
     host.hidden = true;
     clear(host);
     document.body.style.overflow = '';
@@ -34,6 +44,7 @@ export function openSheet({ title, body, footer, onClose }) {
   host.append(sheet);
   host.hidden = false;
   document.body.style.overflow = 'hidden';
+  activeClose = close;
 
   host.onclick = (event) => {
     if (event.target === host) close();
@@ -50,7 +61,6 @@ export function pickExercises({ title = 'Add exercise', requirementId = null } =
   return new Promise((resolve) => {
     let settled = false;
     const picked = [];
-    let tab = requirementId ? 'match' : 'favorites';
     let query = '';
 
     const finish = (value) => {
@@ -68,9 +78,19 @@ export function pickExercises({ title = 'Add exercise', requirementId = null } =
       requirementId && ['match', 'Matching'],
       ['favorites', '★ Favorites'],
       ['recent', 'Done before'],
+      catalog.all().some((exercise) => exercise.custom) && ['mine', 'Mine'],
       ['supersets', 'Supersets'],
       ['all', 'All'],
     ].filter(Boolean);
+
+    // Open on the first tab that actually holds something. Landing on an empty
+    // Favorites list reads as "there is nothing here to add" — which is how a
+    // freshly created exercise ends up looking missing.
+    let tab =
+      tabs
+        .map(([id]) => id)
+        .filter((id) => id !== 'supersets')
+        .find((id) => poolFor(id).length) ?? 'all';
 
     const selectTab = (id) => {
       tab = id;
@@ -203,6 +223,9 @@ export function pickExercises({ title = 'Add exercise', requirementId = null } =
       }
       if (current === 'recent') {
         return history.performedIds().map((r) => catalog.get(r.id)).filter(Boolean);
+      }
+      if (current === 'mine') {
+        return catalog.all().filter((exercise) => exercise.custom);
       }
       return catalog.all();
     }
