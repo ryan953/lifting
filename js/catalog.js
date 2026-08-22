@@ -45,6 +45,13 @@ export function subtitle(exercise) {
   return [exercise.equipment, exercise.primary.join(', ')].filter(Boolean).join(' · ');
 }
 
+/** "chest | shoulders, triceps" — primary muscles, then secondary. */
+export function muscleLine(exercise) {
+  const primary = exercise.primary.join(', ');
+  const secondary = exercise.secondary.join(', ');
+  return secondary ? `${primary} | ${secondary}` : primary;
+}
+
 // ------------------------------------------------------------------ searching
 
 const normalize = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();

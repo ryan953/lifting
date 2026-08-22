@@ -28,14 +28,24 @@ has real entries like `Blue box 18"` and `10/limb`.
 **Last time.** Every exercise on a day shows what it did last, dated. When you
 open an older session it reports the session before *that*, not the newest one.
 
-**Day requirements.** Each template carries requirements — "Horizontal press",
-"Heavy hinge", "Compound calf movement" — and each one is shown on the section
-that covers it: *Main Lift · ✓ Horizontal press*, with the exercise and its
-sets directly beneath. There is no separate checklist, because a template name
-stops describing a session as soon as its movements get swapped. Requirements
-nothing covers collect under **Still needed** at the foot of the day, each with
-a dropdown of matching exercises; picking one adds it to the next free
-accessory slot and the requirement moves up to that section.
+**Positions.** A day is a sequence of positions, each one card carrying
+everything about it:
+
+```
+MAIN LIFT: HORIZONTAL PRESS      where it falls in the order, what's expected
+Pushups                          what's filling it — from the template, or swapped
+chest | shoulders, triceps       what that actually trains
+Last time (2026-08-07): …        what to beat
+| SET | REPS | WEIGHT |          today's work
+```
+
+There is no separate day checklist: a template name stops describing a session
+the moment its movements get swapped, so the expectation lives on the position
+it governs. **Change** re-picks the exercise for a position — opening on the
+exercises that match its expectation — keeping the slot and the requirement.
+Requirements nothing covers collect under **Still needed** at the foot of the
+day with a dropdown of matching exercises; filling one moves it up to whichever
+position it landed in.
 
 **Accessories and supersets.** Adding one exercise makes a normal block; adding
 two or more makes a superset — bracketed, A/B labelled, 3 sets each per the

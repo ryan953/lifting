@@ -415,30 +415,42 @@ button {
   margin-top: 10px;
 }
 
-/* ------------------------------------------------------- slot requirements */
+/* ----------------------------------------------------------- position head */
 
-.slot-header {
+/* "MAIN LIFT: Horizontal press" — where this sits in the order, and what the
+   template expects to fill it. */
+.position {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
-  gap: 4px 10px;
-  margin: 28px 0 10px;
+  gap: 2px 8px;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-faint);
 }
 
-.slot-header h2 {
-  margin: 0;
+.position .expectation {
+  letter-spacing: 0.04em;
+  color: var(--accent);
 }
 
-.req-chip {
-  padding: 2px 9px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--good) 40%, var(--border));
-  background: color-mix(in srgb, var(--good) 12%, transparent);
-  color: var(--good);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
+.position .superset-tag {
+  margin-bottom: 0;
+}
+
+.muscles {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Slots no longer carry headings, so the add button closes each group. */
+.slot-add {
+  margin-bottom: 22px;
 }
 
 /* --------------------------------------------------------------- checklist */

@@ -117,6 +117,29 @@ export function removeBlock(day, blockId) {
   day.blocks = day.blocks.filter((block) => block.id !== blockId);
 }
 
+/**
+ * Swap what occupies a position, keeping its slot. Sets are rebuilt from the
+ * new movement's defaults rather than carried over — reps and weights belong
+ * to the exercise that produced them.
+ */
+export function replaceBlockExercises(day, blockId, exerciseIds) {
+  const block = day.blocks.find((candidate) => candidate.id === blockId);
+  if (!block) return null;
+
+  const isSuperset = exerciseIds.length > 1;
+  block.kind = isSuperset ? 'superset' : 'single';
+  block.exercises = exerciseIds.map((id) => makeEntry(id, block.slot, isSuperset));
+  if (isSuperset) store.saveSuperset(exerciseIds);
+  return block;
+}
+
+/** Has anything actually been written into this block's sets? */
+export function blockHasData(block) {
+  return block.exercises.some((entry) =>
+    entry.sets.some((set) => (set.reps ?? '') !== '' || (set.weight ?? '') !== '')
+  );
+}
+
 export function addSet(day, blockId) {
   const block = day.blocks.find((b) => b.id === blockId);
   for (const entry of block.exercises) entry.sets.push(emptySet());
@@ -168,11 +191,15 @@ export function autoSatisfied(day) {
   return met;
 }
 
-/** Requirement ids this slot covers, in the template's own order. */
-export function requirementsInSlot(day, slot, satisfied = autoSatisfied(day)) {
-  return [...satisfied]
-    .filter(([, hit]) => hit.block.slot === slot)
-    .map(([requirementId]) => requirementId);
+/** blockId -> the requirement ids that block covers. */
+export function requirementsByBlock(day, satisfied = autoSatisfied(day)) {
+  const byBlock = new Map();
+  for (const [requirementId, hit] of satisfied) {
+    const list = byBlock.get(hit.block.id) ?? [];
+    list.push(requirementId);
+    byBlock.set(hit.block.id, list);
+  }
+  return byBlock;
 }
 
 /** Requirements with nothing in the day covering them and no manual tick. */

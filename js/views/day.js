@@ -152,38 +152,54 @@ function renderSlot(day, slot, satisfied, save, saveQuietly) {
     save();
   };
 
-  const covered = model.requirementsInSlot(day, slot, satisfied);
+  const byBlock = model.requirementsByBlock(day, satisfied);
 
   return frag(
-    el(
-      'div',
-      { class: 'slot-header' },
-      el('h2', {}, slot),
-      covered.map((requirementId) =>
-        el(
-          'span',
-          { class: 'req-chip' },
-          `✓ ${catalog.requirement(requirementId)?.label ?? requirementId}`
-        )
-      )
-    ),
-    ...blocks.map((block) => renderBlock(day, block, save, saveQuietly)),
-    el('button', { class: 'btn ghost wide', onclick: addHere }, `+ Add to ${slot}`)
+    ...blocks.map((block) => renderBlock(day, block, byBlock.get(block.id), save, saveQuietly)),
+    el('button', { class: 'btn ghost wide slot-add', onclick: addHere }, `+ Add to ${slot}`)
   );
 }
 
-function renderBlock(day, block, save, saveQuietly) {
+/**
+ * One position in the day, self-contained: where it falls in the order, what
+ * the template expects there, what is filling it, what that trains, what it
+ * did last time, and its sets.
+ */
+function renderBlock(day, block, requirements, save, saveQuietly) {
   const isSuperset = block.kind === 'superset';
 
-  const remove = () => {
-    model.removeBlock(day, block.id);
+  const expectation = (requirements ?? [])
+    .map((id) => catalog.requirement(id)?.label ?? id)
+    .join(' · ');
+
+  const change = async () => {
+    const ids = await pickExercises({
+      title: `Change ${block.slot}`,
+      requirementId: requirements?.[0] ?? null,
+    });
+    if (!ids?.length) return;
+    if (
+      model.blockHasData(block) &&
+      !confirm('This position already has sets logged. Replacing the exercise clears them. Continue?')
+    ) {
+      return;
+    }
+    model.replaceBlockExercises(day, block.id, ids);
+    toast(`Now ${ids.map(catalog.name).join(' + ')}`);
     save();
   };
 
   return el(
     'div',
     { class: `card${isSuperset ? ' superset' : ''}` },
-    isSuperset ? el('div', { class: 'superset-tag' }, 'Superset') : null,
+    el(
+      'div',
+      { class: 'position' },
+      // Colon rides with the slot name so the flex gap can't split it off.
+      expectation ? `${block.slot}:` : block.slot,
+      expectation ? el('span', { class: 'expectation' }, expectation) : null,
+      isSuperset ? el('span', { class: 'superset-tag' }, 'Superset') : null
+    ),
     ...block.exercises.map((entry, index) =>
       renderEntry(day, block, entry, index, isSuperset, saveQuietly)
     ),
@@ -213,7 +229,18 @@ function renderBlock(day, block, save, saveQuietly) {
         '− Set'
       ),
       el('span', { style: 'flex:1' }),
-      el('button', { class: 'btn sm', onclick: remove }, 'Remove')
+      el('button', { class: 'btn sm', onclick: change }, 'Change'),
+      el(
+        'button',
+        {
+          class: 'btn sm',
+          onclick: () => {
+            model.removeBlock(day, block.id);
+            save();
+          },
+        },
+        'Remove'
+      )
     )
   );
 }
@@ -251,7 +278,9 @@ function renderEntry(day, block, entry, index, isSuperset, saveQuietly) {
           'a',
           { class: 'exercise-link', href: `#/exercise/${encodeURIComponent(entry.exerciseId)}` },
           entry.label
-        )
+        ),
+        // What this pick actually trains, so the expectation can be judged.
+        exercise ? el('span', { class: 'muscles' }, catalog.muscleLine(exercise)) : null
       ),
       star
     ),
