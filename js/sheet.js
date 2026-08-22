@@ -109,10 +109,20 @@ export function pickExercises({ title = 'Add exercise', requirementId = null } =
 
     // ------------------------------------------------------------- selection
 
-    function togglePick(id) {
-      const at = picked.indexOf(id);
-      if (at === -1) picked.push(id);
-      else picked.splice(at, 1);
+    // Picking the same exercise twice is meaningful: two legs of one drop set,
+    // each with its own weight. So rows add rather than toggle, and removal is
+    // by position from the chips below.
+    function addPick(id) {
+      picked.push(id);
+      repaintSelection();
+    }
+
+    function removePick(index) {
+      picked.splice(index, 1);
+      repaintSelection();
+    }
+
+    function repaintSelection() {
       renderPicked();
       renderList();
       renderFooter();
@@ -120,12 +130,16 @@ export function pickExercises({ title = 'Add exercise', requirementId = null } =
 
     function renderPicked() {
       clear(pickedRow).append(
-        ...picked.map((id) =>
+        ...picked.map((id, index) =>
           el(
             'span',
             {},
             catalog.name(id),
-            el('button', { 'aria-label': `Remove ${catalog.name(id)}`, onclick: () => togglePick(id) }, '✕')
+            el(
+              'button',
+              { 'aria-label': `Remove ${catalog.name(id)}`, onclick: () => removePick(index) },
+              '✕'
+            )
           )
         )
       );
@@ -134,13 +148,13 @@ export function pickExercises({ title = 'Add exercise', requirementId = null } =
     // ------------------------------------------------------------------ list
 
     function exerciseRow(exercise) {
-      const chosen = picked.includes(exercise.id);
+      const times = picked.filter((id) => id === exercise.id).length;
       return el(
         'button',
         {
           class: 'list-row',
           style: 'text-align:left;width:100%;cursor:pointer',
-          onclick: () => togglePick(exercise.id),
+          onclick: () => addPick(exercise.id),
         },
         el(
           'div',
@@ -149,7 +163,14 @@ export function pickExercises({ title = 'Add exercise', requirementId = null } =
           el('div', { class: 'sub' }, catalog.subtitle(exercise))
         ),
         store.isFavorite(exercise.id) ? el('span', { class: 'star on' }, '★') : null,
-        el('span', { class: 'pill', style: chosen ? 'color:var(--accent);border-color:var(--accent-dim)' : '' }, chosen ? 'Added' : '+')
+        el(
+          'span',
+          {
+            class: 'pill',
+            style: times ? 'color:var(--accent);border-color:var(--accent-dim)' : '',
+          },
+          times ? `×${times}` : '+'
+        )
       );
     }
 
@@ -233,12 +254,15 @@ export function pickExercises({ title = 'Add exercise', requirementId = null } =
     });
 
     function renderFooter() {
+      const sameMovement = picked.length > 1 && new Set(picked).size === 1;
       clear(addButton).append(
         picked.length === 0
           ? 'Add'
           : picked.length === 1
             ? 'Add exercise'
-            : `Add superset (${picked.length})`
+            : sameMovement
+              ? `Add drop set (${picked.length})`
+              : `Add superset (${picked.length})`
       );
       addButton.disabled = picked.length === 0;
       addButton.style.opacity = picked.length === 0 ? '0.5' : '1';

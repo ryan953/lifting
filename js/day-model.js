@@ -133,6 +133,17 @@ export function replaceBlockExercises(day, blockId, exerciseIds) {
   return block;
 }
 
+/**
+ * A multi-leg block whose legs are all the same movement is a drop set, not a
+ * superset — same lift, descending weight — so it's labelled accordingly.
+ */
+export function isDropSet(block) {
+  return (
+    block.exercises.length > 1 &&
+    new Set(block.exercises.map((entry) => entry.exerciseId)).size === 1
+  );
+}
+
 /** Has anything actually been written into this block's sets? */
 export function blockHasData(block) {
   return block.exercises.some((entry) =>

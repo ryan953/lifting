@@ -221,6 +221,15 @@ export function supersetId(exerciseIds) {
   return [...exerciseIds].sort().join('+');
 }
 
+// Local calendar date. Inlined rather than imported from history.js, which
+// depends on this module.
+function todayISO() {
+  const now = new Date();
+  return new Date(now.getTime() - now.getTimezoneOffset() * 60000)
+    .toISOString()
+    .slice(0, 10);
+}
+
 export function saveSuperset(exerciseIds, { favorite = false } = {}) {
   const id = supersetId(exerciseIds);
   const existing = cache.supersets.get(id);
@@ -229,6 +238,7 @@ export function saveSuperset(exerciseIds, { favorite = false } = {}) {
     exerciseIds: [...exerciseIds],
     favorite: existing?.favorite || favorite,
     usedAt: Date.now(),
+    date: todayISO(),
   };
   cache.supersets.set(id, record);
   tx('supersets', 'readwrite', (s) => s.put(record));

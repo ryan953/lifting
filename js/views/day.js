@@ -147,8 +147,14 @@ function renderSlot(day, slot, satisfied, save, saveQuietly) {
   const addHere = async () => {
     const ids = await pickExercises({ title: `Add to ${slot}` });
     if (!ids?.length) return;
-    model.addBlock(day, ids, slot);
-    toast(ids.length > 1 ? 'Superset added' : `Added ${catalog.name(ids[0])}`);
+    const block = model.addBlock(day, ids, slot);
+    toast(
+      ids.length === 1
+        ? `Added ${catalog.name(ids[0])}`
+        : model.isDropSet(block)
+          ? 'Drop set added'
+          : 'Superset added'
+    );
     save();
   };
 
@@ -198,7 +204,9 @@ function renderBlock(day, block, requirements, save, saveQuietly) {
       // Colon rides with the slot name so the flex gap can't split it off.
       expectation ? `${block.slot}:` : block.slot,
       expectation ? el('span', { class: 'expectation' }, expectation) : null,
-      isSuperset ? el('span', { class: 'superset-tag' }, 'Superset') : null
+      isSuperset
+        ? el('span', { class: 'superset-tag' }, model.isDropSet(block) ? 'Drop set' : 'Superset')
+        : null
     ),
     ...block.exercises.map((entry, index) =>
       renderEntry(day, block, entry, index, isSuperset, saveQuietly)

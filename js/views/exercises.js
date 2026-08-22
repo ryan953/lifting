@@ -242,14 +242,29 @@ export function render() {
       record.favorite ? '★' : '☆'
     );
 
+    // Same movement repeated is a drop set; name it as one rather than
+    // printing "Dips + Dips".
+    const unique = new Set(record.exerciseIds);
+    const title =
+      unique.size === 1
+        ? `${catalog.name(record.exerciseIds[0])} ×${record.exerciseIds.length}`
+        : record.exerciseIds.map(catalog.name).join('  +  ');
+    const kind = unique.size === 1 ? 'Drop set' : 'Superset';
+
     return el(
       'div',
       { class: 'list-row' },
       el(
         'div',
         { class: 'body' },
-        el('div', { class: 'title' }, record.exerciseIds.map(catalog.name).join('  +  ')),
-        el('div', { class: 'sub' }, record.favorite ? 'Saved' : `Logged ${record.date ?? ''}`)
+        el('div', { class: 'title' }, title),
+        el(
+          'div',
+          { class: 'sub' },
+          [kind, record.favorite ? 'saved' : null, record.date ? `last used ${record.date}` : null]
+            .filter(Boolean)
+            .join(' · ')
+        )
       ),
       star
     );
