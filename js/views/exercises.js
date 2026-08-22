@@ -1,35 +1,70 @@
-/** Browse the exercise database: search, filter, favorite. */
+/** Browse the exercise database: search, facet filters, favorite. */
 
 import { el, frag, clear } from '../dom.js';
 import * as catalog from '../catalog.js';
 import * as store from '../store.js';
 import * as history from '../history.js';
 
-const MUSCLES = [
-  'chest',
-  'shoulders',
-  'triceps',
-  'biceps',
-  'lats',
-  'middle back',
-  'lower back',
-  'quadriceps',
-  'hamstrings',
-  'glutes',
-  'calves',
-  'abdominals',
+/**
+ * Every filterable property. Values are read off the catalog rather than
+ * hardcoded, so a rebuilt database can't leave the filters behind.
+ *
+ * `muscle` is deliberately one list covering both primary and secondary: you
+ * usually want "anything that trains triceps", not "anything whose *primary*
+ * is triceps". Results then say which role the muscle played.
+ */
+const FACETS = [
+  { key: 'force', label: 'Force' },
+  { key: 'mechanic', label: 'Mechanic' },
+  { key: 'level', label: 'Level' },
+  { key: 'category', label: 'Category' },
+  { key: 'equipment', label: 'Equipment' },
+  { key: 'muscle', label: 'Muscles' },
 ];
+
+function facetValues(key) {
+  const seen = new Set();
+  for (const exercise of catalog.all()) {
+    if (key === 'muscle') {
+      for (const muscle of [...exercise.primary, ...exercise.secondary]) seen.add(muscle);
+    } else if (exercise[key]) {
+      seen.add(exercise[key]);
+    }
+  }
+  return [...seen].sort();
+}
 
 // Kept across rerenders so starring an exercise never drops your search.
 const state = {
   query: '',
   scope: 'all',
-  muscles: new Set(),
+  filters: Object.fromEntries(FACETS.map((facet) => [facet.key, new Set()])),
+  panelOpen: false,
 };
+
+const activeCount = () =>
+  FACETS.reduce((total, facet) => total + state.filters[facet.key].size, 0);
+
+function matchesFilters(exercise) {
+  for (const facet of FACETS) {
+    const chosen = state.filters[facet.key];
+    if (!chosen.size) continue;
+
+    if (facet.key === 'muscle') {
+      const trained = [...exercise.primary, ...exercise.secondary];
+      if (!trained.some((muscle) => chosen.has(muscle))) return false;
+    } else if (!chosen.has(exercise[facet.key])) {
+      return false;
+    }
+  }
+  return true;
+}
 
 export function render() {
   const listNode = el('div', { class: 'list' });
   const countNode = el('div', { class: 'count' });
+  const panelNode = el('div', { class: 'facets', hidden: !state.panelOpen });
+  const toggleNode = el('button', { class: 'btn sm', onclick: togglePanel });
 
   const searchInput = el('input', {
     type: 'search',
@@ -71,26 +106,70 @@ export function render() {
     )
   );
 
-  const chips = el(
-    'div',
-    { class: 'chips' },
-    MUSCLES.map((muscle) =>
+  // ------------------------------------------------------------ filter panel
+
+  function togglePanel() {
+    state.panelOpen = !state.panelOpen;
+    panelNode.hidden = !state.panelOpen;
+    paintToggle();
+  }
+
+  function paintToggle() {
+    const count = activeCount();
+    clear(toggleNode).append(
+      `${state.panelOpen ? 'Hide' : 'Filter'}${count ? ` · ${count}` : ''}`
+    );
+  }
+
+  function buildPanel() {
+    clear(panelNode).append(
+      ...FACETS.map((facet) =>
+        el(
+          'div',
+          { class: 'facet' },
+          el('div', { class: 'slot-label' }, facet.label),
+          el(
+            'div',
+            { class: 'chips' },
+            facetValues(facet.key).map((value) =>
+              el(
+                'button',
+                {
+                  class: 'chip',
+                  'aria-pressed': String(state.filters[facet.key].has(value)),
+                  onclick: (event) => {
+                    const chosen = state.filters[facet.key];
+                    if (chosen.has(value)) chosen.delete(value);
+                    else chosen.add(value);
+                    event.currentTarget.setAttribute('aria-pressed', String(chosen.has(value)));
+                    paintToggle();
+                    paint();
+                  },
+                },
+                value
+              )
+            )
+          )
+        )
+      ),
       el(
         'button',
         {
-          class: 'chip',
-          'aria-pressed': String(state.muscles.has(muscle)),
-          onclick: (event) => {
-            if (state.muscles.has(muscle)) state.muscles.delete(muscle);
-            else state.muscles.add(muscle);
-            event.currentTarget.setAttribute('aria-pressed', String(state.muscles.has(muscle)));
+          class: 'btn sm',
+          style: 'margin-top:4px',
+          onclick: () => {
+            for (const facet of FACETS) state.filters[facet.key].clear();
+            buildPanel();
+            paintToggle();
             paint();
           },
         },
-        muscle
+        'Clear filters'
       )
-    )
-  );
+    );
+  }
+
+  // ------------------------------------------------------------------ lists
 
   function paint() {
     if (state.scope === 'supersets') {
@@ -105,12 +184,11 @@ export function render() {
       pool = history.performedIds().map((record) => catalog.get(record.id)).filter(Boolean);
     }
 
-    if (state.muscles.size) {
-      pool = pool.filter((exercise) => exercise.primary.some((m) => state.muscles.has(m)));
-    }
+    pool = pool.filter(matchesFilters);
 
     const results = state.query ? catalog.search(state.query, pool) : pool;
     const shown = results.slice(0, 150);
+    const highlight = state.filters.muscle;
 
     clear(countNode).append(
       `${results.length} exercise${results.length === 1 ? '' : 's'}` +
@@ -119,7 +197,7 @@ export function render() {
 
     clear(listNode).append(
       shown.length
-        ? frag(...shown.map(exerciseRow))
+        ? frag(...shown.map((exercise) => exerciseRow(exercise, highlight)))
         : el(
             'div',
             { class: 'empty' },
@@ -177,17 +255,54 @@ export function render() {
     );
   }
 
+  buildPanel();
+  paintToggle();
   paint();
 
   return frag(
     el('h1', {}, 'Exercises'),
-    el('div', { class: 'searchbar' }, searchInput, segmented, chips),
+    el(
+      'div',
+      { class: 'searchbar' },
+      searchInput,
+      segmented,
+      el(
+        'div',
+        { class: 'filter-bar' },
+        toggleNode,
+        el('span', { class: 'legend' }, 'muscles: primary | secondary')
+      ),
+      panelNode
+    ),
     countNode,
     listNode
   );
 }
 
-function exerciseRow(exercise) {
+/** Muscles as nodes so primary and secondary stay visually distinct, and a
+ *  muscle you filtered on is called out in whichever role it plays here. */
+function muscleNodes(exercise, highlight) {
+  const part = (muscle, role) =>
+    el(
+      'span',
+      { class: `m ${role}${highlight?.has(muscle) ? ' hit' : ''}` },
+      muscle
+    );
+
+  const primary = exercise.primary.map((muscle) => part(muscle, 'primary'));
+  const secondary = exercise.secondary.map((muscle) => part(muscle, 'secondary'));
+
+  const joined = (nodes) =>
+    nodes.flatMap((node, index) => (index ? [', ', node] : [node]));
+
+  return frag(
+    ...joined(primary),
+    secondary.length ? el('span', { class: 'sep' }, ' | ') : null,
+    ...joined(secondary)
+  );
+}
+
+function exerciseRow(exercise, highlight) {
   const star = el(
     'button',
     {
@@ -214,7 +329,12 @@ function exerciseRow(exercise) {
         style: 'color:inherit;text-decoration:none',
       },
       el('div', { class: 'title' }, exercise.name),
-      el('div', { class: 'sub' }, catalog.subtitle(exercise))
+      el(
+        'div',
+        { class: 'sub' },
+        exercise.equipment ? el('span', { class: 'kit' }, `${exercise.equipment} · `) : null,
+        muscleNodes(exercise, highlight)
+      )
     ),
     star
   );

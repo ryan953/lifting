@@ -52,9 +52,20 @@ two or more makes a superset — bracketed, A/B labelled, 3 sets each per the
 program's framework. Pairings are remembered and offered back under
 *Supersets*, and can be starred.
 
-**Exercise database.** All 873 exercises, searchable and filterable by muscle,
-with instructions, illustrations and similar movements. Star any of them and
-filter to favorites. Each one lists every set you have logged against it.
+**Exercise database.** All 873 exercises, with instructions, illustrations and
+similar movements. Star any of them and filter to favorites. Each one lists
+every set you have logged against it.
+
+Search is backed by a filter panel over every property the dataset carries —
+force, mechanic, level, category, equipment and muscles. Options come from the
+catalog itself, so a rebuilt database can't leave them stale. Within a property
+the choices are OR'd, across properties they're AND'd.
+
+Muscles are one list rather than two, because the useful question is "what
+trains triceps", not "what trains triceps *primarily*". Results keep the roles
+legible: primary muscles read normally, secondary ones recede, and a muscle you
+filtered on is called out in whichever role it plays — `cable · shoulders |
+**triceps**`.
 
 ## Data
 
