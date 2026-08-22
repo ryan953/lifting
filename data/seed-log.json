@@ -1,0 +1,3149 @@
+[
+  {
+    "date": "2026-08-20",
+    "dayType": "primary-pull",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-20-primary-pull-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Deadlift",
+            "label": "Deadlifts",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "8",
+                "weight": "135"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-20-primary-pull-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Wide-Grip_Lat_Pulldown",
+            "label": "Lat Pulldown",
+            "sets": [
+              {
+                "reps": "55",
+                "weight": ""
+              },
+              {
+                "reps": "55",
+                "weight": ""
+              },
+              {
+                "reps": "55",
+                "weight": ""
+              },
+              {
+                "reps": "60",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-20-primary-pull-2",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "One-Arm_Dumbbell_Row",
+            "label": "1-Arm Row",
+            "sets": [
+              {
+                "reps": "30 + 20",
+                "weight": "10 + 10"
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-20-primary-pull-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Leverage_High_Row",
+            "label": "High Row",
+            "sets": [
+              {
+                "reps": "",
+                "weight": "10"
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-20-primary-pull-4",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Curl",
+            "label": "BB Curls",
+            "sets": [
+              {
+                "reps": "",
+                "weight": "15"
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-20",
+    "dayType": "secondary-pull",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-20-secondary-pull-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Bent_Over_Barbell_Row",
+            "label": "Bent Over Row",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-20-secondary-pull-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "One_Arm_Lat_Pulldown",
+            "label": "1-Arm Pulldown",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-20-secondary-pull-2",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Face_Pull",
+            "label": "Face Pulls",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-20-secondary-pull-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Stiff-Legged_Dumbbell_Deadlift",
+            "label": "DB Deadlift",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-20-secondary-pull-4",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_Side_Bend",
+            "label": "Side Bends",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-20-secondary-pull-5",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Hammer_Curls",
+            "label": "Hammer Curls",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-19",
+    "dayType": "secondary-push",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-19-secondary-push-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Pushups",
+            "label": "Pushups",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "Red box 24”"
+              },
+              {
+                "reps": "10",
+                "weight": "Blue box 18”"
+              },
+              {
+                "reps": "10",
+                "weight": "Blue box"
+              },
+              {
+                "reps": "10",
+                "weight": "Blue box"
+              },
+              {
+                "reps": "8",
+                "weight": "Blue"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-19-secondary-push-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Standing_Dumbbell_Press",
+            "label": "Standing DB Press",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "12.5"
+              },
+              {
+                "reps": "10",
+                "weight": "12.5"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-19-secondary-push-2",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Side_Lateral_Raise",
+            "label": "Lateral Raise",
+            "sets": [
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "7.5"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-19-secondary-push-3",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Front_Dumbbell_Raise",
+            "label": "Forward Raise",
+            "sets": [
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-19-secondary-push-4",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Triceps_Pushdown_-_Rope_Attachment",
+            "label": "Tricep Rope Pulldown",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "20"
+              },
+              {
+                "reps": "10",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10",
+                "weight": "27.5"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-19-secondary-push-5",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Farmers_Walk",
+            "label": "Farmer Carries",
+            "sets": [
+              {
+                "reps": "1",
+                "weight": "45"
+              },
+              {
+                "reps": "1",
+                "weight": "45"
+              },
+              {
+                "reps": "1",
+                "weight": "45"
+              },
+              {
+                "reps": "1",
+                "weight": "45"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-19-secondary-push-6",
+        "slot": "Accessory 4",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dips_-_Triceps_Version",
+            "label": "Dips",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "100 assist"
+              },
+              {
+                "reps": "10",
+                "weight": "85 assist"
+              },
+              {
+                "reps": "10",
+                "weight": "85 assist"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-16",
+    "dayType": "primary-pull",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-16-primary-pull-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Bent_Over_Barbell_Row",
+            "label": "Bent Over Row",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "47.5"
+              },
+              {
+                "reps": "10",
+                "weight": "52.5"
+              },
+              {
+                "reps": "10",
+                "weight": "52.5"
+              },
+              {
+                "reps": "10",
+                "weight": "52.5"
+              },
+              {
+                "reps": "10",
+                "weight": "52.5"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-16-primary-pull-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Wide-Grip_Lat_Pulldown",
+            "label": "Lat Pulldown",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10",
+                "weight": "35"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-16-primary-pull-2",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "One-Arm_Dumbbell_Row",
+            "label": "1-Arm Row",
+            "sets": [
+              {
+                "reps": "10",
+                "weight": "20/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "25"
+              },
+              {
+                "reps": "10",
+                "weight": "30"
+              },
+              {
+                "reps": "10",
+                "weight": "30"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-16-primary-pull-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Leverage_High_Row",
+            "label": "High Row",
+            "sets": [
+              {
+                "reps": "10",
+                "weight": "20"
+              },
+              {
+                "reps": "10",
+                "weight": "20"
+              },
+              {
+                "reps": "10",
+                "weight": "20"
+              },
+              {
+                "reps": "10",
+                "weight": "20"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-16-primary-pull-4",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Curl",
+            "label": "BB Curls",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "20"
+              },
+              {
+                "reps": "10",
+                "weight": "30"
+              },
+              {
+                "reps": "10",
+                "weight": "30"
+              },
+              {
+                "reps": "10",
+                "weight": "30"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-15",
+    "dayType": "primary-legs",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-15-primary-legs-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Front_Squat_Clean_Grip",
+            "label": "Front Squats",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "50 on bar"
+              },
+              {
+                "reps": "10",
+                "weight": "60"
+              },
+              {
+                "reps": "10",
+                "weight": "60"
+              },
+              {
+                "reps": "8",
+                "weight": "80"
+              },
+              {
+                "reps": "8",
+                "weight": "90"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-primary-legs-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Glute_Bridge",
+            "label": "Glute Bridges",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "50"
+              },
+              {
+                "reps": "12",
+                "weight": "90"
+              },
+              {
+                "reps": "10",
+                "weight": "140"
+              },
+              {
+                "reps": "9",
+                "weight": "140"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-primary-legs-2",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_Step_Ups",
+            "label": "Step Ups",
+            "sets": [
+              {
+                "reps": "10/leg",
+                "weight": "10/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "10 "
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-primary-legs-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Crossover_Reverse_Lunge",
+            "label": "Reverse Lunge",
+            "sets": [
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-primary-legs-4",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Sled_Drag_-_Harness",
+            "label": "Sled Pull/Drag",
+            "sets": [
+              {
+                "reps": "1",
+                "weight": "50"
+              },
+              {
+                "reps": "1",
+                "weight": "50"
+              },
+              {
+                "reps": "1",
+                "weight": "50"
+              },
+              {
+                "reps": "1",
+                "weight": "50"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-primary-legs-5",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Sled_Push",
+            "label": "Sled Push",
+            "sets": [
+              {
+                "reps": "1",
+                "weight": "50"
+              },
+              {
+                "reps": "1",
+                "weight": "50"
+              },
+              {
+                "reps": "1",
+                "weight": "50"
+              },
+              {
+                "reps": "1",
+                "weight": "50"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-15",
+    "dayType": "primary-push",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-15-primary-push-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Incline_Dumbbell_Press",
+            "label": "DB Incline Press",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-primary-push-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_One-Arm_Shoulder_Press",
+            "label": "1-Arm Press",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-primary-push-2",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Front_Dumbbell_Raise",
+            "label": "Forward Raise",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-primary-push-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dips_-_Triceps_Version",
+            "label": "Dips",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-primary-push-4",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Side_Lateral_Raise",
+            "label": "Lateral Raise",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-primary-push-5",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Plank",
+            "label": "High Plank Core",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-15",
+    "dayType": "secondary-legs",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-15-secondary-legs-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Leg_Press",
+            "label": "Leg Press",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-secondary-legs-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Romanian_Deadlift",
+            "label": "1-Leg RDL",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-secondary-legs-2",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_Lunges",
+            "label": "Side Lunge",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-secondary-legs-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Crossover_Reverse_Lunge",
+            "label": "Reverse Lunge",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-15-secondary-legs-4",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Box_Jump_Multiple_Response",
+            "label": "Box Jumps",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-14",
+    "dayType": "primary-push",
+    "activation": {},
+    "checklist": {},
+    "blocks": [],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-13",
+    "dayType": "primary-pull",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-13-primary-pull-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Deadlift",
+            "label": "Deadlifts",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-13-primary-pull-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Wide-Grip_Lat_Pulldown",
+            "label": "Lat Pulldown",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-13-primary-pull-2",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "One-Arm_Dumbbell_Row",
+            "label": "1-Arm Row",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-13-primary-pull-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Leverage_High_Row",
+            "label": "High Row",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-13-primary-pull-4",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Curl",
+            "label": "BB Curls",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-13",
+    "dayType": "secondary-pull",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-13-secondary-pull-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Bent_Over_Barbell_Row",
+            "label": "Bent Over Row",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "42.5"
+              },
+              {
+                "reps": "10",
+                "weight": "50"
+              },
+              {
+                "reps": "10",
+                "weight": "57.5"
+              },
+              {
+                "reps": "10",
+                "weight": "57.5"
+              },
+              {
+                "reps": "10",
+                "weight": "57.5"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-13-secondary-pull-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "One_Arm_Lat_Pulldown",
+            "label": "1-Arm Pulldown",
+            "sets": [
+              {
+                "reps": "10/arm",
+                "weight": "25"
+              },
+              {
+                "reps": "10/arm",
+                "weight": "35"
+              },
+              {
+                "reps": "10/arm",
+                "weight": "40"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-13-secondary-pull-2",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Face_Pull",
+            "label": "Face Pulls",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "20/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "20/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "25/arm"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-13-secondary-pull-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Stiff-Legged_Dumbbell_Deadlift",
+            "label": "DB Deadlift",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10",
+                "weight": "30"
+              },
+              {
+                "reps": "10",
+                "weight": "30"
+              },
+              {
+                "reps": "10",
+                "weight": "30"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-13-secondary-pull-4",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_Side_Bend",
+            "label": "Side Bends",
+            "sets": [
+              {
+                "reps": "10/arm",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10/arm",
+                "weight": "30"
+              },
+              {
+                "reps": "10/arm",
+                "weight": "30"
+              },
+              {
+                "reps": "10/arm",
+                "weight": "30"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-13-secondary-pull-5",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Hammer_Curls",
+            "label": "Hammer Curls",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-11",
+    "dayType": "primary-push",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-11-primary-push-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Incline_Dumbbell_Press",
+            "label": "DB Incline Press",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "25/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "25/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "25/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "22.5/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "22.5/arm"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-primary-push-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_One-Arm_Shoulder_Press",
+            "label": "1-Arm Press",
+            "sets": [
+              {
+                "reps": "10/limb",
+                "weight": "20"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "20"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "20"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-primary-push-2",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Front_Dumbbell_Raise",
+            "label": "Forward Raise",
+            "sets": [
+              {
+                "reps": "10",
+                "weight": "10/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "10/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "10/arm"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-primary-push-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dips_-_Triceps_Version",
+            "label": "Dips",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "100 assist"
+              },
+              {
+                "reps": "10",
+                "weight": "100 assist"
+              },
+              {
+                "reps": "10",
+                "weight": "100 assist"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-primary-push-4",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Side_Lateral_Raise",
+            "label": "Lateral Raise",
+            "sets": [
+              {
+                "reps": "10",
+                "weight": "10/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "10/arm"
+              },
+              {
+                "reps": "10",
+                "weight": "10/arm"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-primary-push-5",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Plank",
+            "label": "High Plank Core",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-primary-push-6",
+        "slot": "Accessory 4",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Farmers_Walk",
+            "label": "Farmer Carries",
+            "sets": [
+              {
+                "reps": "Midmkt length",
+                "weight": "45/arm"
+              },
+              {
+                "reps": "",
+                "weight": "45"
+              },
+              {
+                "reps": "",
+                "weight": "45"
+              },
+              {
+                "reps": "",
+                "weight": "45"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-11",
+    "dayType": "secondary-push",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-11-secondary-push-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Pushups",
+            "label": "Pushups",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-secondary-push-1",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Pushups",
+            "label": "Pushups",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-secondary-push-2",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Standing_Dumbbell_Press",
+            "label": "Standing DB Press",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-secondary-push-3",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Standing_Dumbbell_Press",
+            "label": "Standing DB Press",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-secondary-push-4",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Side_Lateral_Raise",
+            "label": "Lateral Raise",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-secondary-push-5",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Front_Dumbbell_Raise",
+            "label": "Forward Raise",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-secondary-push-6",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Triceps_Pushdown_-_Rope_Attachment",
+            "label": "Tricep Rope Pulldown",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-11-secondary-push-7",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Farmers_Walk",
+            "label": "Farmer Carries",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-10",
+    "dayType": "primary-legs",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-10-primary-legs-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Front_Squat_Clean_Grip",
+            "label": "Front Squats",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "25"
+              },
+              {
+                "reps": "10",
+                "weight": "25"
+              },
+              {
+                "reps": "8",
+                "weight": "75"
+              },
+              {
+                "reps": "8",
+                "weight": "85"
+              },
+              {
+                "reps": "8",
+                "weight": "95"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-10-primary-legs-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Glute_Bridge",
+            "label": "Glute Bridges",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-10-primary-legs-2",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_Step_Ups",
+            "label": "Step Ups",
+            "sets": [
+              {
+                "reps": "5",
+                "weight": "0"
+              },
+              {
+                "reps": "5",
+                "weight": "0"
+              },
+              {
+                "reps": "5",
+                "weight": "20 (blue bulgarian)"
+              },
+              {
+                "reps": "5",
+                "weight": "20 (blue bulgarian)"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-10-primary-legs-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Crossover_Reverse_Lunge",
+            "label": "Reverse Lunge",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-10-primary-legs-4",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Sled_Drag_-_Harness",
+            "label": "Sled Pull/Drag",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-10-primary-legs-5",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Sled_Push",
+            "label": "Sled Push",
+            "sets": [
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              },
+              {
+                "reps": "",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-09",
+    "dayType": "rest-day",
+    "activation": {},
+    "checklist": {},
+    "blocks": [],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-08",
+    "dayType": "secondary-pull",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-08-secondary-pull-0",
+        "slot": "Accessory 4",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dips_-_Triceps_Version",
+            "label": "Dips",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "100 assist"
+              },
+              {
+                "reps": "10",
+                "weight": ""
+              },
+              {
+                "reps": "10",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-08-secondary-pull-1",
+        "slot": "Accessory 4",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Side_Lateral_Raise",
+            "label": "Lateral Raise",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-08-secondary-pull-2",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Bent_Over_Barbell_Row",
+            "label": "Bent Over Row",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10",
+                "weight": "42.5"
+              },
+              {
+                "reps": "10",
+                "weight": "52.5"
+              },
+              {
+                "reps": "10",
+                "weight": "52.5"
+              },
+              {
+                "reps": "10",
+                "weight": "52.5"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-08-secondary-pull-3",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "One_Arm_Lat_Pulldown",
+            "label": "1-Arm Pulldown",
+            "sets": [
+              {
+                "reps": "10/limb",
+                "weight": "22.5"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "32.5"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "37.5"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-08-secondary-pull-4",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Face_Pull",
+            "label": "Face Pulls",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "22.5"
+              },
+              {
+                "reps": "10",
+                "weight": "22.5"
+              },
+              {
+                "reps": "10",
+                "weight": "27.5"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-08-secondary-pull-5",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Stiff-Legged_Dumbbell_Deadlift",
+            "label": "DB Deadlift",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10",
+                "weight": "30"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-08-secondary-pull-6",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_Side_Bend",
+            "label": "Side Bends",
+            "sets": [
+              {
+                "reps": "10/limb",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "27.5"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "30"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-08-secondary-pull-7",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Hammer_Curls",
+            "label": "Hammer Curls",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-07",
+    "dayType": "secondary-push",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-07-secondary-push-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Pushups",
+            "label": "Pushups",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "Floor"
+              },
+              {
+                "reps": "6-12",
+                "weight": "Blue box"
+              },
+              {
+                "reps": "6-12",
+                "weight": "Red box"
+              },
+              {
+                "reps": "6-12",
+                "weight": "Red box"
+              },
+              {
+                "reps": "6-12",
+                "weight": "Red box"
+              }
+            ],
+            "notes": "Set1: Start with red!"
+          }
+        ]
+      },
+      {
+        "id": "2026-08-07-secondary-push-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Front_Dumbbell_Raise",
+            "label": "Forward Raise",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "7.5"
+              },
+              {
+                "reps": "10",
+                "weight": "7.5"
+              },
+              {
+                "reps": "10",
+                "weight": "7.5"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-07-secondary-push-2",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Side_Lateral_Raise",
+            "label": "Lateral Raise",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "7.5"
+              },
+              {
+                "reps": "10",
+                "weight": "7.5"
+              },
+              {
+                "reps": "10",
+                "weight": "7.5"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-07-secondary-push-3",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Standing_Dumbbell_Press",
+            "label": "Standing DB Press",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-07-secondary-push-4",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Triceps_Pushdown_-_Rope_Attachment",
+            "label": "Tricep Rope Pulldown",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": ""
+              },
+              {
+                "reps": "6-12",
+                "weight": ""
+              },
+              {
+                "reps": "6-12",
+                "weight": ""
+              },
+              {
+                "reps": "6-12",
+                "weight": ""
+              }
+            ],
+            "notes": "Weight marked N/A that day."
+          }
+        ]
+      },
+      {
+        "id": "2026-08-07-secondary-push-5",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Farmers_Walk",
+            "label": "Farmer Carries",
+            "sets": [
+              {
+                "reps": "15 target units",
+                "weight": "45 per"
+              },
+              {
+                "reps": "6-12 target units",
+                "weight": "45 per"
+              },
+              {
+                "reps": "6-12 target units",
+                "weight": "45 per"
+              },
+              {
+                "reps": "6-12 target units",
+                "weight": "45 per"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-06",
+    "dayType": "rest-day",
+    "activation": {},
+    "checklist": {},
+    "blocks": [],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-05",
+    "dayType": "primary-legs",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-05-primary-legs-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Front_Squat_Clean_Grip",
+            "label": "Front Squats",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "35"
+              },
+              {
+                "reps": "10",
+                "weight": "40"
+              },
+              {
+                "reps": "10",
+                "weight": "40"
+              },
+              {
+                "reps": "10",
+                "weight": "40"
+              },
+              {
+                "reps": "10",
+                "weight": "50"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-05-primary-legs-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Barbell_Glute_Bridge",
+            "label": "Glute Bridges",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "25"
+              },
+              {
+                "reps": "10",
+                "weight": "35"
+              },
+              {
+                "reps": "10",
+                "weight": "40"
+              },
+              {
+                "reps": "10",
+                "weight": "40"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-05-primary-legs-2",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_Step_Ups",
+            "label": "Step Ups",
+            "sets": [
+              {
+                "reps": "10/limb",
+                "weight": "15"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "10"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "10"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "10"
+              }
+            ],
+            "notes": "24in box."
+          }
+        ]
+      },
+      {
+        "id": "2026-08-05-primary-legs-3",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Sled_Drag_-_Harness",
+            "label": "Sled Pull/Drag",
+            "sets": [
+              {
+                "reps": "15 effort units",
+                "weight": "50"
+              },
+              {
+                "reps": "6-12 effort units",
+                "weight": "50"
+              },
+              {
+                "reps": "6-12 effort units",
+                "weight": "50"
+              },
+              {
+                "reps": "6-12 effort units",
+                "weight": "50"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-04",
+    "dayType": "primary-push",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-04-primary-push-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Incline_Dumbbell_Press",
+            "label": "DB Incline Press",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "40"
+              },
+              {
+                "reps": "12",
+                "weight": "50"
+              },
+              {
+                "reps": "12",
+                "weight": "50"
+              },
+              {
+                "reps": "12",
+                "weight": "40"
+              },
+              {
+                "reps": "12",
+                "weight": "40"
+              }
+            ],
+            "notes": "Set1: Iron grip bar. Set2-3: Bar. Set4-5: DB."
+          }
+        ]
+      },
+      {
+        "id": "2026-08-04-primary-push-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dumbbell_One-Arm_Shoulder_Press",
+            "label": "1-Arm Press",
+            "sets": [
+              {
+                "reps": "10/limb",
+                "weight": "20"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "20"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "20"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-04-primary-push-2",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Front_Dumbbell_Raise",
+            "label": "Forward Raise",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              },
+              {
+                "reps": "10",
+                "weight": "10"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-04-primary-push-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Dips_-_Triceps_Version",
+            "label": "Dips",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": ""
+              },
+              {
+                "reps": "6-12",
+                "weight": ""
+              },
+              {
+                "reps": "6-12",
+                "weight": ""
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-04-primary-push-4",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Side_Lateral_Raise",
+            "label": "Lateral Raise",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": ""
+              },
+              {
+                "reps": "6-12",
+                "weight": ""
+              },
+              {
+                "reps": "6-12",
+                "weight": ""
+              }
+            ],
+            "notes": "Weight marked N/A that day."
+          }
+        ]
+      },
+      {
+        "id": "2026-08-04-primary-push-5",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Farmers_Walk",
+            "label": "Farmer Carries",
+            "sets": [
+              {
+                "reps": "15 target units",
+                "weight": "30 each"
+              },
+              {
+                "reps": "6-12 target units",
+                "weight": "30 each"
+              },
+              {
+                "reps": "6-12 target units",
+                "weight": "30 each"
+              },
+              {
+                "reps": "6-12 target units",
+                "weight": "30 each"
+              }
+            ],
+            "notes": "Substituted for the templated Plank accessory this session."
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  },
+  {
+    "date": "2026-08-03",
+    "dayType": "secondary-pull",
+    "activation": {},
+    "checklist": {},
+    "blocks": [
+      {
+        "id": "2026-08-03-secondary-pull-0",
+        "slot": "Main Lift",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Bent_Over_Barbell_Row",
+            "label": "Bent Over Row",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "25"
+              },
+              {
+                "reps": "10",
+                "weight": "40"
+              },
+              {
+                "reps": "10",
+                "weight": "40"
+              },
+              {
+                "reps": "10",
+                "weight": "50"
+              },
+              {
+                "reps": "10",
+                "weight": "50"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-03-secondary-pull-1",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "One_Arm_Lat_Pulldown",
+            "label": "1-Arm Pulldown",
+            "sets": [
+              {
+                "reps": "10/limb",
+                "weight": "20"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "30"
+              },
+              {
+                "reps": "10/limb",
+                "weight": "35"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-03-secondary-pull-2",
+        "slot": "Accessory 1",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Face_Pull",
+            "label": "Face Pulls",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "10"
+              },
+              {
+                "reps": "6-12",
+                "weight": "20"
+              },
+              {
+                "reps": "6-12",
+                "weight": "20"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-03-secondary-pull-3",
+        "slot": "Accessory 2",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Stiff-Legged_Dumbbell_Deadlift",
+            "label": "DB Deadlift",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "10"
+              },
+              {
+                "reps": "6-12",
+                "weight": "10"
+              },
+              {
+                "reps": "6-12",
+                "weight": "10"
+              },
+              {
+                "reps": "6-12",
+                "weight": "10"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "id": "2026-08-03-secondary-pull-4",
+        "slot": "Accessory 3",
+        "kind": "single",
+        "exercises": [
+          {
+            "exerciseId": "Hammer_Curls",
+            "label": "Hammer Curls",
+            "sets": [
+              {
+                "reps": "15",
+                "weight": "10"
+              },
+              {
+                "reps": "6-12",
+                "weight": "10"
+              },
+              {
+                "reps": "6-12",
+                "weight": "10"
+              },
+              {
+                "reps": "6-12",
+                "weight": "10"
+              }
+            ],
+            "notes": ""
+          }
+        ]
+      }
+    ],
+    "notes": ""
+  }
+]

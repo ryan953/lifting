@@ -1,0 +1,223 @@
+{
+  "framework": [
+    "Main lift: 5 sets (set 1 = 15 reps, sets 2-5 = 6-12 reps)",
+    "Accessory set: 4 sets (set 1 = 15 reps, sets 2-4 = 6-12 reps)",
+    "Accessory superset: 3 sets",
+    "Unilateral movements: 10 reps per limb"
+  ],
+
+  "slots": ["Main Lift", "Accessory 1", "Accessory 2", "Accessory 3", "Accessory 4"],
+
+  "movements": [
+    { "name": "1-Arm Press", "exerciseId": "Dumbbell_One-Arm_Shoulder_Press", "defaultSets": 3, "unilateral": true },
+    { "name": "1-Arm Pulldown", "exerciseId": "One_Arm_Lat_Pulldown", "defaultSets": 3, "unilateral": true },
+    { "name": "1-Arm Row", "exerciseId": "One-Arm_Dumbbell_Row", "defaultSets": 4, "unilateral": true },
+    { "name": "1-Leg RDL", "exerciseId": "Romanian_Deadlift", "defaultSets": 4, "unilateral": true, "note": "Closest exercise-db match (or B-Stance RDL)." },
+    { "name": "BB Curls", "exerciseId": "Barbell_Curl", "defaultSets": 4, "unilateral": false },
+    { "name": "Bent Over Row", "exerciseId": "Bent_Over_Barbell_Row", "defaultSets": 5, "unilateral": false },
+    { "name": "Box Jumps", "exerciseId": "Box_Jump_Multiple_Response", "defaultSets": 4, "unilateral": false },
+    { "name": "DB Deadlift", "exerciseId": "Stiff-Legged_Dumbbell_Deadlift", "defaultSets": 4, "unilateral": false },
+    { "name": "DB Incline Press", "exerciseId": "Incline_Dumbbell_Press", "defaultSets": 5, "unilateral": false },
+    { "name": "Deadlifts", "exerciseId": "Barbell_Deadlift", "defaultSets": 5, "unilateral": false },
+    { "name": "Dips", "exerciseId": "Dips_-_Triceps_Version", "defaultSets": 3, "unilateral": false },
+    { "name": "Face Pulls", "exerciseId": "Face_Pull", "defaultSets": 3, "unilateral": false },
+    { "name": "Farmer Carries", "exerciseId": "Farmers_Walk", "defaultSets": 4, "unilateral": false },
+    { "name": "Forward Raise", "exerciseId": "Front_Dumbbell_Raise", "defaultSets": 3, "unilateral": false },
+    { "name": "Front Squats", "exerciseId": "Front_Squat_Clean_Grip", "defaultSets": 5, "unilateral": false },
+    { "name": "Glute Bridges", "exerciseId": "Barbell_Glute_Bridge", "defaultSets": 4, "unilateral": false },
+    { "name": "Hammer Curls", "exerciseId": "Hammer_Curls", "defaultSets": 4, "unilateral": false },
+    { "name": "High Plank Core", "exerciseId": "Plank", "defaultSets": 4, "unilateral": false, "note": "Touch Shoulders & Cross Arm & Mountain Climb." },
+    { "name": "High Row", "exerciseId": "Leverage_High_Row", "defaultSets": 4, "unilateral": true },
+    { "name": "Lat Pulldown", "exerciseId": "Wide-Grip_Lat_Pulldown", "defaultSets": 4, "unilateral": false },
+    { "name": "Lateral Raise", "exerciseId": "Side_Lateral_Raise", "defaultSets": 3, "unilateral": false },
+    { "name": "Leg Press", "exerciseId": "Leg_Press", "defaultSets": 5, "unilateral": false },
+    { "name": "Pushups", "exerciseId": "Pushups", "defaultSets": 5, "unilateral": false },
+    { "name": "Reverse Lunge", "exerciseId": "Crossover_Reverse_Lunge", "defaultSets": 4, "unilateral": true, "note": "Closest exercise-db match; also used as \"Curtsey Lunge\" on secondary legs." },
+    { "name": "Side Bends", "exerciseId": "Dumbbell_Side_Bend", "defaultSets": 4, "unilateral": true },
+    { "name": "Side Lunge", "exerciseId": "Dumbbell_Lunges", "defaultSets": 4, "unilateral": true, "note": "Closest exercise-db match." },
+    { "name": "Sled Pull-Drag", "exerciseId": "Sled_Drag_-_Harness", "defaultSets": 4, "unilateral": false },
+    { "name": "Sled Push", "exerciseId": "Sled_Push", "defaultSets": 4, "unilateral": false },
+    { "name": "Standing DB Press", "exerciseId": "Standing_Dumbbell_Press", "defaultSets": 3, "unilateral": false },
+    { "name": "Step Ups", "exerciseId": "Dumbbell_Step_Ups", "defaultSets": 4, "unilateral": true },
+    { "name": "Tricep Rope Pulldown", "exerciseId": "Triceps_Pushdown_-_Rope_Attachment", "defaultSets": 4, "unilateral": false }
+  ],
+
+  "requirements": {
+    "rear-delt-activation": {
+      "label": "Rear delt activation",
+      "match": { "primary": ["shoulders", "traps", "middle back"], "mechanic": "isolation" },
+      "prefer": ["Face_Pull", "Seated_Bent-Over_Rear_Delt_Raise", "Reverse_Flyes", "Side_Lateral_Raise"]
+    },
+    "horizontal-press": {
+      "label": "Horizontal press",
+      "match": { "primary": ["chest"], "force": "push" },
+      "prefer": ["Incline_Dumbbell_Press", "Pushups", "Dumbbell_Bench_Press", "Barbell_Bench_Press_-_Medium_Grip"]
+    },
+    "vertical-press": {
+      "label": "Vertical press",
+      "match": { "primary": ["shoulders"], "force": "push", "mechanic": "compound" },
+      "prefer": ["Standing_Dumbbell_Press", "Dumbbell_One-Arm_Shoulder_Press", "Dumbbell_Shoulder_Press", "Standing_Military_Press"]
+    },
+    "tricep-focus": {
+      "label": "Tricep focus",
+      "match": { "primary": ["triceps"] },
+      "prefer": ["Triceps_Pushdown_-_Rope_Attachment", "Dips_-_Triceps_Version", "Standing_Dumbbell_Triceps_Extension"]
+    },
+    "core-rhomboid": {
+      "label": "Compound core + rhomboid",
+      "match": { "primary": ["abdominals", "middle back", "traps"], "mechanic": "compound" },
+      "prefer": ["Plank", "Farmers_Walk", "Alternating_Renegade_Row"]
+    },
+
+    "pull-activation": {
+      "label": "Glute / core / rear delt activation",
+      "match": { "primary": ["glutes", "abdominals", "shoulders"], "mechanic": "isolation" },
+      "prefer": ["Face_Pull", "Single_Leg_Glute_Bridge", "Plank"]
+    },
+    "heavy-hinge": {
+      "label": "Heavy hinge",
+      "match": { "primary": ["hamstrings", "lower back", "glutes"], "mechanic": "compound", "force": "pull" },
+      "prefer": ["Barbell_Deadlift", "Romanian_Deadlift", "Stiff-Legged_Dumbbell_Deadlift", "Rack_Pulls"]
+    },
+    "vertical-row": {
+      "label": "Vertical row",
+      "match": { "primary": ["lats"], "force": "pull", "mechanic": "compound" },
+      "prefer": ["Wide-Grip_Lat_Pulldown", "One_Arm_Lat_Pulldown", "Pullups", "Close-Grip_Front_Lat_Pulldown"]
+    },
+    "horizontal-row": {
+      "label": "Horizontal row",
+      "match": { "primary": ["middle back", "lats"], "force": "pull", "mechanic": "compound" },
+      "prefer": ["Bent_Over_Barbell_Row", "One-Arm_Dumbbell_Row", "Leverage_High_Row", "Seated_Cable_Rows"]
+    },
+    "bicep-focus": {
+      "label": "Bicep focus",
+      "match": { "primary": ["biceps"] },
+      "prefer": ["Barbell_Curl", "Hammer_Curls", "Dumbbell_Alternate_Bicep_Curl"]
+    },
+
+    "glute-activation": {
+      "label": "Glute activation",
+      "match": { "primary": ["glutes", "abductors"] },
+      "prefer": ["Barbell_Glute_Bridge", "Single_Leg_Glute_Bridge", "Glute_Kickback"]
+    },
+    "squat-pattern": {
+      "label": "Squat pattern",
+      "match": { "primary": ["quadriceps"], "mechanic": "compound" },
+      "prefer": ["Front_Squat_Clean_Grip", "Barbell_Squat", "Leg_Press", "Goblet_Squat"]
+    },
+    "hinge-pattern": {
+      "label": "Hinge pattern",
+      "match": { "primary": ["hamstrings", "glutes", "lower back"], "mechanic": "compound" },
+      "prefer": ["Romanian_Deadlift", "Barbell_Deadlift", "Stiff-Legged_Dumbbell_Deadlift"]
+    },
+    "lunge-pattern": {
+      "label": "Lunge pattern",
+      "match": { "name": "lunge|step.?up|split squat|bulgarian" },
+      "prefer": ["Crossover_Reverse_Lunge", "Dumbbell_Step_Ups", "Dumbbell_Lunges", "Bodyweight_Walking_Lunge"]
+    },
+    "calf-compound": {
+      "label": "Compound calf movement",
+      "match": { "primary": ["calves"] },
+      "prefer": ["Standing_Calf_Raises", "Calf_Press_On_The_Leg_Press_Machine", "Seated_Calf_Raise"]
+    }
+  },
+
+  "dayTypes": [
+    {
+      "id": "primary-legs",
+      "title": "Primary Legs",
+      "group": "legs",
+      "activation": ["Glute bridge warmup"],
+      "checklist": ["glute-activation", "squat-pattern", "hinge-pattern", "lunge-pattern", "calf-compound"],
+      "movements": [
+        { "name": "Front Squats", "slot": "Main Lift" },
+        { "name": "Glute Bridges", "slot": "Accessory 1" },
+        { "name": "Step Ups", "slot": "Accessory 2" },
+        { "name": "Reverse Lunge", "slot": "Accessory 2" },
+        { "name": "Sled Pull-Drag", "slot": "Accessory 3" },
+        { "name": "Sled Push", "slot": "Accessory 3" }
+      ]
+    },
+    {
+      "id": "primary-pull",
+      "title": "Primary Pull",
+      "group": "pull",
+      "activation": ["TRX Arm Stretch"],
+      "checklist": ["pull-activation", "heavy-hinge", "vertical-row", "horizontal-row", "bicep-focus"],
+      "movements": [
+        { "name": "Deadlifts", "slot": "Main Lift" },
+        { "name": "Lat Pulldown", "slot": "Accessory 1" },
+        { "name": "1-Arm Row", "slot": "Accessory 2" },
+        { "name": "High Row", "slot": "Accessory 2" },
+        { "name": "BB Curls", "slot": "Accessory 3" }
+      ]
+    },
+    {
+      "id": "primary-push",
+      "title": "Primary Push",
+      "group": "push",
+      "activation": ["TRX Arm Stretch"],
+      "checklist": ["rear-delt-activation", "horizontal-press", "vertical-press", "tricep-focus", "core-rhomboid"],
+      "movements": [
+        { "name": "DB Incline Press", "slot": "Main Lift" },
+        { "name": "1-Arm Press", "slot": "Accessory 1" },
+        { "name": "Forward Raise", "slot": "Accessory 1" },
+        { "name": "Dips", "slot": "Accessory 2" },
+        { "name": "Lateral Raise", "slot": "Accessory 2" },
+        { "name": "High Plank Core", "slot": "Accessory 3" }
+      ]
+    },
+    {
+      "id": "secondary-legs",
+      "title": "Secondary Legs",
+      "group": "legs",
+      "activation": ["Glute bridge warmup"],
+      "checklist": ["glute-activation", "squat-pattern", "hinge-pattern", "lunge-pattern", "calf-compound"],
+      "movements": [
+        { "name": "Leg Press", "slot": "Main Lift" },
+        { "name": "1-Leg RDL", "slot": "Accessory 1" },
+        { "name": "Side Lunge", "slot": "Accessory 2" },
+        { "name": "Reverse Lunge", "slot": "Accessory 2" },
+        { "name": "Box Jumps", "slot": "Accessory 3" }
+      ]
+    },
+    {
+      "id": "secondary-pull",
+      "title": "Secondary Pull",
+      "group": "pull",
+      "activation": ["TRX Arm Stretch"],
+      "checklist": ["pull-activation", "heavy-hinge", "vertical-row", "horizontal-row", "bicep-focus"],
+      "movements": [
+        { "name": "Bent Over Row", "slot": "Main Lift" },
+        { "name": "1-Arm Pulldown", "slot": "Accessory 1" },
+        { "name": "Face Pulls", "slot": "Accessory 1" },
+        { "name": "DB Deadlift", "slot": "Accessory 2" },
+        { "name": "Side Bends", "slot": "Accessory 2" },
+        { "name": "Hammer Curls", "slot": "Accessory 3" }
+      ]
+    },
+    {
+      "id": "secondary-push",
+      "title": "Secondary Push",
+      "group": "push",
+      "activation": ["TRX Arm Stretch"],
+      "checklist": ["rear-delt-activation", "horizontal-press", "vertical-press", "tricep-focus", "core-rhomboid"],
+      "movements": [
+        { "name": "Pushups", "slot": "Main Lift" },
+        { "name": "Standing DB Press", "slot": "Accessory 1" },
+        { "name": "Lateral Raise", "slot": "Accessory 1" },
+        { "name": "Forward Raise", "slot": "Accessory 1" },
+        { "name": "Tricep Rope Pulldown", "slot": "Accessory 2" },
+        { "name": "Farmer Carries", "slot": "Accessory 3" }
+      ]
+    },
+    {
+      "id": "rest-day",
+      "title": "Rest Day",
+      "group": "rest",
+      "activation": [],
+      "checklist": [],
+      "movements": []
+    }
+  ]
+}
