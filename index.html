@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#1e1e1e" />
+    <meta name="color-scheme" content="dark" />
+    <title>Lifting</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🏋️</text></svg>" />
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+  <body>
+    <header class="topbar" id="topbar"></header>
+
+    <main class="screen" id="screen">
+      <div class="boot">Loading…</div>
+    </main>
+
+    <nav class="tabbar" id="tabbar">
+      <a href="#/" data-tab="today">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3v10H4zM17 7h3v10h-3zM7 10h10v4H7zM2 10h2v4H2zM20 10h2v4h-2z"/></svg>
+        <span>Today</span>
+      </a>
+      <a href="#/log" data-tab="log">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v2H4zM4 9h16v2H4zM4 14h16v2H4zM4 19h10v2H4z"/></svg>
+        <span>Log</span>
+      </a>
+      <a href="#/exercises" data-tab="exercises">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 3a8 8 0 105.3 14l3.4 3.4 1.4-1.4-3.4-3.4A8 8 0 0011 3zm0 2a6 6 0 110 12 6 6 0 010-12z"/></svg>
+        <span>Exercises</span>
+      </a>
+    </nav>
+
+    <div class="sheet-host" id="sheet-host" hidden></div>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>

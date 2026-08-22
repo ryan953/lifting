@@ -122,9 +122,21 @@ for (const file of readdirSync(entriesDir)) {
 
 pending.sort((a, b) => a.order - b.order);
 
+// The vault's QuickAdd script sometimes leaves a second, empty entry file for a
+// movement (`pushups.md` plus `pushups-1.md`). Keep one entry per exercise per
+// session — whichever actually recorded sets.
+const best = new Map();
+for (const entry of pending) {
+  const key = `${entry.sessionKey}|${entry.exerciseId}`;
+  const rival = best.get(key);
+  if (!rival || entry.sets.length > rival.sets.length) best.set(key, entry);
+}
+const deduped = pending.filter((entry) => best.get(`${entry.sessionKey}|${entry.exerciseId}`) === entry);
+const duplicates = pending.length - deduped.length;
+
 let skipped = 0;
 let recovered = 0;
-for (const entry of pending) {
+for (const entry of deduped) {
   // Some entries point at a session file that no longer exists (renamed in the
   // vault). The reference itself is `log/<date>-<day-type>`, which carries
   // everything a day needs, so rebuild it rather than dropping the sets.
@@ -170,4 +182,5 @@ writeFileSync(path.join(repoRoot, 'data/seed-log.json'), JSON.stringify(days, nu
 const setCount = days.flatMap((d) => d.blocks).flatMap((b) => b.exercises).flatMap((e) => e.sets).length;
 console.log(`wrote data/seed-log.json — ${days.length} days, ${setCount} sets`);
 if (recovered) console.warn(`rebuilt ${recovered} day(s) from renamed session references`);
+if (duplicates) console.warn(`dropped ${duplicates} duplicate entry file(s)`);
 if (skipped) console.warn(`skipped ${skipped} entries with an unparseable session reference`);

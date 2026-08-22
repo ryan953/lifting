@@ -1855,21 +1855,13 @@
       },
       {
         "id": "2026-08-11-secondary-push-1",
-        "slot": "Main Lift",
+        "slot": "Accessory 1",
         "kind": "single",
         "exercises": [
           {
-            "exerciseId": "Pushups",
-            "label": "Pushups",
+            "exerciseId": "Standing_Dumbbell_Press",
+            "label": "Standing DB Press",
             "sets": [
-              {
-                "reps": "",
-                "weight": ""
-              },
-              {
-                "reps": "",
-                "weight": ""
-              },
               {
                 "reps": "",
                 "weight": ""
@@ -1889,58 +1881,6 @@
       },
       {
         "id": "2026-08-11-secondary-push-2",
-        "slot": "Accessory 1",
-        "kind": "single",
-        "exercises": [
-          {
-            "exerciseId": "Standing_Dumbbell_Press",
-            "label": "Standing DB Press",
-            "sets": [
-              {
-                "reps": "",
-                "weight": ""
-              },
-              {
-                "reps": "",
-                "weight": ""
-              },
-              {
-                "reps": "",
-                "weight": ""
-              }
-            ],
-            "notes": ""
-          }
-        ]
-      },
-      {
-        "id": "2026-08-11-secondary-push-3",
-        "slot": "Accessory 1",
-        "kind": "single",
-        "exercises": [
-          {
-            "exerciseId": "Standing_Dumbbell_Press",
-            "label": "Standing DB Press",
-            "sets": [
-              {
-                "reps": "",
-                "weight": ""
-              },
-              {
-                "reps": "",
-                "weight": ""
-              },
-              {
-                "reps": "",
-                "weight": ""
-              }
-            ],
-            "notes": ""
-          }
-        ]
-      },
-      {
-        "id": "2026-08-11-secondary-push-4",
         "slot": "Accessory 1",
         "kind": "single",
         "exercises": [
@@ -1966,7 +1906,7 @@
         ]
       },
       {
-        "id": "2026-08-11-secondary-push-5",
+        "id": "2026-08-11-secondary-push-3",
         "slot": "Accessory 1",
         "kind": "single",
         "exercises": [
@@ -1992,7 +1932,7 @@
         ]
       },
       {
-        "id": "2026-08-11-secondary-push-6",
+        "id": "2026-08-11-secondary-push-4",
         "slot": "Accessory 2",
         "kind": "single",
         "exercises": [
@@ -2022,7 +1962,7 @@
         ]
       },
       {
-        "id": "2026-08-11-secondary-push-7",
+        "id": "2026-08-11-secondary-push-5",
         "slot": "Accessory 3",
         "kind": "single",
         "exercises": [
