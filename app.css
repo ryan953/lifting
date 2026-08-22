@@ -415,6 +415,32 @@ button {
   margin-top: 10px;
 }
 
+/* ------------------------------------------------------- slot requirements */
+
+.slot-header {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 28px 0 10px;
+}
+
+.slot-header h2 {
+  margin: 0;
+}
+
+.req-chip {
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--good) 40%, var(--border));
+  background: color-mix(in srgb, var(--good) 12%, transparent);
+  color: var(--good);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+
 /* --------------------------------------------------------------- checklist */
 
 .checklist {

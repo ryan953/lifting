@@ -1,4 +1,4 @@
-/** One workout day: activation, checklist, main lift, accessories, notes. */
+/** One workout day: activation, main lift, accessories, gaps, notes. */
 
 import { el, frag, toast } from '../dom.js';
 import * as catalog from '../catalog.js';
@@ -16,13 +16,20 @@ export function render(day, { rerender }) {
   // Typing in a set cell must not blow away the field being typed into.
   const saveQuietly = () => store.putDay(day);
 
+  // Each requirement is shown on the section that covers it rather than in a
+  // checklist of its own, so the requirement, the exercise chosen for it and
+  // its sets read as one unit.
+  const satisfied = model.autoSatisfied(day);
+
   return frag(
     el('h1', {}, template?.title ?? day.dayType),
     el('p', { class: 'muted', style: 'margin-top:0' }, history.prettyDate(day.date)),
 
     renderActivation(day, template, save),
-    renderChecklist(day, template, save),
-    ...catalog.prog().slots.map((slot) => renderSlot(day, slot, save, saveQuietly)),
+    ...catalog
+      .prog()
+      .slots.map((slot) => renderSlot(day, slot, satisfied, save, saveQuietly)),
+    renderUnmet(day, satisfied, save),
     renderNotes(day, saveQuietly)
   );
 }
@@ -53,44 +60,39 @@ function renderActivation(day, template, save) {
   );
 }
 
-function renderChecklist(day, template, save) {
-  if (!template?.checklist?.length) return null;
-
-  const satisfied = model.autoSatisfied(day);
-  const groupLabel = { push: 'Push', pull: 'Pull', legs: 'Leg' }[template.group] ?? template.title;
+/**
+ * Requirements the day still owes, listed after the slots with the same
+ * dropdown the checklist used to carry. Only gaps appear here — anything the
+ * day already covers is named on the section covering it.
+ */
+function renderUnmet(day, satisfied, save) {
+  const unmet = model.unmetRequirements(day, satisfied);
+  if (!unmet.length) return null;
 
   return frag(
-    el('h2', {}, `${groupLabel} Day Checklist`),
+    el('h2', {}, 'Still needed'),
     el(
       'div',
       { class: 'checklist' },
-      template.checklist.map((requirementId) => {
+      unmet.map((requirementId) => {
         const requirement = catalog.requirement(requirementId);
-        const met = satisfied.get(requirementId);
-        const done = model.isChecked(day, requirementId, satisfied);
-
-        const item = el(
+        return el(
           'div',
-          { class: `check-item${done ? ' done' : ''}` },
-          checkbox(done, () => {
-            day.checklist[requirementId] = { done: !done };
+          { class: 'check-item' },
+          checkbox(false, () => {
+            // Done at the gym but not worth logging sets for.
+            day.checklist[requirementId] = { done: true };
             save();
           }),
-          el('div', { class: 'check-label' }, requirement?.label ?? requirementId)
+          el('div', { class: 'check-label' }, requirement?.label ?? requirementId),
+          renderPicker(day, requirementId, save)
         );
-
-        if (met) {
-          item.append(el('div', { class: 'check-sat' }, `✓ ${met.label}`));
-        } else {
-          item.append(renderPicker(day, requirementId, save));
-        }
-        return item;
       })
     )
   );
 }
 
-/** The dropdown that turns a checklist gap into a logged exercise. */
+/** The dropdown that turns a requirement gap into a logged exercise. */
 function renderPicker(day, requirementId, save) {
   const { preferred, rest } = catalog.requirementCandidates(requirementId);
 
@@ -130,7 +132,7 @@ function renderPicker(day, requirementId, save) {
   );
 }
 
-function renderSlot(day, slot, save, saveQuietly) {
+function renderSlot(day, slot, satisfied, save, saveQuietly) {
   const blocks = model.blocksInSlot(day, slot);
   const template = catalog.dayType(day.dayType);
 
@@ -150,8 +152,21 @@ function renderSlot(day, slot, save, saveQuietly) {
     save();
   };
 
+  const covered = model.requirementsInSlot(day, slot, satisfied);
+
   return frag(
-    el('h2', {}, slot),
+    el(
+      'div',
+      { class: 'slot-header' },
+      el('h2', {}, slot),
+      covered.map((requirementId) =>
+        el(
+          'span',
+          { class: 'req-chip' },
+          `✓ ${catalog.requirement(requirementId)?.label ?? requirementId}`
+        )
+      )
+    ),
     ...blocks.map((block) => renderBlock(day, block, save, saveQuietly)),
     el('button', { class: 'btn ghost wide', onclick: addHere }, `+ Add to ${slot}`)
   );

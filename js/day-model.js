@@ -145,7 +145,8 @@ export function nextOpenSlot(day) {
 
 /**
  * A requirement counts as met when something in the day matches its filter.
- * Returns reqId -> the entry that satisfies it, so the UI can name it.
+ * Returns reqId -> { block, entry } for the first block that satisfies it, so
+ * each requirement is claimed by exactly one section of the day.
  */
 export function autoSatisfied(day) {
   const template = catalog.dayType(day.dayType);
@@ -154,12 +155,12 @@ export function autoSatisfied(day) {
 
   for (const requirementId of template.checklist) {
     for (const block of day.blocks) {
-      const hit = block.exercises.find((entry) => {
-        const exercise = catalog.get(entry.exerciseId);
+      const entry = block.exercises.find((candidate) => {
+        const exercise = catalog.get(candidate.exerciseId);
         return exercise && catalog.matchesRequirement(exercise, requirementId);
       });
-      if (hit) {
-        met.set(requirementId, hit);
+      if (entry) {
+        met.set(requirementId, { block, entry });
         break;
       }
     }
@@ -167,7 +168,17 @@ export function autoSatisfied(day) {
   return met;
 }
 
-export function isChecked(day, requirementId, satisfied = autoSatisfied(day)) {
-  // An explicit tick wins; otherwise the day's contents speak for themselves.
-  return day.checklist[requirementId]?.done ?? satisfied.has(requirementId);
+/** Requirement ids this slot covers, in the template's own order. */
+export function requirementsInSlot(day, slot, satisfied = autoSatisfied(day)) {
+  return [...satisfied]
+    .filter(([, hit]) => hit.block.slot === slot)
+    .map(([requirementId]) => requirementId);
+}
+
+/** Requirements with nothing in the day covering them and no manual tick. */
+export function unmetRequirements(day, satisfied = autoSatisfied(day)) {
+  const template = catalog.dayType(day.dayType);
+  return (template?.checklist ?? []).filter(
+    (requirementId) => !satisfied.has(requirementId) && !day.checklist[requirementId]?.done
+  );
 }

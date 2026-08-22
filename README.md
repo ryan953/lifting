@@ -28,11 +28,14 @@ has real entries like `Blue box 18"` and `10/limb`.
 **Last time.** Every exercise on a day shows what it did last, dated. When you
 open an older session it reports the session before *that*, not the newest one.
 
-**Day checklists.** Each template carries requirements — "Horizontal press",
-"Heavy hinge", "Compound calf movement". A requirement ticks itself once
-something in the day satisfies it. Anything still open gets a dropdown of
-matching exercises from the database; picking one adds it to the next free
-accessory slot.
+**Day requirements.** Each template carries requirements — "Horizontal press",
+"Heavy hinge", "Compound calf movement" — and each one is shown on the section
+that covers it: *Main Lift · ✓ Horizontal press*, with the exercise and its
+sets directly beneath. There is no separate checklist, because a template name
+stops describing a session as soon as its movements get swapped. Requirements
+nothing covers collect under **Still needed** at the foot of the day, each with
+a dropdown of matching exercises; picking one adds it to the next free
+accessory slot and the requirement moves up to that section.
 
 **Accessories and supersets.** Adding one exercise makes a normal block; adding
 two or more makes a superset — bracketed, A/B labelled, 3 sets each per the
