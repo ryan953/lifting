@@ -111,7 +111,7 @@ async function seed() {
   });
 }
 
-/** Wipe everything and re-seed. Exposed through the Log screen's ⋯ menu. */
+/** Wipe everything and re-seed. Exposed as "Reset demo data" on the Log screen. */
 export async function reset() {
   const transaction = db.transaction(STORES, 'readwrite');
   for (const name of STORES) transaction.objectStore(name).clear();

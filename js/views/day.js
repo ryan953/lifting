@@ -256,8 +256,8 @@ function renderSetTable(entry, saveQuietly) {
   const cell = (setIndex, field, placeholder) =>
     el('td', {}, [
       el('input', {
+        // Free text, not numeric: real entries include "10/limb", "Blue box 18\"".
         type: 'text',
-        inputmode: field === 'reps' ? 'text' : 'text',
         value: entry.sets[setIndex][field] ?? '',
         placeholder,
         'aria-label': `Set ${setIndex + 1} ${field}`,

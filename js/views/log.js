@@ -6,7 +6,7 @@ import * as store from '../store.js';
 import * as history from '../history.js';
 import { openNewDaySheet } from '../new-day.js';
 
-export function render() {
+export function render(context) {
   const days = store.allDays();
 
   return frag(
@@ -18,7 +18,25 @@ export function render() {
     ),
     days.length
       ? el('div', { class: 'list' }, days.map(row))
-      : el('div', { class: 'empty' }, 'No sessions yet.')
+      : el('div', { class: 'empty' }, 'No sessions yet.'),
+    renderReset(context)
+  );
+}
+
+/** Demo escape hatch: drop everything and reload the vault export. */
+function renderReset({ rerender }) {
+  return el(
+    'button',
+    {
+      class: 'btn ghost wide',
+      style: 'margin-top:24px',
+      onclick: async () => {
+        if (!confirm('Delete all sessions, favorites and supersets, then reload the sample history?')) return;
+        await store.reset();
+        rerender();
+      },
+    },
+    'Reset demo data'
   );
 }
 

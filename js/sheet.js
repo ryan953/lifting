@@ -98,7 +98,7 @@ export function pickExercises({ title = 'Add exercise', requirementId = null } =
 
     const searchInput = el('input', {
       type: 'search',
-      placeholder: 'Search all 873 exercises…',
+      placeholder: `Search all ${catalog.all().length} exercises…`,
       oninput: (event) => {
         query = event.target.value;
         // Typing means "search everything", not "search inside this tab".
