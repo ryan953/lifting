@@ -48,68 +48,50 @@ Add `--target-dependents` to include what a component feeds.
 
 ## The projects these stacks use
 
-| Stack | GCP project | Hosting site |
-| --- | --- | --- |
-| `staging` | `ryan953-lifting-staging` | `ryan953-lifting-staging-v3.web.app` |
-| `prod` | `ryan953-lifting-prod` | `ryan953-lifting-v3.web.app` |
+| Stack | GCP project | Firestore | Hosting site |
+| --- | --- | --- | --- |
+| `staging` | `ryan953-lifting-staging` | `(default)`, **us-west1**, existing | `ryan953-lifting-staging-v3.web.app` |
+| `prod` | `ryan953-lifting-prod` | `(default)`, us-west1, created | `ryan953-lifting-v3.web.app` |
 
-Both projects **already exist and already served prototype #1**, which shapes
-two decisions here.
+Verified state as of 2026-08-23:
 
-### The Hosting site is a new one, not the project default
+- **`ryan953-lifting-prod` is bare.** No Firebase, Firestore or Hosting APIs
+  enabled, nothing deployed, billing on. Everything here creates from scratch.
+- **`ryan953-lifting-staging` still runs prototype #1**, live and serving:
+  Hosting site `ryan953-lifting-staging` → https://ryan953-lifting-staging.web.app
+  (200), a `(default)` Firestore database in us-west1 holding a `users`
+  collection, a released `cloud.firestore` ruleset, and two active Cloud
+  Functions (`onSessionWrite`, `recomputeStats`).
 
-Prototype #1 deployed to each project's default site. Pointing that site at this
-app would silently replace it, so these stacks create a *separate* site per
-project. Firebase allows many sites per project at no cost, and #1's URL is left
-alone.
+Three consequences, all handled:
 
-### ⚠️ The Firestore rules are shared, and this stack replaces them
+### Firestore location is us-west1, not nam5
 
-There is only one `(default)` database per project, and rules are per-database
-and whole-file. Applying this stack **replaces whatever rules are currently
-deployed** — including prototype #1's, which allowed `sessions`,
-`exerciseStats` and `templates`. This stack's rules deny every path they don't
-name, so a still-running prototype #1 would start failing its reads and writes.
+A database's location is immutable. Staging's already exists in `us-west1`, so
+both stacks use it — prod matches deliberately, and single-region is cheaper
+per operation than a `nam5` multi-region anyway.
 
-The *data* is not touched: #1's documents live under different subcollection
-names and stay where they are. Only the rules change.
+### Staging adopts, prod creates
 
-Check what is live before the first apply:
+`lifting:adoptExisting` is set in `Pulumi.staging.yaml` so the first apply
+imports the existing Firebase project and database rather than failing to
+create duplicates. **Remove that line after the first successful `pulumi up`.**
+Prod needs no such flag.
 
-```sh
-gcloud firestore databases list --project=ryan953-lifting-prod
-firebase --project=ryan953-lifting-prod hosting:sites:list
-```
+### The rules file covers prototype #1 as well
 
-If prototype #1 is retired, nothing more is needed. If it is not, either keep it
-on its own project or extend `firestore/firestore.rules` to cover both apps
-before applying.
+Rules are per-database and whole-file, and #1 shares this database while still
+serving traffic. Releasing a file that omitted its paths would break it
+immediately. So `firestore/firestore.rules` carries #1's collections
+(`exercises`, `templates`, `sessions`, `exerciseStats`, `weeklyStats`) in a
+clearly-marked legacy block at the foot.
 
-## First-time setup
+**Delete that block once #1 is retired** — it is the only thing in this repo
+serving an app it doesn't own. Its data is otherwise untouched: #1's documents
+sit under different subcollection names from this app's.
 
-The projects are *referenced*, not created, so billing and project creation stay
-deliberate manual acts.
-
-```sh
-# 1. Credentials Pulumi will use
-gcloud auth login
-gcloud auth application-default login
-
-# 2. Select a stack
-cd infra
-pulumi stack select staging   # or: pulumi stack init staging
-
-# 3. First apply only — adopt the Firebase project and the existing
-#    (default) Firestore database instead of trying to create them
-pulumi config set lifting:adoptExisting true
-pulumi up
-
-# 4. Turn adoption back off; the resources are in state now
-pulumi config rm lifting:adoptExisting
-```
-
-Skipping step 3 against these projects fails with "already exists" on the
-Firebase project and the Firestore database — they were created for #1.
+Prototype #1's Hosting site is also left alone; these stacks create their own
+site per project rather than repointing the default one.
 
 ### Google sign-in
 

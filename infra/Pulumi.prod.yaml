@@ -1,7 +1,8 @@
 config:
   gcp:project: ryan953-lifting-prod
   gcp:region: us-central1
-  lifting:firestoreLocation: nam5
+  # Single-region to match staging; cheaper per-op than a nam5 multi-region
+  lifting:firestoreLocation: us-west1
   lifting:githubRepository: ryan953/lifting
   lifting:githubBranch: main
   lifting:hostingSiteId: ryan953-lifting-v3

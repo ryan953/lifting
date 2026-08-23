@@ -61,6 +61,40 @@ service cloud.firestore {
       match /meta/{key} {
         allow read, write: if isOwner(uid);
       }
+
+      // ----------------------------------------------------------------
+      // Legacy: prototype #1, still live at ryan953-lifting-staging.web.app
+      // and sharing this database. Rules are per-database and whole-file, so
+      // omitting these paths would break that app the moment this file is
+      // released. Delete this block once #1 is retired.
+      // ----------------------------------------------------------------
+      match /exercises/{exerciseId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /templates/{templateId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /sessions/{sessionId} {
+        allow read, write, delete: if isOwner(uid);
+      }
+
+      // Maintained by #1's Cloud Functions; clients read only.
+      match /exerciseStats/{exerciseId} {
+        allow read: if isOwner(uid);
+        allow write: if false;
+
+        match /weeks/{week} {
+          allow read: if isOwner(uid);
+          allow write: if false;
+        }
+      }
+
+      match /weeklyStats/{week} {
+        allow read: if isOwner(uid);
+        allow write: if false;
+      }
     }
   }
 }
