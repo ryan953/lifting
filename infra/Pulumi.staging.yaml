@@ -1,19 +1,26 @@
 config:
   gcp:project: ryan953-lifting-staging
   gcp:region: us-central1
-  # Immutable, and this database already exists in us-west1 (prototype #1)
+
+  lifting:orgId: "1067333569297"
+  lifting:billingAccount: 0177D2-73FB69-D1C827
+  lifting:projectDisplayName: ryan953-lifting-staging
+
+  # Immutable, and this database already exists in us-west1
   lifting:firestoreLocation: us-west1
+  lifting:customDomain: lifting-staging.ryan953.com
+
   lifting:githubRepository: ryan953/lifting
   lifting:githubBranch: main
-  # A separate site from prototype #1's default one, which these projects
-  # already serve. Becomes https://ryan953-lifting-staging-v3.web.app
-  lifting:hostingSiteId: ryan953-lifting-staging-v3
   lifting:emailPasswordAuth: "true"
-  # This project is already a Firebase project with a (default) Firestore
-  # database, both from prototype #1 — adopt them rather than fail to create
-  # them. Remove this line after the first successful `pulumi up`.
-  lifting:adoptExisting: "true"
-  #
-  # Google sign-in needs an OAuth client from the Firebase console:
+
+  # First-apply adoption. These resources already exist in this project and
+  # cannot be created a second time. Remove each line once `pulumi up` has
+  # succeeded and they are in state.
+  lifting:adoptProject: "true"      # the GCP project itself
+  lifting:adoptExisting: "true"     # Firebase project + (default) Firestore
+  lifting:adoptHostingSite: "true"  # default Hosting site
+
+  # Google sign-in — never committed in plaintext, see infra/README.md:
   #   pulumi config set lifting:googleClientId <id>
   #   pulumi config set --secret lifting:googleClientSecret <secret>

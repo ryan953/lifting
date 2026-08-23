@@ -93,18 +93,69 @@ sit under different subcollection names from this app's.
 Prototype #1's Hosting site is also left alone; these stacks create their own
 site per project rather than repointing the default one.
 
-### Google sign-in
+## Secrets
 
-The OAuth client cannot be created by the provider — take the web client id and
-secret from the Firebase console (Authentication → Sign-in method → Google) and
-set them per stack:
+Nothing sensitive is committed in plaintext, and nothing has to live outside the
+repo either.
+
+`pulumi config set --secret` encrypts the value before it is written, so what
+lands in `Pulumi.<stack>.yaml` is ciphertext:
 
 ```sh
-pulumi config set lifting:googleClientId <id>
+pulumi config set lifting:googleClientId <id>            # not secret, plain
 pulumi config set --secret lifting:googleClientSecret <secret>
 ```
 
-Leave them unset and the app still works with email/password.
+```yaml
+lifting:googleClientSecret:
+  secure: v1:8fJk2...          # committed, useless without the key
+```
+
+Reading it back needs the stack's encryption key, and `requireSecret()` in
+`index.ts` keeps the value marked all the way through — so it stays encrypted in
+Pulumi state and is redacted from `pulumi preview` output rather than printed.
+
+### Choosing where the key lives
+
+The encryption provider is set once, when the stack is created:
+
+| Provider | Set with | Who can decrypt |
+| --- | --- | --- |
+| Pulumi Cloud (default) | `pulumi stack init staging` | Anyone with access to the stack |
+| GCP KMS | `pulumi stack init staging --secrets-provider="gcpkms://projects/<p>/locations/global/keyRings/<r>/cryptoKeys/<k>" ` | Anyone with `roles/cloudkms.cryptoKeyDecrypter` |
+| Passphrase | `--secrets-provider passphrase` | Anyone with `PULUMI_CONFIG_PASSPHRASE` |
+
+**GCP KMS is the best fit here**: the projects are already on GCP, so both you
+and CI decrypt through normal IAM with no shared passphrase to distribute and no
+dependency on Pulumi Cloud. A key ring costs nothing; keys are ~$0.06/month.
+
+```sh
+gcloud kms keyrings create pulumi --location=global --project=ryan953-lifting-prod
+gcloud kms keys create stacks --keyring=pulumi --location=global \
+  --purpose=encryption --project=ryan953-lifting-prod
+```
+
+To move an existing stack onto it: `pulumi stack change-secrets-provider "gcpkms://…"`.
+
+### Secrets that shouldn't be in Pulumi at all
+
+For anything rotated independently of a deploy, keep it in Secret Manager and
+read it at apply time instead, so the value never enters Pulumi config or state:
+
+```ts
+const secret = gcp.secretmanager.getSecretVersionOutput({ secret: 'google-oauth', project });
+// secret.secretData is already marked secret by the provider
+```
+
+That costs about $0.06 per active version per month — worth it for a shared or
+frequently-rotated credential, unnecessary for a single OAuth client secret.
+
+### Google sign-in specifically
+
+The OAuth client cannot be created by the provider. Take the web client id and
+secret from the Firebase console (Authentication → Sign-in method → Google) and
+set them as above. Leave them unset and the app still works with
+email/password.
 
 ### Wiring up CI
 

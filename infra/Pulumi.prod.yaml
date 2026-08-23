@@ -1,10 +1,19 @@
 config:
   gcp:project: ryan953-lifting-prod
   gcp:region: us-central1
+
+  lifting:orgId: "1067333569297"
+  lifting:billingAccount: 01BD3B-E51E76-9A68C3
+  lifting:projectDisplayName: ryan953-lifting-prod
+
   # Single-region to match staging; cheaper per-op than a nam5 multi-region
   lifting:firestoreLocation: us-west1
+  lifting:customDomain: lifting.ryan953.com
+
   lifting:githubRepository: ryan953/lifting
   lifting:githubBranch: main
-  lifting:hostingSiteId: ryan953-lifting-v3
   lifting:emailPasswordAuth: "true"
-  # lifting:extraAuthDomains: '["lifting.ryan953.com"]'
+
+  # This project is bare apart from the project record itself, so only that
+  # needs adopting. Remove after the first successful `pulumi up`.
+  lifting:adoptProject: "true"

@@ -15,6 +15,7 @@
 import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
 
+import { ProjectMetadata } from './components/project-metadata.js';
 import { ProjectServices } from './components/project-services.js';
 import { Firestore } from './components/firestore.js';
 import { FirebaseApp } from './components/firebase-app.js';
@@ -29,21 +30,34 @@ const project = gcpConfig.require('project');
 const firestoreLocation = config.get('firestoreLocation') ?? 'nam5';
 const githubRepository = config.get('githubRepository') ?? 'ryan953/lifting';
 const githubBranch = config.get('githubBranch') ?? 'main';
-// A distinct Hosting site rather than the project's default one: these
-// projects already served prototype #1, and taking over its site would point
-// its URL at this app.
-const hostingSiteId = config.get('hostingSiteId') ?? `${project}-v3`;
+// Firebase gives every project one Hosting site named after it and refuses to
+// delete it, so that is the site this app uses.
+const hostingSiteId = config.get('hostingSiteId') ?? project;
+const customDomain = config.get('customDomain');
 
-// First apply against a project that already has Firebase resources: adopt
-// them into state instead of failing to create duplicates. Unset afterwards.
+// First-apply adoption flags. Each covers resources that already exist in the
+// target project and therefore cannot be created; remove once in state.
+const adoptProject = config.getBoolean('adoptProject') ?? true;
 const adoptExisting = config.getBoolean('adoptExisting') ?? false;
+const adoptHostingSite = config.getBoolean('adoptHostingSite') ?? false;
 
 // Staging is meant to be disposable; prod is not.
 const isProd = stack === 'prod';
 
 const projectInfo = gcp.organizations.getProjectOutput({ projectId: project });
 
-const services = new ProjectServices('core', { project });
+// Project-level metadata: the `environment` label that splits staging from prod
+// in billing and reporting.
+const metadata = new ProjectMetadata('meta', {
+  project,
+  displayName: config.get('projectDisplayName') ?? project,
+  orgId: config.require('orgId'),
+  billingAccount: config.require('billingAccount'),
+  environment: stack,
+  adopt: adoptProject,
+});
+
+const services = new ProjectServices('core', { project }, { dependsOn: [metadata.project] });
 
 const app = new FirebaseApp(
   'app',
@@ -51,7 +65,9 @@ const app = new FirebaseApp(
     project,
     displayName: isProd ? 'Lifting' : `Lifting (${stack})`,
     hostingSiteId,
+    customDomain,
     adoptExisting,
+    adoptHostingSite,
   },
   { dependsOn: services.services }
 );
@@ -76,8 +92,11 @@ const auth = new Auth(
     // emulator and `python3 -m http.server` flow working.
     authorizedDomains: [
       'localhost',
-      pulumi.interpolate`${hostingSiteId}.web.app`,
-      pulumi.interpolate`${hostingSiteId}.firebaseapp.com`,
+      `${hostingSiteId}.web.app`,
+      `${hostingSiteId}.firebaseapp.com`,
+      // Sign-in redirects only complete on an authorized domain, so the custom
+      // domain has to be listed or Google sign-in fails there.
+      ...(customDomain ? [customDomain] : []),
       ...(config.getObject<string[]>('extraAuthDomains') ?? []),
     ],
     emailPassword: config.getBoolean('emailPasswordAuth') ?? false,
@@ -109,6 +128,7 @@ const ci = new CiIdentity(
 export const projectId = project;
 export const projectNumber = projectInfo.number;
 export const hostingUrl = pulumi.interpolate`https://${app.hostingSite.siteId}.web.app`;
+export const customDomainUrl = customDomain ? `https://${customDomain}` : undefined;
 export const webAppId = app.webApp.appId;
 
 /** Written to the site as firebase-config.json so the client can boot. */

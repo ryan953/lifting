@@ -5,8 +5,15 @@ export interface FirebaseAppArgs {
   /** Plain string, not an Output: adoption needs the id at plan time. */
   project: string;
   displayName: pulumi.Input<string>;
-  /** Hosting site id; becomes <id>.web.app. Defaults to the project id. */
+  /** Hosting site id; becomes <id>.web.app. */
   hostingSiteId: string;
+  /** e.g. lifting.ryan953.com. Needs DNS records added after the first apply. */
+  customDomain?: string;
+  /**
+   * The default Hosting site already exists (Firebase creates one per project
+   * and refuses to delete it) — adopt rather than fail to create.
+   */
+  adoptHostingSite?: boolean;
   /**
    * First run against a project that is *already* a Firebase project: adopt the
    * existing resources into state instead of trying to create them. Unset it
@@ -74,8 +81,32 @@ export class FirebaseApp extends pulumi.ComponentResource {
         siteId: args.hostingSiteId,
         appId: this.webApp.appId,
       },
-      { parent: this, dependsOn: [this.firebase] }
+      {
+        parent: this,
+        dependsOn: [this.firebase],
+        ...(args.adoptHostingSite
+          ? { import: `projects/${args.project}/sites/${args.hostingSiteId}` }
+          : {}),
+      }
     );
+
+    if (args.customDomain) {
+      new gcp.firebase.HostingCustomDomain(
+        `${name}-domain`,
+        {
+          project: args.project,
+          siteId: args.hostingSiteId,
+          customDomain: args.customDomain,
+          // Google-managed certificate; grouped so the apex and any future
+          // subdomain share one.
+          certPreference: 'GROUPED',
+          // Don't block the apply on DNS propagation — the records have to be
+          // added by hand at the registrar first.
+          waitDnsVerification: false,
+        },
+        { parent: this, dependsOn: [this.hostingSite] }
+      );
+    }
 
     const config = gcp.firebase.getWebAppConfigOutput(
       { webAppId: this.webApp.appId, project: args.project },
