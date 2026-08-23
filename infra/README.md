@@ -46,24 +46,70 @@ pulumi up --target '**CiIdentity**'   # deploy identity only
 
 Add `--target-dependents` to include what a component feeds.
 
-## First-time setup
+## The projects these stacks use
 
-Two GCP projects, one per stack. They are *referenced*, not created, so project
-creation and billing stay a deliberate manual act.
+| Stack | GCP project | Hosting site |
+| --- | --- | --- |
+| `staging` | `ryan953-lifting-staging` | `ryan953-lifting-staging-v3.web.app` |
+| `prod` | `ryan953-lifting-prod` | `ryan953-lifting-v3.web.app` |
+
+Both projects **already exist and already served prototype #1**, which shapes
+two decisions here.
+
+### The Hosting site is a new one, not the project default
+
+Prototype #1 deployed to each project's default site. Pointing that site at this
+app would silently replace it, so these stacks create a *separate* site per
+project. Firebase allows many sites per project at no cost, and #1's URL is left
+alone.
+
+### ⚠️ The Firestore rules are shared, and this stack replaces them
+
+There is only one `(default)` database per project, and rules are per-database
+and whole-file. Applying this stack **replaces whatever rules are currently
+deployed** — including prototype #1's, which allowed `sessions`,
+`exerciseStats` and `templates`. This stack's rules deny every path they don't
+name, so a still-running prototype #1 would start failing its reads and writes.
+
+The *data* is not touched: #1's documents live under different subcollection
+names and stay where they are. Only the rules change.
+
+Check what is live before the first apply:
 
 ```sh
-# 1. Create the projects and attach billing (once, per environment)
-gcloud projects create lifting-v3-staging --name="Lifting (staging)"
-gcloud billing projects link lifting-v3-staging --billing-account=<ACCOUNT_ID>
+gcloud firestore databases list --project=ryan953-lifting-prod
+firebase --project=ryan953-lifting-prod hosting:sites:list
+```
 
-# 2. Credentials Pulumi will use
+If prototype #1 is retired, nothing more is needed. If it is not, either keep it
+on its own project or extend `firestore/firestore.rules` to cover both apps
+before applying.
+
+## First-time setup
+
+The projects are *referenced*, not created, so billing and project creation stay
+deliberate manual acts.
+
+```sh
+# 1. Credentials Pulumi will use
+gcloud auth login
 gcloud auth application-default login
 
-# 3. Select a stack and apply
+# 2. Select a stack
 cd infra
 pulumi stack select staging   # or: pulumi stack init staging
+
+# 3. First apply only — adopt the Firebase project and the existing
+#    (default) Firestore database instead of trying to create them
+pulumi config set lifting:adoptExisting true
 pulumi up
+
+# 4. Turn adoption back off; the resources are in state now
+pulumi config rm lifting:adoptExisting
 ```
+
+Skipping step 3 against these projects fails with "already exists" on the
+Firebase project and the Firestore database — they were created for #1.
 
 ### Google sign-in
 

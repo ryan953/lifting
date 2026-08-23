@@ -29,7 +29,14 @@ const project = gcpConfig.require('project');
 const firestoreLocation = config.get('firestoreLocation') ?? 'nam5';
 const githubRepository = config.get('githubRepository') ?? 'ryan953/lifting';
 const githubBranch = config.get('githubBranch') ?? 'main';
-const hostingSiteId = config.get('hostingSiteId') ?? project;
+// A distinct Hosting site rather than the project's default one: these
+// projects already served prototype #1, and taking over its site would point
+// its URL at this app.
+const hostingSiteId = config.get('hostingSiteId') ?? `${project}-v3`;
+
+// First apply against a project that already has Firebase resources: adopt
+// them into state instead of failing to create duplicates. Unset afterwards.
+const adoptExisting = config.getBoolean('adoptExisting') ?? false;
 
 // Staging is meant to be disposable; prod is not.
 const isProd = stack === 'prod';
@@ -44,6 +51,7 @@ const app = new FirebaseApp(
     project,
     displayName: isProd ? 'Lifting' : `Lifting (${stack})`,
     hostingSiteId,
+    adoptExisting,
   },
   { dependsOn: services.services }
 );
@@ -54,6 +62,7 @@ const firestore = new Firestore(
     project,
     location: firestoreLocation,
     deleteProtection: isProd,
+    adoptExisting,
     dependsOn: services.services,
   },
   { dependsOn: [app.firebase] }

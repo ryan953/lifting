@@ -2,7 +2,7 @@ import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
 
 export interface AuthArgs {
-  project: pulumi.Input<string>;
+  project: string;
   /** Domains allowed to complete a sign-in redirect. */
   authorizedDomains: pulumi.Input<string>[];
   /** Google sign-in OAuth client. Omit to leave the provider unconfigured. */

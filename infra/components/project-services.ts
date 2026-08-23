@@ -2,7 +2,7 @@ import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
 
 export interface ProjectServicesArgs {
-  project: pulumi.Input<string>;
+  project: string;
   /** Extra APIs beyond the baseline this stack needs. */
   additional?: string[];
 }

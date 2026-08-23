@@ -1,6 +1,14 @@
 {
   "projects": {
-    "staging": "lifting-v3-staging",
-    "prod": "lifting-v3-prod"
+    "staging": "ryan953-lifting-staging",
+    "prod": "ryan953-lifting-prod"
+  },
+  "targets": {
+    "ryan953-lifting-staging": {
+      "hosting": { "app": ["ryan953-lifting-staging-v3"] }
+    },
+    "ryan953-lifting-prod": {
+      "hosting": { "app": ["ryan953-lifting-v3"] }
+    }
   }
 }

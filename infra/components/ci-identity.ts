@@ -2,7 +2,7 @@ import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
 
 export interface CiIdentityArgs {
-  project: pulumi.Input<string>;
+  project: string;
   projectNumber: pulumi.Input<string>;
   /** `owner/repo` allowed to impersonate the deployer. */
   githubRepository: string;

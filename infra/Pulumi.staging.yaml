@@ -1,11 +1,17 @@
 config:
-  gcp:project: lifting-v3-staging
+  gcp:project: ryan953-lifting-staging
   gcp:region: us-central1
   lifting:firestoreLocation: nam5
   lifting:githubRepository: ryan953/lifting
   lifting:githubBranch: main
-  lifting:hostingSiteId: lifting-v3-staging
+  # A separate site from prototype #1's default one, which these projects
+  # already serve. Becomes https://ryan953-lifting-staging-v3.web.app
+  lifting:hostingSiteId: ryan953-lifting-staging-v3
   lifting:emailPasswordAuth: "true"
+  # First apply only — adopts the Firebase project and existing (default)
+  # Firestore database into state instead of trying to create them:
+  #   pulumi config set lifting:adoptExisting true
+  #
   # Google sign-in needs an OAuth client from the Firebase console:
   #   pulumi config set lifting:googleClientId <id>
   #   pulumi config set --secret lifting:googleClientSecret <secret>

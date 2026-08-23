@@ -2,10 +2,17 @@ import * as gcp from '@pulumi/gcp';
 import * as pulumi from '@pulumi/pulumi';
 
 export interface FirebaseAppArgs {
-  project: pulumi.Input<string>;
+  /** Plain string, not an Output: adoption needs the id at plan time. */
+  project: string;
   displayName: pulumi.Input<string>;
   /** Hosting site id; becomes <id>.web.app. Defaults to the project id. */
-  hostingSiteId?: pulumi.Input<string>;
+  hostingSiteId: string;
+  /**
+   * First run against a project that is *already* a Firebase project: adopt the
+   * existing resources into state instead of trying to create them. Unset it
+   * once the import has happened.
+   */
+  adoptExisting?: boolean;
   dependsOn?: pulumi.Resource[];
 }
 
@@ -36,10 +43,16 @@ export class FirebaseApp extends pulumi.ComponentResource {
   constructor(name: string, args: FirebaseAppArgs, opts?: pulumi.ComponentResourceOptions) {
     super('lifting:infra:FirebaseApp', name, {}, opts);
 
+    const adopt = args.adoptExisting ?? false;
+
     this.firebase = new gcp.firebase.Project(
       `${name}-firebase`,
       { project: args.project },
-      { parent: this, dependsOn: args.dependsOn }
+      {
+        parent: this,
+        dependsOn: args.dependsOn,
+        ...(adopt ? { import: `projects/${args.project}` } : {}),
+      }
     );
 
     this.webApp = new gcp.firebase.WebApp(
@@ -58,7 +71,7 @@ export class FirebaseApp extends pulumi.ComponentResource {
       `${name}-hosting`,
       {
         project: args.project,
-        siteId: args.hostingSiteId ?? args.project,
+        siteId: args.hostingSiteId,
         appId: this.webApp.appId,
       },
       { parent: this, dependsOn: [this.firebase] }

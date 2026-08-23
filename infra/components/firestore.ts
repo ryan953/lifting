@@ -8,11 +8,17 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(here, '../..');
 
 export interface FirestoreArgs {
-  project: pulumi.Input<string>;
+  /** Plain string, not an Output: adoption needs the id at plan time. */
+  project: string;
   /** Firestore location, e.g. `nam5` or `europe-west`. Immutable once created. */
   location: pulumi.Input<string>;
   /** Guard against `pulumi destroy` taking the database (and its data) with it. */
   deleteProtection?: boolean;
+  /**
+   * The project already has a `(default)` database — adopt it rather than
+   * failing to create a second one. Unset after the first apply.
+   */
+  adoptExisting?: boolean;
   dependsOn?: pulumi.Resource[];
 }
 
@@ -47,7 +53,14 @@ export class Firestore extends pulumi.ComponentResource {
         // back from a bad client-side write, since there is no server tier.
         pointInTimeRecoveryEnablement: 'POINT_IN_TIME_RECOVERY_ENABLED',
       },
-      { parent: this, dependsOn: args.dependsOn, protect }
+      {
+        parent: this,
+        dependsOn: args.dependsOn,
+        protect,
+        ...(args.adoptExisting
+          ? { import: `projects/${args.project}/databases/(default)` }
+          : {}),
+      }
     );
 
     // Days are read newest-first per user; the collection-group index lets the
