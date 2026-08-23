@@ -48,50 +48,54 @@ Add `--target-dependents` to include what a component feeds.
 
 ## The projects these stacks use
 
-| Stack | GCP project | Firestore | Hosting site |
+| Stack | GCP project | Firestore | Site | Custom domain |
+| --- | --- | --- | --- | --- |
+| `staging` | `ryan953-lifting-staging` | `(default)`, us-west1 | `ryan953-lifting-staging.web.app` | `lifting-staging.ryan953.com` |
+| `prod` | `ryan953-lifting-prod` | `(default)`, us-west1 | `ryan953-lifting-prod.web.app` | `lifting.ryan953.com` |
+
+Both sit under the `ryanalbrecht.ca` organization and carry an `environment`
+label (`staging` / `prod`) for billing breakdown.
+
+Prototype #1's leftovers were cleared out of staging on 2026-08-23 — both Cloud
+Functions, their Cloud Run services and artifact buckets, and its single
+Firestore user document. Firebase refuses to delete a project's default Hosting
+site, so that site is reused rather than sidestepped.
+
+### Firestore location is us-west1
+
+A database's location is immutable and staging's already exists in `us-west1`.
+Prod matches deliberately; single-region is also cheaper per operation than a
+`nam5` multi-region.
+
+### Adoption flags
+
+Resources that already exist cannot be created a second time, so the first
+apply imports them. Each flag sits in the stack config with a note to remove it
+once that apply succeeds:
+
+| Flag | staging | prod | Covers |
 | --- | --- | --- | --- |
-| `staging` | `ryan953-lifting-staging` | `(default)`, **us-west1**, existing | `ryan953-lifting-staging-v3.web.app` |
-| `prod` | `ryan953-lifting-prod` | `(default)`, us-west1, created | `ryan953-lifting-v3.web.app` |
+| `adoptProject` | yes | yes | The GCP project record itself |
+| `adoptExisting` | yes | — | Firebase project and `(default)` Firestore |
+| `adoptHostingSite` | yes | — | The default Hosting site |
 
-Verified state as of 2026-08-23:
+The project resource is additionally `protect: true` with
+`deletionPolicy: PREVENT`, so neither Pulumi nor the provider can delete or
+replace it — a surprising diff fails loudly instead of doing damage.
 
-- **`ryan953-lifting-prod` is bare.** No Firebase, Firestore or Hosting APIs
-  enabled, nothing deployed, billing on. Everything here creates from scratch.
-- **`ryan953-lifting-staging` still runs prototype #1**, live and serving:
-  Hosting site `ryan953-lifting-staging` → https://ryan953-lifting-staging.web.app
-  (200), a `(default)` Firestore database in us-west1 holding a `users`
-  collection, a released `cloud.firestore` ruleset, and two active Cloud
-  Functions (`onSessionWrite`, `recomputeStats`).
+### Custom domains need DNS
 
-Three consequences, all handled:
+`HostingCustomDomain` registers the domain but cannot create DNS records, and
+`waitDnsVerification` is off so the apply doesn't block on propagation. After
+the first apply, read the required records and add them at the registrar:
 
-### Firestore location is us-west1, not nam5
+```sh
+firebase hosting:sites:get ryan953-lifting-prod --project ryan953-lifting-prod
+```
 
-A database's location is immutable. Staging's already exists in `us-west1`, so
-both stacks use it — prod matches deliberately, and single-region is cheaper
-per operation than a `nam5` multi-region anyway.
-
-### Staging adopts, prod creates
-
-`lifting:adoptExisting` is set in `Pulumi.staging.yaml` so the first apply
-imports the existing Firebase project and database rather than failing to
-create duplicates. **Remove that line after the first successful `pulumi up`.**
-Prod needs no such flag.
-
-### The rules file covers prototype #1 as well
-
-Rules are per-database and whole-file, and #1 shares this database while still
-serving traffic. Releasing a file that omitted its paths would break it
-immediately. So `firestore/firestore.rules` carries #1's collections
-(`exercises`, `templates`, `sessions`, `exerciseStats`, `weeklyStats`) in a
-clearly-marked legacy block at the foot.
-
-**Delete that block once #1 is retired** — it is the only thing in this repo
-serving an app it doesn't own. Its data is otherwise untouched: #1's documents
-sit under different subcollection names from this app's.
-
-Prototype #1's Hosting site is also left alone; these stacks create their own
-site per project rather than repointing the default one.
+Each custom domain is also added to the Auth authorized domains — a sign-in
+redirect only completes on a listed domain, so Google sign-in would fail there
+otherwise.
 
 ## Secrets
 
