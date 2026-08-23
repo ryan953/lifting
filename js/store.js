@@ -31,6 +31,74 @@ function notify() {
   for (const fn of listeners) fn();
 }
 
+// --------------------------------------------------------------- remote mirror
+
+/**
+ * When signed in, every local write is mirrored to Firestore and every remote
+ * change is applied back into this cache (see cloud.js). IndexedDB stays the
+ * local copy either way, so the app is identical offline and signed out.
+ *
+ * The adapter is a plain object of optional `put`/`remove` callbacks; a null
+ * adapter is the local-only mode.
+ */
+let remote = null;
+
+export function attachRemote(adapter) {
+  remote = adapter;
+}
+
+export function detachRemote() {
+  remote = null;
+}
+
+export const hasRemote = () => remote !== null;
+
+function push(collection, action, payload) {
+  if (!remote) return;
+  Promise.resolve(remote[action]?.(collection, payload)).catch((error) =>
+    console.warn(`Could not sync ${action} on ${collection}:`, error)
+  );
+}
+
+/**
+ * Apply a change that arrived from the server. Writes to the local mirror but
+ * must not echo back out, or two devices would ping-pong forever.
+ */
+export function applyRemote(collection, records, { removedIds = [] } = {}) {
+  const target = {
+    days: cache.days,
+    supersets: cache.supersets,
+    custom: cache.custom,
+  }[collection];
+
+  if (collection === 'favorites') {
+    for (const record of records) cache.favorites.add(record.id);
+    for (const id of removedIds) cache.favorites.delete(id);
+  } else if (target) {
+    for (const record of records) target.set(record.key ?? record.id, record);
+    for (const id of removedIds) target.delete(id);
+  } else if (collection === 'profile') {
+    cache.profile = records[0] ?? null;
+  }
+
+  // Keep the offline mirror in step, without going back through push().
+  const storeName = collection === 'profile' ? 'meta' : collection;
+  if (db && records.length) {
+    tx(storeName, 'readwrite', (s) => {
+      for (const record of records) {
+        s.put(collection === 'favorites' ? { id: record.id, at: Date.now() } : record);
+      }
+    }).catch(() => {});
+  }
+  if (db && removedIds.length) {
+    tx(storeName, 'readwrite', (s) => {
+      for (const id of removedIds) s.delete(id);
+    }).catch(() => {});
+  }
+
+  notify();
+}
+
 // ------------------------------------------------------------------ IndexedDB
 
 function open() {
@@ -209,6 +277,7 @@ export function saveCustom(exercise) {
   delete record.seededAt;
   cache.custom.set(record.id, record);
   tx('custom', 'readwrite', (s) => s.put(record));
+  push('custom', 'put', record);
   notify();
   return record;
 }
@@ -216,6 +285,7 @@ export function saveCustom(exercise) {
 export function deleteCustom(id) {
   cache.custom.delete(id);
   tx('custom', 'readwrite', (s) => s.delete(id));
+  push('custom', 'remove', id);
   notify();
 }
 
@@ -257,15 +327,18 @@ export function getDay(key) {
 }
 
 export function putDay(day) {
-  cache.days.set(day.key, day);
-  tx('days', 'readwrite', (s) => s.put(day));
+  const record = { ...day, updatedAt: Date.now() };
+  cache.days.set(record.key, record);
+  tx('days', 'readwrite', (s) => s.put(record));
+  push('days', 'put', record);
   notify();
-  return day;
+  return record;
 }
 
 export function deleteDay(key) {
   cache.days.delete(key);
   tx('days', 'readwrite', (s) => s.delete(key));
+  push('days', 'remove', key);
   notify();
 }
 
@@ -284,9 +357,11 @@ export function toggleFavorite(exerciseId) {
   if (on) {
     cache.favorites.add(exerciseId);
     tx('favorites', 'readwrite', (s) => s.put({ id: exerciseId, at: Date.now() }));
+    push('favorites', 'put', { id: exerciseId, at: Date.now() });
   } else {
     cache.favorites.delete(exerciseId);
     tx('favorites', 'readwrite', (s) => s.delete(exerciseId));
+    push('favorites', 'remove', exerciseId);
   }
   notify();
   return on;
@@ -329,6 +404,7 @@ export function saveSuperset(exerciseIds, { favorite = false } = {}) {
   };
   cache.supersets.set(id, record);
   tx('supersets', 'readwrite', (s) => s.put(record));
+  push('supersets', 'put', record);
   notify();
   return record;
 }
@@ -339,6 +415,7 @@ export function toggleSupersetFavorite(id) {
   const next = { ...record, favorite: !record.favorite };
   cache.supersets.set(id, next);
   tx('supersets', 'readwrite', (s) => s.put(next));
+  push('supersets', 'put', next);
   notify();
   return next.favorite;
 }
@@ -346,5 +423,6 @@ export function toggleSupersetFavorite(id) {
 export function deleteSuperset(id) {
   cache.supersets.delete(id);
   tx('supersets', 'readwrite', (s) => s.delete(id));
+  push('supersets', 'remove', id);
   notify();
 }

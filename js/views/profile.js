@@ -1,12 +1,14 @@
 /**
  * Profile screen.
  *
- * Account details are mocked — see auth.js — but the training figures are real,
- * read straight out of the log, which is what makes the screen worth looking at.
+ * The training figures are read straight out of the log. The account itself is
+ * real where a backend is configured and a local record where none is — see
+ * auth.js — so the note at the foot says which of the two you're looking at.
  */
 
 import { el, frag, toast } from '../dom.js';
 import * as store from '../store.js';
+import * as cloud from '../cloud.js';
 import * as history from '../history.js';
 import { indexByDate, streaks, totals } from '../stats.js';
 
@@ -29,14 +31,18 @@ function signedOut() {
     el(
       'div',
       { class: 'empty', style: 'margin:16px 0' },
-      'Not signed in. Your log lives in this browser.'
+      cloud.isAvailable()
+        ? 'Not signed in. Your log lives in this browser until you do — signing in keeps it and syncs it across devices.'
+        : 'Not signed in. Your log lives in this browser.'
     ),
     el('a', { class: 'btn primary wide', href: '#/signup' }, 'Create an account'),
     el('a', { class: 'btn wide', href: '#/login', style: 'margin-top:8px' }, 'Log in'),
     el(
       'p',
       { class: 'mock-note' },
-      'Accounts are a mockup in this prototype — signing in only writes a local record, and everything keeps working signed out.'
+      cloud.isAvailable()
+        ? 'Signing in never discards what is already here: this browser\'s history is merged into the account.'
+        : 'Accounts are a mockup in this deployment — signing in only writes a local record, and everything keeps working signed out.'
     )
   );
 }
@@ -129,8 +135,11 @@ function signedIn(profile, rerender) {
       'button',
       {
         class: 'btn wide',
-        onclick: () => {
-          store.signOut();
+        onclick: async () => {
+          // Signing out of Firebase drives the local profile clear through the
+          // auth listener; without a backend, clear it directly.
+          if (cloud.isAvailable()) await cloud.signOut();
+          else store.signOut();
           toast('Signed out');
           location.hash = '#/login';
           rerender();
@@ -141,7 +150,9 @@ function signedIn(profile, rerender) {
     el(
       'p',
       { class: 'mock-note' },
-      'Mocked account: no server, no password stored. Your training data is unaffected by signing in or out.'
+      cloud.isAvailable()
+        ? 'Your log syncs to this account. Changes on another device appear here, and vice versa; edits made offline sync when you reconnect.'
+        : 'Mocked account: this deployment has no backend, so nothing leaves the browser and no password is stored. Your training data is unaffected by signing in or out.'
     )
   );
 }

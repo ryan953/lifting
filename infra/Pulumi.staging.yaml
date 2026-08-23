@@ -1,0 +1,11 @@
+config:
+  gcp:project: lifting-v3-staging
+  gcp:region: us-central1
+  lifting:firestoreLocation: nam5
+  lifting:githubRepository: ryan953/lifting
+  lifting:githubBranch: main
+  lifting:hostingSiteId: lifting-v3-staging
+  lifting:emailPasswordAuth: "true"
+  # Google sign-in needs an OAuth client from the Firebase console:
+  #   pulumi config set lifting:googleClientId <id>
+  #   pulumi config set --secret lifting:googleClientSecret <secret>

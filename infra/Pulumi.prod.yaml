@@ -1,0 +1,9 @@
+config:
+  gcp:project: lifting-v3-prod
+  gcp:region: us-central1
+  lifting:firestoreLocation: nam5
+  lifting:githubRepository: ryan953/lifting
+  lifting:githubBranch: main
+  lifting:hostingSiteId: lifting-v3-prod
+  lifting:emailPasswordAuth: "true"
+  # lifting:extraAuthDomains: '["lifting.ryan953.com"]'

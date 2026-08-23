@@ -1,0 +1,51 @@
+name: Deploy to Firebase
+
+# The static files are the one part of this stack Pulumi cannot manage —
+# neither it nor Terraform can upload to Firebase Hosting — so this workflow
+# exists purely to push `dist` (here, the repo root). Everything else about the
+# project is declared in infra/ and applied with `pulumi up`.
+#
+# Runs only once the stack has been provisioned and its outputs recorded as
+# repository variables, so a fresh clone doesn't fail on a missing project.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Which stack to deploy
+        type: choice
+        options: [staging, prod]
+        default: staging
+
+permissions:
+  contents: read
+  id-token: write # required to mint the OIDC token for Workload Identity
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # Set FIREBASE_PROJECT as a repository variable once `pulumi up` has run.
+    if: vars.FIREBASE_PROJECT != ''
+    environment: ${{ inputs.environment || 'staging' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: google-github-actions/auth@v2
+        with:
+          # Both come from `pulumi stack output` — no service-account key exists.
+          workload_identity_provider: ${{ vars.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.DEPLOY_SERVICE_ACCOUNT }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Deploy hosting and rules
+        run: |
+          npx --yes firebase-tools@latest deploy \
+            --project "${{ vars.FIREBASE_PROJECT }}" \
+            --only hosting,firestore:rules \
+            --non-interactive \
+            --force

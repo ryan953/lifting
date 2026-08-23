@@ -1,0 +1,16 @@
+{
+  "name": "@lifting/infra",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pulumi/gcp": "^9.35.0",
+    "@pulumi/pulumi": "^3.259.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "typescript": "^5.9.3"
+  }
+}

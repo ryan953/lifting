@@ -1,15 +1,17 @@
 /**
- * Signup and login screens.
+ * Signup and login.
  *
- * These are mockups. There is no server, no account and no session: submitting
- * writes a local profile record and nothing leaves the browser. The password
- * fields exist so the layout is honest about what a real form would ask for;
- * their values are never read, stored or transmitted.
+ * These screens work two ways depending on the deployment. Where a Firebase
+ * backend is configured they are real — Google or email/password sign-in
+ * through Firebase Auth, after which the log syncs across devices. Where none
+ * is configured (GitHub Pages, a plain local server) there is nothing to talk
+ * to, so they fall back to writing a local profile record and say so plainly.
  */
 
 import { el, frag, toast } from '../dom.js';
 import * as store from '../store.js';
 import * as history from '../history.js';
+import * as cloud from '../cloud.js';
 
 const PROVIDERS = [
   ['Apple', '\u{f8ff}'],
@@ -37,7 +39,23 @@ function field({ label, type = 'text', name, placeholder, autocomplete, value = 
   };
 }
 
-function providerButtons() {
+function providerButtons(rerender) {
+  const live = cloud.isAvailable();
+
+  const onGoogle = async () => {
+    if (!live) {
+      toast('No backend configured for this deployment');
+      return;
+    }
+    try {
+      await cloud.signInWithGoogle();
+      location.hash = '#/profile';
+      rerender();
+    } catch (error) {
+      toast(signInMessage(error));
+    }
+  };
+
   return frag(
     ...PROVIDERS.map(([name, mark]) =>
       el(
@@ -45,7 +63,10 @@ function providerButtons() {
         {
           class: 'btn wide',
           type: 'button',
-          onclick: () => toast(`${name} sign-in is not wired up in this prototype`),
+          onclick:
+            name === 'Google'
+              ? onGoogle
+              : () => toast(`${name} sign-in is not configured`),
         },
         el('span', { class: 'provider-mark' }, mark),
         `Continue with ${name}`
@@ -55,12 +76,30 @@ function providerButtons() {
   );
 }
 
-function mockNotice() {
-  return el(
-    'p',
-    { class: 'mock-note' },
-    'Prototype — there is no server. Nothing you type is sent anywhere, and the password field is never read or stored.'
-  );
+/** Firebase error codes are not for humans. */
+function signInMessage(error) {
+  const code = String(error?.code ?? '');
+  if (code.includes('popup-closed')) return 'Sign-in cancelled';
+  if (code.includes('invalid-credential') || code.includes('wrong-password'))
+    return 'That email and password do not match';
+  if (code.includes('email-already-in-use')) return 'That email already has an account';
+  if (code.includes('weak-password')) return 'Password needs at least 6 characters';
+  if (code.includes('network')) return 'Cannot reach the server';
+  return error?.message ?? 'Sign-in failed';
+}
+
+function backendNotice() {
+  return cloud.isAvailable()
+    ? el(
+        'p',
+        { class: 'mock-note' },
+        'Signing in syncs your log, favorites and custom exercises across devices. Your data stays private to your account.'
+      )
+    : el(
+        'p',
+        { class: 'mock-note' },
+        'This deployment has no backend configured, so sign-in is a mockup: nothing you type is sent anywhere, and the password field is never read or stored. The app works fully offline either way.'
+      );
 }
 
 export function renderLogin({ rerender }) {
@@ -79,19 +118,30 @@ export function renderLogin({ rerender }) {
     autocomplete: 'current-password',
   });
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
     const address = email.input.value.trim();
     if (!address) {
       toast('Enter an email to continue');
       return;
     }
-    store.saveProfile({
-      name: address.split('@')[0],
-      email: address,
-      units: 'lb',
-      since: history.todayISO(),
-    });
+
+    if (cloud.isAvailable()) {
+      try {
+        await cloud.signInWithEmail(address, password.input.value);
+      } catch (error) {
+        toast(signInMessage(error));
+        return;
+      }
+    } else {
+      store.saveProfile({
+        name: address.split('@')[0],
+        email: address,
+        units: 'lb',
+        since: history.todayISO(),
+      });
+    }
+
     location.hash = '#/profile';
     rerender();
   };
@@ -101,7 +151,7 @@ export function renderLogin({ rerender }) {
       el('div', { class: 'auth-mark' }, '🏋️'),
       el('h1', { class: 'auth-title' }, 'Welcome back'),
       el('p', { class: 'auth-sub' }, 'Log in to sync your training log.'),
-      providerButtons(),
+      providerButtons(rerender),
       el(
         'form',
         { class: 'auth-form', onsubmit: submit },
@@ -109,7 +159,7 @@ export function renderLogin({ rerender }) {
         password.node,
         el(
           'button',
-          { class: 'btn ghost sm', type: 'button', style: 'align-self:flex-end', onclick: () => toast('Password reset is not wired up in this prototype') },
+          { class: 'btn ghost sm', type: 'button', style: 'align-self:flex-end', onclick: () => toast('Password reset is not wired up yet') },
           'Forgot password?'
         ),
         el('button', { class: 'btn primary wide', type: 'submit' }, 'Log in')
@@ -120,7 +170,7 @@ export function renderLogin({ rerender }) {
         'New here? ',
         el('a', { href: '#/signup' }, 'Create an account')
       ),
-      mockNotice(),
+      backendNotice(),
     ])
   );
 }
@@ -170,19 +220,34 @@ export function renderSignup({ rerender }) {
     )
   );
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
     const address = email.input.value.trim();
     if (!address) {
       toast('Enter an email to continue');
       return;
     }
+    const displayName = name.input.value.trim() || address.split('@')[0];
+
+    if (cloud.isAvailable()) {
+      try {
+        await cloud.registerWithEmail(address, password.input.value, displayName);
+      } catch (error) {
+        toast(signInMessage(error));
+        return;
+      }
+    }
+
+    // Units are a local preference either way; the account itself carries no
+    // training data of its own.
     store.saveProfile({
-      name: name.input.value.trim() || address.split('@')[0],
+      ...(store.getProfile() ?? {}),
+      name: displayName,
       email: address,
       units,
       since: history.todayISO(),
     });
+
     location.hash = '#/profile';
     rerender();
   };
@@ -192,7 +257,7 @@ export function renderSignup({ rerender }) {
       el('div', { class: 'auth-mark' }, '🏋️'),
       el('h1', { class: 'auth-title' }, 'Create your account'),
       el('p', { class: 'auth-sub' }, 'Keep your log, favorites and templates in one place.'),
-      providerButtons(),
+      providerButtons(rerender),
       el(
         'form',
         { class: 'auth-form', onsubmit: submit },
@@ -213,7 +278,7 @@ export function renderSignup({ rerender }) {
         'Already have an account? ',
         el('a', { href: '#/login' }, 'Log in')
       ),
-      mockNotice(),
+      backendNotice(),
     ])
   );
 }

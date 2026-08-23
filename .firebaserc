@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "staging": "lifting-v3-staging",
+    "prod": "lifting-v3-prod"
+  }
+}

@@ -1,0 +1,66 @@
+rules_version = '2';
+
+// Every document lives under the owning user, and only that user may touch it.
+// There is no server tier in this design, so these rules are the whole of the
+// authorization model — they are written to be restrictive by default: anything
+// not matched explicitly below is denied.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // Guards against a client writing a document larger than anything the app
+    // legitimately produces — a runaway loop shouldn't be able to run up a bill.
+    function withinSizeLimit() {
+      return request.resource.data.size() < 200;
+    }
+
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      allow write: if isOwner(uid) && withinSizeLimit();
+
+      // A logged session. `date` and `dayType` identify it; `blocks` holds the
+      // positions. Shape is checked loosely — enough to reject junk, not so
+      // tightly that the client can't evolve without a rules deploy.
+      match /days/{dayKey} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid)
+          && request.resource.data.date is string
+          && request.resource.data.dayType is string
+          && request.resource.data.blocks is list
+          && request.resource.data.blocks.size() <= 50;
+      }
+
+      match /favorites/{exerciseId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /supersets/{supersetId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid)
+          && request.resource.data.exerciseIds is list
+          && request.resource.data.exerciseIds.size() <= 10;
+      }
+
+      // The user's own exercises.
+      match /custom/{exerciseId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid)
+          && request.resource.data.name is string
+          && request.resource.data.name.size() > 0
+          && request.resource.data.name.size() <= 120;
+      }
+
+      // Client-side bookkeeping: seed versions, preferences.
+      match /meta/{key} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { el, clear, frag } from './dom.js';
 import * as catalog from './catalog.js';
 import * as store from './store.js';
 import * as history from './history.js';
+import * as cloud from './cloud.js';
 import { closeSheet } from './sheet.js';
 import { openNewDaySheet } from './new-day.js';
 import * as todayView from './views/today.js';
@@ -193,6 +194,30 @@ function deleteDayButton(day) {
   );
 }
 
+/**
+ * Keep the local profile record in step with the Firebase user, and re-render
+ * once whatever changed has landed.
+ */
+function onAuthChange(user) {
+  if (user) {
+    const existing = store.getProfile();
+    store.saveProfile({
+      ...(existing ?? {}),
+      uid: user.uid,
+      name: user.displayName || existing?.name || (user.email ?? '').split('@')[0],
+      email: user.email ?? '',
+      units: existing?.units ?? 'lb',
+      since: existing?.since ?? history.todayISO(),
+    });
+  } else if (store.getProfile()) {
+    store.signOut();
+  }
+
+  // Remote exercises may have arrived with the user.
+  catalog.reindex(store.allCustom());
+  render();
+}
+
 // ---------------------------------------------------------------------- boot
 
 async function boot() {
@@ -202,6 +227,14 @@ async function boot() {
     // The user's own exercises live in IndexedDB; fold them into the catalog
     // so every search, filter and picker sees one list.
     catalog.reindex(store.allCustom());
+
+    // Where a backend is configured, bind the store to whoever is signed in.
+    // This resolves once the first auth state is known, so the UI never paints
+    // signed-out and then flips.
+    await cloud.init(onAuthChange, () => {
+      catalog.reindex(store.allCustom());
+      render();
+    });
   } catch (error) {
     clear(screen).append(
       el('div', { class: 'empty' }, `Could not start: ${error.message}`)

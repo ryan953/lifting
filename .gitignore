@@ -1,3 +1,9 @@
 .DS_Store
 node_modules/
 *.log
+
+# Local Firebase config override for testing against a real project
+data/firebase-config.json
+
+# Pulumi
+infra/node_modules/

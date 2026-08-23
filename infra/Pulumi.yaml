@@ -1,0 +1,6 @@
+name: lifting
+runtime:
+  name: nodejs
+  options:
+    packagemanager: pnpm
+description: Firestore, Auth, Hosting and CI identity for the Lifting app
