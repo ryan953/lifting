@@ -102,8 +102,13 @@ export async function init() {
  * clobbering the user's own edits.
  *
  * Guarded by a version rather than the first-run flag so a later release can
- * add more, and gated so that deleting a starter doesn't resurrect it on the
- * next load — only a bumped version brings new ones in.
+ * add or revise them, and gated so that deleting a starter doesn't resurrect
+ * it on the next load — only a bumped version brings new ones in.
+ *
+ * A bump also refreshes starters that are still untouched, which is how a
+ * change to the shipped definition reaches a browser that already has them.
+ * Records keep a `seededAt` marker for exactly this; saveCustom strips it, so
+ * the moment you edit one it stops being ours to overwrite.
  */
 async function seedCustomExercises() {
   let seed;
@@ -118,12 +123,21 @@ async function seedCustomExercises() {
   const seen = (await tx('meta', 'readonly', (s) => s.get('customSeedVersion')))?.value ?? 0;
   if (seen >= seed.version) return;
 
+  // Version 1 shipped before the `seededAt` marker existed, so anything stored
+  // under it is still ours to refresh.
+  const MARKER_SINCE = 2;
+  const stillOurs = (existing) => Boolean(existing.seededAt) || seen < MARKER_SINCE;
+
   const transaction = db.transaction(['custom', 'meta'], 'readwrite');
   const store = transaction.objectStore('custom');
   for (const exercise of seed.exercises) {
-    if (cache.custom.has(exercise.id)) continue;
-    cache.custom.set(exercise.id, exercise);
-    store.put(exercise);
+    const existing = cache.custom.get(exercise.id);
+    // Present and edited by the user — leave it alone.
+    if (existing && !stillOurs(existing)) continue;
+
+    const record = { ...exercise, seededAt: seed.version };
+    cache.custom.set(record.id, record);
+    store.put(record);
   }
   transaction.objectStore('meta').put({ key: 'customSeedVersion', value: seed.version });
 
@@ -191,6 +205,8 @@ export function saveCustom(exercise) {
     id: exercise.id ?? `${CUSTOM_PREFIX}${crypto.randomUUID()}`,
     custom: true,
   };
+  // Once you've edited it, it's yours: a later seed version must not overwrite.
+  delete record.seededAt;
   cache.custom.set(record.id, record);
   tx('custom', 'readwrite', (s) => s.put(record));
   notify();

@@ -85,12 +85,17 @@ pattern** — a list of phases and how many rounds they repeat. Logging it then
 starts pre-filled instead of blank:
 
 ```
-SkiErg Intervals · Time | Phase · 4 phases × 3 rounds
-30s Slow hinge / 30s Power hinge / 30s Slow squat / 30s Hard squat  → 12 sets
+SkiErg Intervals · 3 sets × 2:00
+one set = 30s slow hinge → 30s power hinge → 30s slow squat → 30s hard squat
 ```
 
-Two such machines ship as starters (SkiErg and resistance treadmill); they are
-seeded once, by version, so deleting one doesn't bring it back.
+`phases` describes the circuit inside one set; `template` × `rounds` is what
+gets logged. Keeping them apart means a set stays a set — three rows of 2:00
+here, not twelve rows of 30s.
+
+Two such machines ship as starters (SkiErg and resistance treadmill), seeded by
+version. Deleting one doesn't bring it back, and a bumped version refreshes
+only starters you haven't edited — editing one makes it yours for good.
 
 **Accounts (mockup).** Signup, login and profile screens exist to show the
 shape of an account — they are not wired to anything. There is no server and no

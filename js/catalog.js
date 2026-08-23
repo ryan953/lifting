@@ -22,6 +22,7 @@ export function withDefaults(exercise) {
     secondary: [],
     instructions: [],
     images: [],
+    phases: [],
     ...exercise,
   };
 }

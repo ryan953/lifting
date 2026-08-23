@@ -76,18 +76,31 @@ function renderMeta(exercise) {
   );
 }
 
-/** The interval template, if this exercise carries one. */
+/**
+ * What one set of this exercise contains, and how many there are.
+ *
+ * `phases` describes the circuit inside a single set — the four 30-second
+ * moves of a SkiErg set. `template` × `rounds` is what actually gets logged.
+ * They are different questions, so a plain lift with neither shows nothing.
+ */
 function renderPattern(exercise) {
-  if (!exercise.template?.length) return null;
-  const [first, second] = catalog.columnsFor(exercise);
+  const phases = exercise.phases ?? [];
+  const template = exercise.template ?? [];
+  if (!phases.length && !template.length) return null;
+
   const rounds = Math.max(1, exercise.rounds ?? 1);
+  const sets = Math.max(template.length, 1) * rounds;
+  const rows = phases.length ? phases : template;
+  const [first, second] = phases.length ? ['Time', 'Move'] : catalog.columnsFor(exercise);
 
   return frag(
     el('h2', {}, 'Pattern'),
     el(
       'p',
       { class: 'muted', style: 'margin-top:0' },
-      `${exercise.template.length} phase${exercise.template.length === 1 ? '' : 's'} × ${rounds} round${rounds === 1 ? '' : 's'} — ${exercise.template.length * rounds} sets`
+      phases.length
+        ? `${sets} sets. One set is ${phases.length} moves in sequence:`
+        : `${sets} set${sets === 1 ? '' : 's'}.`
     ),
     el(
       'table',
@@ -96,7 +109,7 @@ function renderPattern(exercise) {
       el(
         'tbody',
         {},
-        exercise.template.map((row, index) =>
+        rows.map((row, index) =>
           el(
             'tr',
             {},

@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "exercises": [
     {
       "id": "custom:skierg-intervals",
@@ -14,17 +14,19 @@
       "secondary": ["hamstrings", "glutes", "quadriceps", "shoulders", "triceps"],
       "instructions": [
         "Concept2 SkiErg, or any upright ski ergometer.",
-        "Four 30-second phases run back to back, repeated three times.",
-        "Hinge phases drive from the hips with a near-straight back; squat phases add knee bend and finish taller."
+        "One set is all four phases run back to back, 30 seconds each — two minutes without stopping.",
+        "Hinge phases drive from the hips with a near-straight back; squat phases add knee bend and finish taller.",
+        "Three sets."
       ],
-      "columns": ["Time", "Phase"],
-      "rounds": 3,
-      "template": [
+      "columns": ["Time", "Notes"],
+      "phases": [
         ["30s", "Slow hinge"],
         ["30s", "Power hinge"],
         ["30s", "Slow squat"],
         ["30s", "Hard squat"]
-      ]
+      ],
+      "rounds": 3,
+      "template": [["2:00", ""]]
     },
     {
       "id": "custom:resistance-treadmill",
@@ -39,17 +41,19 @@
       "secondary": ["hamstrings", "calves", "abdominals", "adductors"],
       "instructions": [
         "Curved or friction-loaded treadmill, driven by you rather than a motor.",
-        "Four 30-second phases run back to back, repeated three times.",
-        "Backwards phases stay light on the toes with the chest up."
+        "One set is all four phases run back to back, 30 seconds each — two minutes without stopping.",
+        "Backwards phases stay light on the toes with the chest up.",
+        "Three sets."
       ],
-      "columns": ["Time", "Phase"],
-      "rounds": 3,
-      "template": [
+      "columns": ["Time", "Notes"],
+      "phases": [
         ["30s", "Walking"],
         ["30s", "High-friction push"],
         ["30s", "Walking backwards"],
         ["30s", "High-friction backwards"]
-      ]
+      ],
+      "rounds": 3,
+      "template": [["2:00", ""]]
     }
   ]
 }
